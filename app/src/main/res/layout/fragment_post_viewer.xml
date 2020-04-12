@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="2019학년도 학예제 및 아나바다 장터 안내"
+        android:textColor="@color/textDarkPrimary"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/uploader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="학생부"
+        android:textColor="@color/colorAccent"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/uploadDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:drawablePadding="5dp"
+        android:drawableTint="@color/colorAccent"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="8sp"
+        android:text="2020. 02. 08."
+        android:textColor="@color/colorAccent"
+        android:textSize="15dp"
+        app:drawableStartCompat="@drawable/ic_access_time_18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uploader">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="안돼 그만둬 거기까지 해\n더 다가가면 너 정신 못 차려\n안돼 그만해 꽃은 넣어둬\n그냥 좀 바람이 불게 놔줘\n왜 그럴까 사람들은 그냥 봄기운이 좋아\n눈치 없이 밖을 나가는 걸까\n왜 이럴까 뭐가 설렌다고 봄바람이 좋아\n내 맘도 모르고 더 불어와\nFlower sunshine 완벽한 하루를\n사실 너와 걸을 수 있다면 얼마나 좋을까\n좋아한다고 말하기가\n무서워서 네 곁을 맴돌고 있는 난\n벚꽃도 뭐고 다 필요 없어\n나는 네 곁에 있고 싶어 딱 붙어서\n봄이 지나갈 때까지\n다른 사람 다 사라져라\n나만, 봄\n왜 그럴까 사람들은 그냥 봄기운이 좋아\n눈치 없이 밖을 나가는 걸까\n왜 이럴까 뭐가 설렌다고 봄바람이 좋아\n내 맘도 모르고 더 불어와\nFlower sunshine 완벽한 하루를\n사실 너와 걸을 수 있다면 얼마나 좋을까\n좋아한다고 말하기가\n무서워서 네 곁을 맴돌고 있는 난\n벚꽃도 뭐고 다 필요 없어\n나는 네 곁에 있고 싶어 딱 붙어서\n봄이 지나갈 때까지\n다른 사람 다 사라져라\n언제 봄이 왔는지 내 맘도 모르고\n봄바람이 자꾸만 불어와\n네 곁에 딱 붙어서 떨어지지 않고 싶어\n내 맘을 이제 말하고 싶어\n벚꽃도 뭐고 다 필요 없어\n나는 네 곁에 있고 싶어 딱 붙어서\n봄이 지나갈 때까지\n다른 사람 다 사라져라\n나만, 봄"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

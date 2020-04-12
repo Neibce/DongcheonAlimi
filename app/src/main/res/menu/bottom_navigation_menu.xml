@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/main_item"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="메인메뉴"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/notice_item"
+        android:enabled="true"
+        android:icon="@drawable/ic_format_list_bulleted_24dp"
+        android:title="공지사항"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/calender_item"
+        android:icon="@drawable/ic_event_note_24dp"
+        android:title="학사일정"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/setting_item"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="설정"
+        app:showAsAction="ifRoom" />
+</menu>

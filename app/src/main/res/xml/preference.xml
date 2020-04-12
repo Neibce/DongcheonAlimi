@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:key="dday_category"
+        app:title="D-DAY">
+
+        <SwitchPreferenceCompat
+            app:key="dday_enabled"
+            app:title="D-DAY 기능 켜기"
+            app:summary="D-DAY 기능을 켭니다."/>
+
+        <Preference
+            app:key="dday_set_title"
+            app:title="D-DAY 목표 제목 설정"
+            app:summary="D-DAY 목표의 제목을 설정합니다."/>
+
+        <Preference
+            app:key="dday_set_date"
+            app:title="D-DAY 목표 날짜 설정"
+            app:summary="D-DAY 목표의 날짜를 설정합니다."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="time_schedule_category"
+        app:title="시간표">
+
+        <Preference
+            app:key="time_schedule_set"
+            app:title="시간표 설정"
+            app:summary="시간표를 설정합니다."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="school_meal_category"
+        app:title="급식">
+
+        <SwitchPreferenceCompat
+            app:key="school_meal_auto"
+            app:title="급식 자동으로 가져오기"
+            app:summary="저장된 급식이 없을경우 자동으로 가져옵니다."/>
+
+        <Preference
+            app:key="school_meal_download"
+            app:title="급식 가져오기"
+            app:summary="급식 정보를 가져오거나 새로 고칩니다."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="school_event_category"
+        app:title="학사일정">
+
+        <SwitchPreferenceCompat
+            app:key="school_event_auto"
+            app:title="학사일정 자동으로 가져오기"
+            app:summary="저장된 학사일정이 없을경우 자동으로 가져옵니다."/>
+
+        <Preference
+            app:key="school_event_download"
+            app:title="학사일정 가져오기"
+            app:summary="학사일정 정보를 가져오거나 새로 고칩니다."/>
+
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

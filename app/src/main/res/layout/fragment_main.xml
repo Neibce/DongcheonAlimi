@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_50">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView2"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/colorAccent"
+                    android:text="3월 모평까지"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24dp"
+                    app:drawableLeftCompat="@drawable/ic_check_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="D-36"
+                    android:textSize="22dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/colorAccent"
+                    android:text="급식"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24dp"
+                    app:drawableLeftCompat="@drawable/ic_restaurant_menu_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnMealDateBefore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/shape_circle"
+                    android:tint="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMealDate"
+                    app:layout_constraintEnd_toStartOf="@+id/tvMealDate"
+                    app:layout_constraintTop_toTopOf="@+id/tvMealDate"
+                    app:srcCompat="@drawable/ic_chevron_left_24dp" />
+
+                <TextView
+                    android:id="@+id/tvMealDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="01. 01. (월)"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView"
+                    app:layout_constraintEnd_toStartOf="@+id/btnMealDateAfter" />
+
+                <ImageButton
+                    android:id="@+id/btnMealDateAfter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/shape_circle"
+                    android:tint="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMealDate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvMealDate"
+                    app:srcCompat="@drawable/ic_chevron_right_24dp" />
+
+                <view
+                    android:id="@+id/viewPagerMeal"
+                    class="me.tyoj.dcalimi.HeightWrappingViewPager"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/indicatorMeal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <com.pm10.library.CircleIndicator
+                    android:id="@+id/indicatorMeal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:p_defaultColor="@color/white"
+                    app:p_gap="4dp"
+                    app:p_radius="4dp"
+                    app:p_selectedColor="@color/colorAccent"
+                    app:p_strokeColor="@color/colorAccent"
+                    app:p_strokeWidth="1dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView3"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:minHeight="200dp"
+            app:cardElevation="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/colorAccent"
+                    android:text="시간표"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="24dp"
+                    app:drawableLeftCompat="@drawable/ic_access_time_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/colorAccent"
+                    android:stretchColumns="*"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView11">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="1dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="1dp"
+                            android:textColor="@color/white"
+                            android:background="@color/colorAccent"
+                            android:text="월"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="1dp"
+                            android:textColor="@color/white"
+                            android:background="@color/colorAccent"
+                            android:text="화"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="1dp"
+                            android:textColor="@color/white"
+                            android:background="@color/colorAccent"
+                            android:text="수"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="1dp"
+                            android:textColor="@color/white"
+                            android:background="@color/colorAccent"
+                            android:text="목"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/white"
+                            android:background="@color/colorAccent"
+                            android:text="금"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorAccent">
+
+                        <TextView
+                            android:id="@+id/tvScMon7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScMTue7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScWed7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScThu7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/tvScFri7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:text="국5\n김영한"
+                            android:textAlignment="center" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
