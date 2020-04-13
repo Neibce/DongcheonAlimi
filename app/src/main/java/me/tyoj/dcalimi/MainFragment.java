@@ -27,6 +27,7 @@ public class MainFragment extends Fragment {
     private String mSelDate;
     private String mSelDay;
     private ViewPager mViewPager;
+    private BusInfo mBusInfo;
 
     private void setDateValues(Calendar calendar){
         mSelYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.getTime());
@@ -74,8 +75,19 @@ public class MainFragment extends Fragment {
             dateOffset = 1;
         calendar.add(Calendar.DATE, dateOffset);
         setDateValues(calendar);
-
         refreshViewPager();
+
+        ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
+
+        mBusInfo = new BusInfo(getFragmentManager(), getContext(), view);
+        mBusInfo.get();
+
+        btnBusInfoRefresh.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                mBusInfo.get();
+            }
+        });
 
         CircleIndicator circleIndicator = view.findViewById(R.id.indicatorMeal);
         circleIndicator.setupWithViewPager(mViewPager);

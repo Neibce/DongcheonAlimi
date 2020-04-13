@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 
 public class RequestHttpURLConnection {
     public String get(String _url) throws IOException {
-        return get(_url, 20000);
+        return get(_url, 15000);
     }
     public String get(String _url, int timeoutMills) throws IOException {
         try {

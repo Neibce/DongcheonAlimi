@@ -19,8 +19,6 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.Locale;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class SchoolMeal {
     private Context mContext;
     private FragmentManager mFragmentManager;
@@ -29,7 +27,7 @@ public class SchoolMeal {
    SchoolMeal(FragmentManager fragmentManager, Context context){
         mFragmentManager = fragmentManager;
         mContext = context;
-        pref = mContext.getSharedPreferences("meal", MODE_PRIVATE);
+        pref = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
    }
 
     public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
