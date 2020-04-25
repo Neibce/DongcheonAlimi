@@ -3,13 +3,14 @@ package me.tyoj.dcalimi;
 import android.os.Bundle;
 
 import androidx.preference.Preference;
+import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SettingFragment extends PreferenceFragmentCompat {
+public class SettingFragment extends PreferenceFragmentCompat  {
     private String mStrNowYear;
     private String mStrNowMonth;
 

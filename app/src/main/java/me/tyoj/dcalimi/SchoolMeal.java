@@ -3,7 +3,6 @@ package me.tyoj.dcalimi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import androidx.fragment.app.DialogFragment;
@@ -22,16 +21,16 @@ import java.util.Locale;
 public class SchoolMeal {
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private static SharedPreferences pref;
+    private static SharedPreferences mSharedPreferences;
 
    SchoolMeal(FragmentManager fragmentManager, Context context){
         mFragmentManager = fragmentManager;
         mContext = context;
-        pref = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
+       mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
    }
 
     public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
-        String strJSONMeal = pref.getString(year + month,null);
+        String strJSONMeal = mSharedPreferences.getString(year + month, null);
         if (strJSONMeal == null)
             return mContext.getString(R.string.meal_need_download);
         try {
@@ -58,7 +57,7 @@ public class SchoolMeal {
     }
 
     public Boolean hasList(String year, String month){
-        return (pref.getString(year + month,null) != null);
+        return (mSharedPreferences.getString(year + month,null) != null);
     }
 
     public void download(String year, String month){
@@ -121,7 +120,7 @@ public class SchoolMeal {
 
                 Log.d("MEAL", jsonParentObject.toString());
 
-                SharedPreferences.Editor editor = pref.edit();
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(mYear + mMonth, jsonParentObject.toString());
                 editor.apply();
 
