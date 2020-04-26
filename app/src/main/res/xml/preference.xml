@@ -18,7 +18,7 @@
             app:summary="%s"
             app:entries="@array/dDayOption"
             app:entryValues="@array/dDayOptionValue"
-            app:defaultValue="0" />
+            app:defaultValue="1" />
 
         <Preference
             app:key="dday_download"

@@ -6,8 +6,8 @@
         <item>모의고사만</item>
     </string-array>
     <string-array name="dDayOptionValue">
-        <item>0</item>
         <item>1</item>
         <item>2</item>
+        <item>3</item>
     </string-array>
 </resources>
