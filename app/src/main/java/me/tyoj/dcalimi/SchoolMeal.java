@@ -26,7 +26,7 @@ public class SchoolMeal {
    SchoolMeal(FragmentManager fragmentManager, Context context){
         mFragmentManager = fragmentManager;
         mContext = context;
-       mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
+        mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
    }
 
     public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
@@ -63,12 +63,12 @@ public class SchoolMeal {
     public void download(String year, String month){
         int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
         if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
-            DialogFragment dialogFragment = new MyDialogFragment("WRN", "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
+            DialogFragment dialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
             dialogFragment.show(mFragmentManager, "Network Error");
             return;
         }
 
-        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, year, month);
+        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mContext, year, month);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -79,8 +79,8 @@ public class SchoolMeal {
        private String mYear;
        private String mMonth;
 
-       SchoolMealDownloadRunnable(FragmentManager fragmentManager, String year, String month){
-            mHandler = new MyHandler(fragmentManager);
+       SchoolMealDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
+            mHandler = new MyHandler(fragmentManager, context);
             mYear = year;
             mMonth = month;
        }

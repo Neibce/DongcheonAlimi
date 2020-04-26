@@ -66,12 +66,12 @@ public class SchoolEvent {
     public void download(String year, String month){
         int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
         if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
-            DialogFragment dialogFragment = new MyDialogFragment("WRN", "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
+            DialogFragment dialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
             dialogFragment.show(mFragmentManager, "Network Error");
             return;
         }
 
-        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, year, month);
+        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, mContext, year, month);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -117,8 +117,8 @@ public class SchoolEvent {
         private String mYear;
         private String mMonth;
 
-        SchoolEventDownloadRunnable(FragmentManager fragmentManager, String year, String month){
-            mHandler = new MyHandler(fragmentManager);
+        SchoolEventDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
+            mHandler = new MyHandler(fragmentManager, context);
             mYear = year;
             mMonth = month;
         }

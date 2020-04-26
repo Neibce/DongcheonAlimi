@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="dDayOption">
-        <item>내신시험</item>
-        <item>모의고사</item>
         <item>내신시험 + 모의고사</item>
+        <item>내신시험만</item>
+        <item>모의고사만</item>
     </string-array>
     <string-array name="dDayOptionValue">
         <item>0</item>

@@ -1,5 +1,6 @@
 package me.tyoj.dcalimi;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -22,6 +23,7 @@ public class MyHandler extends Handler {
     private FragmentManager mFragmentManager;
     private DialogFragment mDialogFragment;
     private View mView;
+    private Context mContext;
 
     MyHandler(FragmentManager fragmentManager){
         mFragmentManager = fragmentManager;
@@ -32,24 +34,29 @@ public class MyHandler extends Handler {
         mView = view;
     }
 
+    MyHandler(FragmentManager fragmentManager, Context context){
+        mFragmentManager = fragmentManager;
+        mContext = context;
+    }
+
     public void handleMessage(Message msg){
         if(msg.what == HIDE_DIALOG){
             if(mDialogFragment != null && mDialogFragment.getDialog() != null && mDialogFragment.getDialog().isShowing() && !mDialogFragment.isRemoving())
                 mDialogFragment.dismissAllowingStateLoss();
         }else if(msg.what == SHOW_DIALOG_DOWNLOADING_SCHOOL_MEAL){
-            mDialogFragment = new MyDialogFragment("NTC", "급식 정보 다운로드 중...", false);
+            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "급식 정보 다운로드 중...", false);
             mDialogFragment.setCancelable(false);
             mDialogFragment.show(mFragmentManager, "Downloading meal");
         }else if(msg.what == SHOW_DIALOG_DOWNLOADING_SCHOOL_EVENT){
-            mDialogFragment = new MyDialogFragment("NTC", "학사일정 정보 다운로드 중...", false);
+            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "학사일정 정보 다운로드 중...", false);
             mDialogFragment.setCancelable(false);
             mDialogFragment.show(mFragmentManager, "Downloading meal");
         }else if(msg.what == SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY){
-            mDialogFragment = new MyDialogFragment("NTC", "다운로드가 성공적으로 완료되었습니다.", true);
+            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "다운로드가 성공적으로 완료되었습니다.", true);
             mDialogFragment.setCancelable(true);
             mDialogFragment.show(mFragmentManager, "Downloaded SuccessFully");
         }else if(msg.what == SHOW_DIALOG_DOWNLOADING_FAILED){
-            mDialogFragment = new MyDialogFragment("ERR", "다운로드 중 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.", true);
+            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "다운로드 중 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.", true);
             mDialogFragment.setCancelable(true);
             mDialogFragment.show(mFragmentManager, "Downloaded SuccessFully");
         }else if(msg.what == UPDATE_BUS_INFO){
