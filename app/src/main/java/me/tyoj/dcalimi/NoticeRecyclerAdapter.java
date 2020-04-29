@@ -80,6 +80,7 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
         holder.uploader.setText(item.getUploader());
         holder.uploadDate.setText(item.getDateStr());
 
+        holder.cardview.setTransitionName("transCard" + position);
         holder.title.setTransitionName("transTitle" + position);
         holder.uploader.setTransitionName("transUploader" + position);
         holder.uploadDate.setTransitionName("transUploadDate" + position);

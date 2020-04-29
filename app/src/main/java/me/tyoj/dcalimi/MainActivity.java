@@ -14,6 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.transition.TransitionInflater;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.transition.Hold;
+import com.google.android.material.transition.MaterialContainerTransform;
 
 public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
@@ -36,40 +39,37 @@ public class MainActivity extends AppCompatActivity {
     public void showFragmentWithTransition(Fragment current, Fragment newFragment, String tag, View sharedView, int position) {
         Bundle bundle = new Bundle();
 
-        bundle.putString("TRANS_TITLE_NAME", "transTitle" + position);
-        bundle.putString("TRANS_UPLOADER_NAME", "transUploader" + position);
-        bundle.putString("TRANS_UPLOAD_DATE_NAME", "transUploadDate" + position);
+        bundle.putString("TRANS_CARD_NAME", "transCard" + position);
 
-        bundle.putString("TITLE", String.valueOf(((TextView)sharedView.findViewById(R.id.title)).getText()));
-        bundle.putString("UPLOADER", String.valueOf(((TextView)sharedView.findViewById(R.id.uploader)).getText()));
-        bundle.putString("UPLOAD_DATE", String.valueOf(((TextView)sharedView.findViewById(R.id.uploadDate)).getText()));
+        bundle.putString("TITLE", String.valueOf(((TextView) sharedView.findViewById(R.id.title)).getText()));
+        bundle.putString("UPLOADER", String.valueOf(((TextView) sharedView.findViewById(R.id.uploader)).getText()));
+        bundle.putString("UPLOAD_DATE", String.valueOf(((TextView) sharedView.findViewById(R.id.uploadDate)).getText()));
 
         newFragment.setArguments(bundle);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        // check if the fragment is in back stack
-        boolean fragmentPopped = fragmentManager.popBackStackImmediate(tag, 0);
-        if (fragmentPopped) {
-            // fragment is pop from backStack
-        } else {
-            current.setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
-            current.setExitTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.no_transition));
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-            newFragment.setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.default_transition));
-            newFragment.setEnterTransition(TransitionInflater.from(this).inflateTransition(android.R.transition.no_transition));
+        current.setExitTransition(new Hold());
 
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frameLayout, newFragment, tag);
-            fragmentTransaction.addToBackStack(tag);
+        MaterialContainerTransform transform = new MaterialContainerTransform();
+        transform.setContainerColor(MaterialColors.getColor(sharedView, R.attr.colorSurface));
+        transform.setFadeMode(MaterialContainerTransform.FADE_MODE_THROUGH);
+        transform.setScrimColor(0);
+        newFragment.setSharedElementEnterTransition(transform);
 
-            fragmentTransaction.addSharedElement(sharedView.findViewById(R.id.title), "transTitle" + position);
-            fragmentTransaction.addSharedElement(sharedView.findViewById(R.id.uploader), "transUploader" + position);
-            fragmentTransaction.addSharedElement(sharedView.findViewById(R.id.uploadDate), "transUploadDate" + position);
+        transaction.addSharedElement(sharedView.findViewById(R.id.materialCardView), "transCard" + position);
 
-            fragmentTransaction.commit();
+        transaction.setCustomAnimations(
+                R.anim.abc_grow_fade_in_from_bottom,
+                R.anim.abc_fade_out,
+                R.anim.abc_fade_in,
+                R.anim.abc_shrink_fade_out_from_bottom);
 
-            Log.i("MA", "showFragmentWithTransition: OK " + position);
-        }
+        transaction
+                .replace(R.id.frameLayout, newFragment, tag)
+                .addToBackStack(null /* name */)
+                .commit();
     }
 
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
