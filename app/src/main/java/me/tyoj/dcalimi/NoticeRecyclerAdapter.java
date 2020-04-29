@@ -1,8 +1,6 @@
 package me.tyoj.dcalimi;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +9,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAdapter.ViewHolder> {
     private OnItemClickListener mListener = null ;
-    private ArrayList<NoticeListItem> mData;
+    private final ArrayList<NoticeListItem> mData;
 
     NoticeRecyclerAdapter(ArrayList<NoticeListItem> list) {
         mData = list ;
@@ -30,12 +26,12 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        float scale;
-        TextView title;
-        TextView uploader;
-        TextView uploadDate;
-        CardView cardview;
-        LinearLayout.LayoutParams layoutParams;
+        final float scale;
+        final TextView title;
+        final TextView uploader;
+        final TextView uploadDate;
+        final CardView cardview;
+        final LinearLayout.LayoutParams layoutParams;
 
         ViewHolder(View itemView) {
             super(itemView) ;

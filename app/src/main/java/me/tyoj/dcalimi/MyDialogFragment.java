@@ -3,13 +3,14 @@ package me.tyoj.dcalimi;
 import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 public class MyDialogFragment extends DialogFragment {
-    private String mStrTitle;
-    private String mStrMessage;
-    private Boolean mHasPositiveButton;
+    private final String mStrTitle;
+    private final String mStrMessage;
+    private final Boolean mHasPositiveButton;
 
     MyDialogFragment(String strTitle, String strMessage, Boolean hasPositiveButton){
         mStrTitle = strTitle;
@@ -17,6 +18,7 @@ public class MyDialogFragment extends DialogFragment {
         mHasPositiveButton = hasPositiveButton;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());

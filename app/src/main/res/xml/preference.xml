@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        app:key="dday_category"
+        app:key="dDayCategory"
         app:title="D-DAY">
 
         <SwitchPreferenceCompat
-            app:key="dday_enabled"
+            app:key="dDayEnabled"
             app:title="D-DAY 기능 켜기"
             app:summary="D-DAY 기능을 켭니다."/>
 
         <ListPreference
-            app:key="dday_option"
-            app:dependency="dday_enabled"
+            app:key="dDayOption"
+            app:dependency="dDayEnabled"
             app:title="보여줄 내용 선택"
             app:summary="%s"
             app:entries="@array/dDayOption"
@@ -21,51 +21,51 @@
             app:defaultValue="1" />
 
         <Preference
-            app:key="dday_download"
-            app:dependency="dday_enabled"
+            app:key="dDayDownload"
+            app:dependency="dDayEnabled"
             app:title="정보 가져오기"
             app:summary="D-DAY 정보를 가져오거나 새로 고칩니다."/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="time_schedule_category"
+        app:key="timeScheduleCategory"
         app:title="시간표">
 
         <Preference
-            app:key="time_schedule_set"
+            app:key="timeScheduleSet"
             app:title="시간표 설정"
             app:summary="시간표를 설정합니다."/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="school_meal_category"
+        app:key="schoolMealCategory"
         app:title="급식">
 
         <CheckBoxPreference
-            app:key="school_meal_auto"
+            app:key="schoolMealAutoDownload"
             app:title="자동으로 가져오기"
             app:summary="저장된 급식이 없을경우 자동으로 가져옵니다."/>
 
         <Preference
-            app:key="school_meal_download"
+            app:key="schoolMealDownload"
             app:title="정보 가져오기"
             app:summary="급식 정보를 가져오거나 새로 고칩니다."/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        app:key="school_event_category"
+        app:key="schoolEventCategory"
         app:title="학사일정">
 
         <CheckBoxPreference
-            app:key="school_event_auto"
+            app:key="schoolEventAutoDownload"
             app:title="자동으로 가져오기"
             app:summary="저장된 학사일정이 없을경우 자동으로 가져옵니다."/>
 
         <Preference
-            app:key="school_event_download"
+            app:key="schoolEventDownload"
             app:title="정보 가져오기"
             app:summary="학사일정 정보를 가져오거나 새로 고칩니다."/>
 

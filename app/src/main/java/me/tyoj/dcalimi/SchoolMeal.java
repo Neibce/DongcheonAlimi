@@ -19,8 +19,8 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class SchoolMeal {
-    private Context mContext;
-    private FragmentManager mFragmentManager;
+    private final Context mContext;
+    private final FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
 
    SchoolMeal(FragmentManager fragmentManager, Context context){
@@ -75,9 +75,9 @@ public class SchoolMeal {
 
 
     private static class SchoolMealDownloadRunnable implements Runnable {
-       private Handler mHandler;
-       private String mYear;
-       private String mMonth;
+       private final Handler mHandler;
+       private final String mYear;
+       private final String mMonth;
 
        SchoolMealDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
             mHandler = new MyHandler(fragmentManager, context);

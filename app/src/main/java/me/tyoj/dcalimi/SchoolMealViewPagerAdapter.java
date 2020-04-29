@@ -7,9 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class SchoolMealViewPagerAdapter extends FragmentStatePagerAdapter {
-    private String mSelYear;
-    private String mSelMonth;
-    private String mSelDate;
+    private final String mSelYear;
+    private final String mSelMonth;
+    private final String mSelDate;
 
     SchoolMealViewPagerAdapter(@NonNull FragmentManager fm, String selYear, String selMonth, String selDate) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);

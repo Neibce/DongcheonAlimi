@@ -44,7 +44,7 @@ public class SchoolMealFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_school_meal, container, false);
         TextView tvLabel = view.findViewById(R.id.textViewMeal);
 
-        SchoolMeal schoolMeal = new SchoolMeal(getFragmentManager(), view.getContext());
+        SchoolMeal schoolMeal = new SchoolMeal(getParentFragmentManager(), view.getContext());
         if(mPosition == 0)
             tvLabel.setText(schoolMeal.get(mSelYear, mSelMonth, mSelDate, false));
         else

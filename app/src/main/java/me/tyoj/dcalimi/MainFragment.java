@@ -1,5 +1,6 @@
 package me.tyoj.dcalimi;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.pm10.library.CircleIndicator;
@@ -20,14 +23,18 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class MainFragment extends Fragment {
-    private TouchDelegateComposite mTouchDelegateComposite;
     private int dateOffset;
     private String mSelYear;
     private String mSelMonth;
     private String mSelDate;
     private String mSelDay;
+
+    private TouchDelegateComposite mTouchDelegateComposite;
     private ViewPager mViewPager;
     private BusInfo mBusInfo;
+
+    private FragmentManager mFragmentManager;
+    private Context mContext;
 
     private void setDateValues(Calendar calendar){
         mSelYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.getTime());
@@ -65,29 +72,40 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mViewPager = view.findViewById(R.id.viewPagerMeal);
+        mFragmentManager = getParentFragmentManager();
+        mContext = getContext();
 
-        final Calendar calendar = Calendar.getInstance();
-        dateOffset = 0;
-        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
-            dateOffset = 2;
-        else if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
-            dateOffset = 1;
-        calendar.add(Calendar.DATE, dateOffset);
-        setDateValues(calendar);
-        refreshViewPager();
+        MyDate myDate = new MyDate();
+        TextView tvDDayTitle = view.findViewById(R.id.tvDDayTitle);
+        TextView tvDDayLeft = view.findViewById(R.id.tvDDayLeft);
+
+        Pair<String, Long> pairDDay= new SchoolExam(mFragmentManager, mContext).getDDay(myDate.getYear(), myDate.getMonth(), myDate.getDate());
+        if(pairDDay != null) {
+            tvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
+            tvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
+        }
 
         ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
-
-        mBusInfo = new BusInfo(getFragmentManager(), getContext(), view);
+        mBusInfo = new BusInfo(getParentFragmentManager(), getContext(), view);
         mBusInfo.get();
-
         btnBusInfoRefresh.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 mBusInfo.get();
             }
         });
+
+        mViewPager = view.findViewById(R.id.viewPagerMeal);
+
+        final Calendar calendarMealSelected = Calendar.getInstance();
+        dateOffset = 0;
+        if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+            dateOffset = 2;
+        else if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+            dateOffset = 1;
+        calendarMealSelected.add(Calendar.DATE, dateOffset);
+        setDateValues(calendarMealSelected);
+        refreshViewPager();
 
         CircleIndicator circleIndicator = view.findViewById(R.id.indicatorMeal);
         circleIndicator.setupWithViewPager(mViewPager);
@@ -108,20 +126,20 @@ public class MainFragment extends Fragment {
                 btnMealDateAfter.setVisibility(View.VISIBLE);
 
                 int amount = -1;
-                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+                if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
                     amount = -3;
 
-                calendar.add(Calendar.DATE, amount);
+                calendarMealSelected.add(Calendar.DATE, amount);
                 dateOffset += amount;
 
                 Log.d("FM", "" + dateOffset);
 
-                if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && dateOffset <= 2 || dateOffset <= 0){
+                if(calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && dateOffset <= 2 || dateOffset <= 0){
                     btnMealDateBefore.setEnabled(false);
                     btnMealDateBefore.setVisibility(View.INVISIBLE);
                 }
 
-                setDateValues(calendar);
+                setDateValues(calendarMealSelected);
                 refreshViewPager();
 
                 tvMealDate.setText(String.format(Locale.getDefault(),"%s월 %s일 (%s)", mSelMonth, mSelDate, mSelDay));
@@ -135,20 +153,20 @@ public class MainFragment extends Fragment {
                 btnMealDateBefore.setVisibility(View.VISIBLE);
 
                 int amount = 1;
-                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
+                if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
                     amount = 3;
 
-                calendar.add(Calendar.DATE, amount);
+                calendarMealSelected.add(Calendar.DATE, amount);
                 dateOffset += amount;
 
-                Log.d("FM", ""+dateOffset);
+                Log.d("FM", "" + dateOffset);
 
-                if((calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && dateOffset >= 12) || dateOffset >= 14){
+                if((calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && dateOffset >= 12) || dateOffset >= 14){
                     btnMealDateAfter.setEnabled(false);
                     btnMealDateAfter.setVisibility(View.INVISIBLE);
                 }
 
-                setDateValues(calendar);
+                setDateValues(calendarMealSelected);
                 refreshViewPager();
 
                 tvMealDate.setText(String.format(Locale.getDefault(),"%s월 %s일 (%s)", mSelMonth, mSelDate, mSelDay));

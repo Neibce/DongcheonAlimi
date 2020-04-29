@@ -1,7 +1,6 @@
 package me.tyoj.dcalimi;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +21,12 @@ public class SchoolEventRecyclerAdapter extends RecyclerView.Adapter<SchoolEvent
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        float scale;
-        TextView date;
-        TextView day;
-        TextView event;
-        CardView card;
-        LinearLayout.LayoutParams layoutParams;
+        final float scale;
+        final TextView date;
+        final TextView day;
+        final TextView event;
+        final CardView card;
+        final LinearLayout.LayoutParams layoutParams;
 
         ViewHolder(View itemView) {
             super(itemView) ;

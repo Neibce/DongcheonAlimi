@@ -1,7 +1,6 @@
 package me.tyoj.dcalimi;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.transition.TransitionInflater;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.color.MaterialColors;
@@ -19,9 +17,9 @@ import com.google.android.material.transition.Hold;
 import com.google.android.material.transition.MaterialContainerTransform;
 
 public class MainActivity extends AppCompatActivity {
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    BottomNavigationView bottomNavigation;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.frameLayout, new SchoolEventFragment()).commitAllowingStateLoss();
                     break;
                 case R.id.setting_item:
-                    fragmentTransaction.replace(R.id.frameLayout, new SettingFragment()).commitAllowingStateLoss();
+                    fragmentTransaction.replace(R.id.frameLayout, new PreferenceFragment()).commitAllowingStateLoss();
                     break;
             }
             return true;

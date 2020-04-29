@@ -6,7 +6,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +19,7 @@ public class MyHandler extends Handler {
     static final int UPDATE_BUS_INFO = 5;
     static final int ERROR_TO_UPDATE_BUS_INFO = 6;
 
-    private FragmentManager mFragmentManager;
+    private final FragmentManager mFragmentManager;
     private DialogFragment mDialogFragment;
     private View mView;
     private Context mContext;

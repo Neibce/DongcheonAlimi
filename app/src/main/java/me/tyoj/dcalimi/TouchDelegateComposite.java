@@ -1,7 +1,6 @@
 package me.tyoj.dcalimi;
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;

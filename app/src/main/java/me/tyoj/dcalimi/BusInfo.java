@@ -18,9 +18,9 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class BusInfo {
-    private Context mContext;
-    private FragmentManager mFragmentManager;
-    private View mView;
+    private final Context mContext;
+    private final FragmentManager mFragmentManager;
+    private final View mView;
     private static Boolean isRunning = false;
 
     BusInfo(FragmentManager fragmentManager, Context context, View view){
@@ -48,7 +48,7 @@ public class BusInfo {
     }
 
     private static class BusInfoDownloadRunnable implements Runnable {
-        private Handler mHandler;
+        private final Handler mHandler;
 
         BusInfoDownloadRunnable(FragmentManager fragmentManager, View view){
             mHandler = new MyHandler(fragmentManager, view);

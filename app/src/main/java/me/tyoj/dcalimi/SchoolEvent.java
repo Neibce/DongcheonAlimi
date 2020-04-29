@@ -19,9 +19,9 @@ import java.util.Calendar;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolEvent {
-    private Context mContext;
-    private FragmentManager mFragmentManager;
-    private ArrayList<SchoolEventListItem> mCalenderListItems = new ArrayList<>();
+    private final Context mContext;
+    private final FragmentManager mFragmentManager;
+    private final ArrayList<SchoolEventListItem> mCalenderListItems = new ArrayList<>();
     private static SharedPreferences pref;
 
     SchoolEvent(FragmentManager fragmentManager, Context context){
@@ -113,9 +113,9 @@ public class SchoolEvent {
     }
 
     private static class SchoolEventDownloadRunnable implements Runnable {
-        private Handler mHandler;
-        private String mYear;
-        private String mMonth;
+        private final Handler mHandler;
+        private final String mYear;
+        private final String mMonth;
 
         SchoolEventDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
             mHandler = new MyHandler(fragmentManager, context);
