@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="me.tyoj.dcalimi.MainActivity">
+
+        <activity android:name="me.tyoj.dcalimi.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +23,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="me.tyoj.dcalimi.MainActivity" />
     </application>
 
 </manifest>
