@@ -80,9 +80,12 @@ public class MainFragment extends Fragment {
         TextView tvDDayLeft = view.findViewById(R.id.tvDDayLeft);
 
         Pair<String, Long> pairDDay= new SchoolExam(mFragmentManager, mContext).getDDay(myDate.getYear(), myDate.getMonth(), myDate.getDate());
-        if(pairDDay != null) {
+        if(pairDDay != null && pairDDay.second != null) {
             tvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
-            tvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
+            if(pairDDay.second == 0)
+                tvDDayLeft.setText(getString(R.string.d_day));
+            else
+                tvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
         }
 
         ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
