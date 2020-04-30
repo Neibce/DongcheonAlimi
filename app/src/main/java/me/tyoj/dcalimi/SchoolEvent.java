@@ -2,7 +2,9 @@ package me.tyoj.dcalimi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.fragment.app.DialogFragment;
@@ -114,19 +116,20 @@ public class SchoolEvent {
 
     private static class SchoolEventDownloadRunnable implements Runnable {
         private final Handler mHandler;
+        private final Context mContext;
         private final String mYear;
         private final String mMonth;
 
         SchoolEventDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
             mHandler = new MyHandler(fragmentManager, context);
+            mContext = context;
             mYear = year;
             mMonth = month;
         }
 
         @Override
         public void run() {
-            mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_SCHOOL_EVENT);
-
+            sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_event_info), false,false);
             try {
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("http://school.busanedu.net/dongcheon-h/sv/schdulView/selectSvList.do?sysId=dongcheon-h&monthFirst="+mYear+"/"+mMonth+"/01&monthEnmt="+mYear+"/"+mMonth+"/31", 15000);
@@ -152,13 +155,24 @@ public class SchoolEvent {
 
                 Log.d("TAG", "doInBackground: " + jsonArray.toString());
 
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY);
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
             } catch (JSONException | IOException e) {
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_FAILED);
+                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
                 e.printStackTrace();
             }
+        }
+
+        private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
+            Bundle data = new Bundle();
+            Message msg = new Message();
+            data.putString("title", dialogTitle);
+            data.putString("msg", dialogMessage);
+            data.putBoolean("hasPositive", hasPositiveButton);
+            data.putBoolean("cancelable", cancelable);
+
+            msg.setData(data);
+            msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
         }
     }
 }

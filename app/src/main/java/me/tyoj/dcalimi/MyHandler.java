@@ -12,10 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 public class MyHandler extends Handler {
     static final int HIDE_DIALOG = 0;
-    static final int SHOW_DIALOG_DOWNLOADING_SCHOOL_MEAL = 1;
-    static final int SHOW_DIALOG_DOWNLOADING_SCHOOL_EVENT = 2;
-    static final int SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY = 3;
-    static final int SHOW_DIALOG_DOWNLOADING_FAILED = 4;
+    static final int SHOW_DIALOG = 7;
     static final int UPDATE_BUS_INFO = 5;
     static final int ERROR_TO_UPDATE_BUS_INFO = 6;
 
@@ -40,24 +37,12 @@ public class MyHandler extends Handler {
 
     public void handleMessage(Message msg){
         if(msg.what == HIDE_DIALOG){
-            if(mDialogFragment != null && mDialogFragment.getDialog() != null && mDialogFragment.getDialog().isShowing() && !mDialogFragment.isRemoving())
-                mDialogFragment.dismissAllowingStateLoss();
-        }else if(msg.what == SHOW_DIALOG_DOWNLOADING_SCHOOL_MEAL){
-            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "급식 정보 다운로드 중...", false);
-            mDialogFragment.setCancelable(false);
-            mDialogFragment.show(mFragmentManager, "Downloading meal");
-        }else if(msg.what == SHOW_DIALOG_DOWNLOADING_SCHOOL_EVENT){
-            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "학사일정 정보 다운로드 중...", false);
-            mDialogFragment.setCancelable(false);
-            mDialogFragment.show(mFragmentManager, "Downloading meal");
-        }else if(msg.what == SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY){
-            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.notice), "다운로드가 성공적으로 완료되었습니다.", true);
-            mDialogFragment.setCancelable(true);
-            mDialogFragment.show(mFragmentManager, "Downloaded SuccessFully");
-        }else if(msg.what == SHOW_DIALOG_DOWNLOADING_FAILED){
-            mDialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "다운로드 중 오류가 발생하였습니다.\n잠시 후 다시 시도해주세요.", true);
-            mDialogFragment.setCancelable(true);
-            mDialogFragment.show(mFragmentManager, "Downloaded SuccessFully");
+            hideDialogIfExist();
+        }else if(msg.what == SHOW_DIALOG){
+            hideDialogIfExist();
+            mDialogFragment = new MyDialogFragment(msg.getData().getString("title"), msg.getData().getString("msg"), msg.getData().getBoolean("hasPositive", false));
+            mDialogFragment.setCancelable(msg.getData().getBoolean("cancelable", true));
+            mDialogFragment.show(mFragmentManager, "HD_TAG");
         }else if(msg.what == UPDATE_BUS_INFO){
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
             tvBusLeft.setText(msg.obj.toString());
@@ -69,5 +54,10 @@ public class MyHandler extends Handler {
             ImageButton btnBusInfoRefresh = mView.findViewById(R.id.btnBusInfoRefresh);
             btnBusInfoRefresh.clearAnimation();
         }
+    }
+
+    private void hideDialogIfExist(){
+        if(mDialogFragment != null && mDialogFragment.getDialog() != null && mDialogFragment.getDialog().isShowing() && !mDialogFragment.isRemoving())
+            mDialogFragment.dismissAllowingStateLoss();
     }
 }

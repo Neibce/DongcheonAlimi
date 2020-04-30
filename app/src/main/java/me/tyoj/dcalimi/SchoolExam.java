@@ -2,7 +2,9 @@ package me.tyoj.dcalimi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -49,18 +51,26 @@ public class SchoolExam {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                String strDate = jsonObject.getString("startDate");
+                String strExamStart = jsonObject.getString("startDate");
+                String strExamEnd = jsonObject.getString("endDate");
 
-                Date examDate = transFormat.parse(strDate);
-                Calendar examDateCalender = Calendar.getInstance();
-                examDateCalender.setTime(examDate);
+                Date dateExamStart = transFormat.parse(strExamStart);
+                Calendar calendarExamStart = Calendar.getInstance();
+                calendarExamStart.setTime(dateExamStart);
 
-                long diff = (examDateCalender.getTimeInMillis() - nowDateCalender.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+                Date dateExamEnd = transFormat.parse(strExamEnd);
+                Calendar calendarExamEnd = Calendar.getInstance();
+                calendarExamEnd.setTime(dateExamEnd);
 
-                if(diff >= 0)
-                    return Pair.create(jsonObject.getString("title"), diff);
+                long diffBtwTES = (calendarExamStart.getTimeInMillis() - nowDateCalender.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+                long diffBtwTEE = (calendarExamEnd.getTimeInMillis() - nowDateCalender.getTimeInMillis()) / (24 * 60 * 60 * 1000);
 
-                Log.i("SE", strDate + ": " + diff);
+                if(diffBtwTES >= 0)
+                    return Pair.create(jsonObject.getString("title"), diffBtwTES);
+                else if(diffBtwTEE >= 0)
+                    return Pair.create(jsonObject.getString("title"), 0L);
+
+                Log.i("SE", strExamStart + ": " + diffBtwTEE);
             }
             return null;
         } catch (JSONException | ParseException e) {
@@ -88,16 +98,18 @@ public class SchoolExam {
 
     private static class SchoolExamDownloadRunnable implements Runnable {
         private final Handler mHandler;
+        private final Context mContext;
         private final String mYear;
 
         SchoolExamDownloadRunnable(FragmentManager fragmentManager, Context context, String year){
             mHandler = new MyHandler(fragmentManager, context);
+            mContext = context;
             mYear = year;
         }
 
         @Override
         public void run() {
-            mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_SCHOOL_EVENT);
+            sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_info), false,false);
 
             try {
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
@@ -111,13 +123,24 @@ public class SchoolExam {
 
                 Log.d("TAG", "doInBackground: " + jsonObjectResponse.get("exams").toString());
 
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY);
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
             } catch (JSONException | IOException e) {
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_FAILED);
+                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
                 e.printStackTrace();
             }
+        }
+
+        private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
+            Bundle data = new Bundle();
+            Message msg = new Message();
+            data.putString("title", dialogTitle);
+            data.putString("msg", dialogMessage);
+            data.putBoolean("hasPositive", hasPositiveButton);
+            data.putBoolean("cancelable", cancelable);
+
+            msg.setData(data);
+            msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
         }
     }
 }

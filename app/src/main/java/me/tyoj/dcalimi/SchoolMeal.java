@@ -2,7 +2,9 @@ package me.tyoj.dcalimi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.fragment.app.DialogFragment;
@@ -76,18 +78,20 @@ public class SchoolMeal {
 
     private static class SchoolMealDownloadRunnable implements Runnable {
        private final Handler mHandler;
+       private final Context mContext;
        private final String mYear;
        private final String mMonth;
 
        SchoolMealDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
             mHandler = new MyHandler(fragmentManager, context);
+            mContext = context;
             mYear = year;
             mMonth = month;
        }
 
        @Override
         public void run() {
-            mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_SCHOOL_MEAL);
+           sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_meal_info), false,false);
             try {
                 Document doc = Jsoup.connect("https://stu.pen.go.kr/sts_sci_md00_001.do?ay=" + mYear + "&mm=" + mMonth + "&insttNm=동천고등학교&schulCode=C100000412&schulKndScCode=04&schulCrseScCode=4").timeout(15000).post();
                 Elements tds = doc.getElementsByTag("td");
@@ -124,13 +128,24 @@ public class SchoolMeal {
                 editor.putString(mYear + mMonth, jsonParentObject.toString());
                 editor.apply();
 
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADED_SUCCESSFULLY);
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
             } catch (IOException | JSONException e) {
-                mHandler.sendEmptyMessage(MyHandler.HIDE_DIALOG);
-                mHandler.sendEmptyMessage(MyHandler.SHOW_DIALOG_DOWNLOADING_FAILED);
+                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
                 e.printStackTrace();
             }
+        }
+
+        private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
+            Bundle data = new Bundle();
+            Message msg = new Message();
+            data.putString("title", dialogTitle);
+            data.putString("msg", dialogMessage);
+            data.putBoolean("hasPositive", hasPositiveButton);
+            data.putBoolean("cancelable", cancelable);
+
+            msg.setData(data);
+            msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
         }
     }
 }
