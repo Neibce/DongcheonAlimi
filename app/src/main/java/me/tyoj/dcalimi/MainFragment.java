@@ -34,7 +34,6 @@ public class MainFragment extends Fragment {
     private BusInfo mBusInfo;
 
     private FragmentManager mFragmentManager;
-    private Context mContext;
 
     private void setDateValues(Calendar calendar){
         mSelYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.getTime());
@@ -73,13 +72,12 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         mFragmentManager = getParentFragmentManager();
-        mContext = getContext();
 
         MyDate myDate = new MyDate();
         TextView tvDDayTitle = view.findViewById(R.id.tvDDayTitle);
         TextView tvDDayLeft = view.findViewById(R.id.tvDDayLeft);
 
-        Pair<String, Long> pairDDay= new SchoolExam(mFragmentManager, mContext).getDDay(myDate.getYear(), myDate.getMonth(), myDate.getDate());
+        Pair<String, Long> pairDDay= new SchoolExam(mFragmentManager, view).getDDay(myDate.getYear(), myDate.getMonth(), myDate.getDate());
         if(pairDDay != null && pairDDay.second != null) {
             tvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
             if(pairDDay.second == 0)

@@ -15,7 +15,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
     private String mStrTodayMonth;
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(Bundle savedInstanceState, final String rootKey) {
         setPreferencesFromResource(R.xml.preference, rootKey);
 
         mFragmentManager = getParentFragmentManager();
@@ -30,7 +30,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolMealDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolMeal(mFragmentManager, mContext).download(mStrTodayYear, mStrTodayMonth);
+                    new SchoolMeal(mFragmentManager, getView()).download(mStrTodayYear, mStrTodayMonth);
                     return false;
                 }
             });
@@ -41,7 +41,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolEventDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolEvent(mFragmentManager, mContext).download(mStrTodayYear, mStrTodayMonth);
+                    new SchoolEvent(mFragmentManager, getView()).download(mStrTodayYear, mStrTodayMonth);
                     return false;
                 }
             });
@@ -52,7 +52,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             dDayDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolExam(getParentFragmentManager(), getContext()).download(mStrTodayYear);
+                    new SchoolExam(mFragmentManager, getView()).download(mStrTodayYear);
                     return false;
                 }
             });

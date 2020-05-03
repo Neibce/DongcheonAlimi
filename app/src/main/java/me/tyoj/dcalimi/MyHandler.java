@@ -10,9 +10,12 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class MyHandler extends Handler {
     static final int HIDE_DIALOG = 0;
-    static final int SHOW_DIALOG = 7;
+    static final int SHOW_DIALOG = 1;
+    static final int SHOW_SNACKBAR = 2;
     static final int UPDATE_BUS_INFO = 5;
     static final int ERROR_TO_UPDATE_BUS_INFO = 6;
 
@@ -21,18 +24,10 @@ public class MyHandler extends Handler {
     private View mView;
     private Context mContext;
 
-    MyHandler(FragmentManager fragmentManager){
-        mFragmentManager = fragmentManager;
-    }
-
     MyHandler(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
+        mContext = view.getContext();
         mView = view;
-    }
-
-    MyHandler(FragmentManager fragmentManager, Context context){
-        mFragmentManager = fragmentManager;
-        mContext = context;
     }
 
     public void handleMessage(Message msg){
@@ -43,6 +38,10 @@ public class MyHandler extends Handler {
             mDialogFragment = new MyDialogFragment(msg.getData().getString("title"), msg.getData().getString("msg"), msg.getData().getBoolean("hasPositive", false));
             mDialogFragment.setCancelable(msg.getData().getBoolean("cancelable", true));
             mDialogFragment.show(mFragmentManager, "HD_TAG");
+        }else if(msg.what == SHOW_SNACKBAR){
+            Snackbar snackbar = Snackbar.make(mView, msg.obj.toString(), Snackbar.LENGTH_SHORT);
+            snackbar.setAnchorView(mView.getRootView().findViewById(R.id.bottom_navigation));
+            snackbar.show();
         }else if(msg.what == UPDATE_BUS_INFO){
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
             tvBusLeft.setText(msg.obj.toString());
@@ -50,7 +49,8 @@ public class MyHandler extends Handler {
             btnBusInfoRefresh.clearAnimation();
         }else if(msg.what == ERROR_TO_UPDATE_BUS_INFO){
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
-            tvBusLeft.setText(msg.obj.toString());
+            if(msg.obj != null)
+                tvBusLeft.setText(msg.obj.toString());
             ImageButton btnBusInfoRefresh = mView.findViewById(R.id.btnBusInfoRefresh);
             btnBusInfoRefresh.clearAnimation();
         }

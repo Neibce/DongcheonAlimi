@@ -6,15 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -22,13 +21,15 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolEvent {
     private final Context mContext;
+    private final View mView;
     private final FragmentManager mFragmentManager;
     private final ArrayList<SchoolEventListItem> mCalenderListItems = new ArrayList<>();
     private static SharedPreferences pref;
 
-    SchoolEvent(FragmentManager fragmentManager, Context context){
+    SchoolEvent(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
-        mContext = context;
+        mContext = view.getContext();
+        mView = view;
         pref = mContext.getSharedPreferences("event", MODE_PRIVATE);
     }
 
@@ -66,14 +67,7 @@ public class SchoolEvent {
     }
 
     public void download(String year, String month){
-        int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
-        if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
-            DialogFragment dialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
-            dialogFragment.show(mFragmentManager, "Network Error");
-            return;
-        }
-
-        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, mContext, year, month);
+        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, mView, year, month);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -120,17 +114,22 @@ public class SchoolEvent {
         private final String mYear;
         private final String mMonth;
 
-        SchoolEventDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
-            mHandler = new MyHandler(fragmentManager, context);
-            mContext = context;
+        SchoolEventDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month){
+            mHandler = new MyHandler(fragmentManager, view);
+            mContext = view.getContext();
             mYear = year;
             mMonth = month;
         }
 
         @Override
         public void run() {
-            sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_event_info), false,false);
             try {
+                int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
+                if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
+                    throw new Exception();
+                }
+
+                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_event_info), false,false);
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("http://school.busanedu.net/dongcheon-h/sv/schdulView/selectSvList.do?sysId=dongcheon-h&monthFirst="+mYear+"/"+mMonth+"/01&monthEnmt="+mYear+"/"+mMonth+"/31", 15000);
 
@@ -155,9 +154,11 @@ public class SchoolEvent {
 
                 Log.d("TAG", "doInBackground: " + jsonArray.toString());
 
-                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
-            } catch (JSONException | IOException e) {
-                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+            } catch (Exception e) {
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
                 e.printStackTrace();
             }
         }
@@ -172,6 +173,19 @@ public class SchoolEvent {
 
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerHideDialog(){
+            Message msg = new Message();
+            msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerShowSnackbar(String text){
+            Message msg = new Message();
+            msg.obj = text;
+            msg.what = MyHandler.SHOW_SNACKBAR;
             mHandler.sendMessage(msg);
         }
     }

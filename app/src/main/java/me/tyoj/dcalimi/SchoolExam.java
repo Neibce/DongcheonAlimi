@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
@@ -29,15 +30,17 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolExam {
     private final Context mContext;
+    private final View mView;
     private final FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
     private static SharedPreferences mPreferenceSharedPreferences;
 
-    SchoolExam(FragmentManager fragmentManager, Context context){
+    SchoolExam(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
-        mContext = context;
+        mContext = view.getContext();
+        mView = view;
         mSharedPreferences = mContext.getSharedPreferences("exams", MODE_PRIVATE);
-        mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Nullable
@@ -108,14 +111,7 @@ public class SchoolExam {
     }
 
     public void download(String year){
-        int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
-        if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
-            DialogFragment dialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
-            dialogFragment.show(mFragmentManager, "Network Error");
-            return;
-        }
-
-        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mContext, year);
+        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mView, year);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -125,17 +121,21 @@ public class SchoolExam {
         private final Context mContext;
         private final String mYear;
 
-        SchoolExamDownloadRunnable(FragmentManager fragmentManager, Context context, String year){
-            mHandler = new MyHandler(fragmentManager, context);
-            mContext = context;
+        SchoolExamDownloadRunnable(FragmentManager fragmentManager, View view, String year){
+            mHandler = new MyHandler(fragmentManager, view);
+            mContext = view.getContext();
             mYear = year;
         }
 
         @Override
         public void run() {
-            sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_info), false,false);
-
             try {
+                int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
+                if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
+                    throw new Exception();
+                }
+
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_info), false,false);
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("https://dc-api.jun0.dev/exams/" + mYear, 15000);
 
@@ -147,9 +147,11 @@ public class SchoolExam {
 
                 Log.d("TAG", "doInBackground: " + jsonObjectResponse.get("exams").toString());
 
-                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
-            } catch (JSONException | IOException e) {
-                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+            } catch (Exception e) {
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
                 e.printStackTrace();
             }
         }
@@ -164,6 +166,19 @@ public class SchoolExam {
 
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerHideDialog(){
+            Message msg = new Message();
+            msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerShowSnackbar(String text){
+            Message msg = new Message();
+            msg.obj = text;
+            msg.what = MyHandler.SHOW_SNACKBAR;
             mHandler.sendMessage(msg);
         }
     }

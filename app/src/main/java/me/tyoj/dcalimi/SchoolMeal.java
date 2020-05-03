@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -22,13 +23,15 @@ import java.util.Locale;
 
 public class SchoolMeal {
     private final Context mContext;
+    private final View mView;
     private final FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
 
-   SchoolMeal(FragmentManager fragmentManager, Context context){
-        mFragmentManager = fragmentManager;
-        mContext = context;
-        mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
+   SchoolMeal(FragmentManager fragmentManager, View view){
+       mFragmentManager = fragmentManager;
+       mContext = view.getContext();
+       mView = view;
+       mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
    }
 
     public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
@@ -63,14 +66,7 @@ public class SchoolMeal {
     }
 
     public void download(String year, String month){
-        int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
-        if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
-            DialogFragment dialogFragment = new MyDialogFragment(mContext.getString(R.string.error), "네트워크에 연결할 수 없습니다.\n연결 상태를 확인 후 재시도 해 주시기 바랍니다.", true);
-            dialogFragment.show(mFragmentManager, "Network Error");
-            return;
-        }
-
-        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mContext, year, month);
+        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mView, year, month);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -82,17 +78,22 @@ public class SchoolMeal {
        private final String mYear;
        private final String mMonth;
 
-       SchoolMealDownloadRunnable(FragmentManager fragmentManager, Context context, String year, String month){
-            mHandler = new MyHandler(fragmentManager, context);
-            mContext = context;
+       SchoolMealDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month){
+            mHandler = new MyHandler(fragmentManager, view);
+            mContext = view.getContext();
             mYear = year;
             mMonth = month;
        }
 
        @Override
         public void run() {
-           sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_meal_info), false,false);
             try {
+                int connectivityStatus = NetworkStatus.getConnectivityStatus(mContext);
+                if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED) {
+                    throw new Exception();
+                }
+
+                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_meal_info), false,false);
                 Document doc = Jsoup.connect("https://stu.pen.go.kr/sts_sci_md00_001.do?ay=" + mYear + "&mm=" + mMonth + "&insttNm=동천고등학교&schulCode=C100000412&schulKndScCode=04&schulCrseScCode=4").timeout(15000).post();
                 Elements tds = doc.getElementsByTag("td");
 
@@ -128,9 +129,11 @@ public class SchoolMeal {
                 editor.putString(mYear + mMonth, jsonParentObject.toString());
                 editor.apply();
 
-                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.download_successfully), true,true);
-            } catch (IOException | JSONException e) {
-                sendHandlerShowDialog(mContext.getString(R.string.error), mContext.getString(R.string.download_failed), true,true);
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+            } catch (Exception e) {
+                sendHandlerHideDialog();
+                sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
                 e.printStackTrace();
             }
         }
@@ -145,6 +148,19 @@ public class SchoolMeal {
 
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerHideDialog(){
+            Message msg = new Message();
+            msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerShowSnackbar(String text){
+            Message msg = new Message();
+            msg.obj = text;
+            msg.what = MyHandler.SHOW_SNACKBAR;
             mHandler.sendMessage(msg);
         }
     }

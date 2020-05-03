@@ -33,7 +33,7 @@ public class SchoolEventFragment extends Fragment {
 
         TextView tvEmptyElement = view.findViewById(R.id.emptyElement);
 
-        SchoolEvent schoolEvent = new SchoolEvent(getParentFragmentManager(), view.getContext());
+        SchoolEvent schoolEvent = new SchoolEvent(getParentFragmentManager(), view);
         if(schoolEvent.hasList(strNowYear, strNowMonth)) {
             tvEmptyElement.setText(R.string.app_name);
             mSchoolEventListItems = schoolEvent.getList(strNowYear, strNowMonth);
