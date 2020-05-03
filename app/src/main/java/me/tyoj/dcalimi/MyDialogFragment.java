@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 public class MyDialogFragment extends DialogFragment {
     private final String mStrTitle;
     private final String mStrMessage;
@@ -21,13 +23,13 @@ public class MyDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle(mStrTitle);
-        alertDialogBuilder.setMessage(mStrMessage);
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(getActivity());
+        materialAlertDialogBuilder.setTitle(mStrTitle);
+        materialAlertDialogBuilder.setMessage(mStrMessage);
 
         if(mHasPositiveButton)
-            alertDialogBuilder.setPositiveButton("확인", null);
+            materialAlertDialogBuilder.setPositiveButton("확인", null);
 
-        return alertDialogBuilder.create();
+        return materialAlertDialogBuilder.create();
     }
 }
