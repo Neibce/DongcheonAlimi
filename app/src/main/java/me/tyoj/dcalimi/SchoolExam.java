@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,23 +23,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolExam {
     private final Context mContext;
     private final FragmentManager mFragmentManager;
-    private static SharedPreferences pref;
+    private static SharedPreferences mSharedPreferences;
+    private static SharedPreferences mPreferenceSharedPreferences;
 
     SchoolExam(FragmentManager fragmentManager, Context context){
         mFragmentManager = fragmentManager;
         mContext = context;
-        pref = mContext.getSharedPreferences("exams", MODE_PRIVATE);
+        mSharedPreferences = mContext.getSharedPreferences("exams", MODE_PRIVATE);
+        mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Nullable
     public Pair<String, Long> getDDay(String year, String month, String date) {
-        String strJSONEvent = pref.getString(year,null);
+        String strJSONEvent = mSharedPreferences.getString(year,null);
         if(strJSONEvent == null)
             return null;
         try {
@@ -53,6 +57,20 @@ public class SchoolExam {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String strExamStart = jsonObject.getString("startDate");
                 String strExamEnd = jsonObject.getString("endDate");
+                int examType = jsonObject.getInt("type");
+
+                Set<String> optionValues = mPreferenceSharedPreferences.getStringSet("dDayOption", null);
+                if (optionValues != null) {
+                    if (!optionValues.contains("1") && examType == 0)
+                        continue;
+                    else if (!optionValues.contains("2") && examType == 1)
+                        continue;
+                    else if (!optionValues.contains("3") && examType == 2)
+                        continue;
+                    else if (!optionValues.contains("4") && examType == 3)
+                        continue;
+                }
+
 
                 Date dateExamStart = transFormat.parse(strExamStart);
                 Calendar calendarExamStart = Calendar.getInstance();
@@ -72,7 +90,13 @@ public class SchoolExam {
 
                 Log.i("SE", strExamStart + ": " + diffBtwTEE);
             }
-            return null;
+            Calendar nextYearCalender = Calendar.getInstance();
+            nextYearCalender.add(Calendar.YEAR, 1);
+            nextYearCalender.set(Calendar.MONTH, 1);
+            nextYearCalender.set(Calendar.DATE, 1);
+            long diffBtw = (nextYearCalender.getTimeInMillis() - nowDateCalender.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+
+            return Pair.create(nextYearCalender.get(Calendar.YEAR)+"년", diffBtw);
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
             return null;
@@ -80,7 +104,7 @@ public class SchoolExam {
     }
 
     public Boolean hasList(String year){
-        return (pref.getString(year,null) != null);
+        return (mSharedPreferences.getString(year,null) != null);
     }
 
     public void download(String year){
@@ -117,7 +141,7 @@ public class SchoolExam {
 
                 JSONObject jsonObjectResponse = new JSONObject(strResponse);
 
-                SharedPreferences.Editor editor = pref.edit();
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 editor.putString(mYear, jsonObjectResponse.get("exams").toString());
                 editor.apply();
 

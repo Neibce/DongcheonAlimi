@@ -11,14 +11,13 @@
             app:title="D-DAY 기능 켜기"
             app:summary="D-DAY 기능을 켭니다."/>
 
-        <ListPreference
+        <me.tyoj.dcalimi.MyMultiSelectListPreference
             app:key="dDayOption"
             app:dependency="dDayEnabled"
             app:title="보여줄 내용 선택"
             app:summary="%s"
             app:entries="@array/dDayOption"
-            app:entryValues="@array/dDayOptionValue"
-            app:defaultValue="1" />
+            app:entryValues="@array/dDayOptionValue" />
 
         <Preference
             app:key="dDayDownload"

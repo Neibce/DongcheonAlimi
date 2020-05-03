@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="dDayOption">
-        <item>내신시험 + 모의고사</item>
-        <item>내신시험만</item>
-        <item>모의고사만</item>
+        <item>내신시험</item>
+        <item>고1/고2 모의고사</item>
+        <item>고3 모의고사</item>
+        <item>수능</item>
     </string-array>
     <string-array name="dDayOptionValue">
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
 </resources>
