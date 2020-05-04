@@ -1,6 +1,7 @@
 package me.tyoj.dcalimi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.pm10.library.CircleIndicator;
@@ -42,11 +45,12 @@ public class MainFragment extends Fragment {
         mSelDay = new SimpleDateFormat("E", Locale.getDefault()).format(calendar.getTime());
     }
 
+    SchoolMealViewPagerAdapter mSchoolMealViewPagerAdapter;
     private void refreshViewPager(){
         mViewPager.setCurrentItem(0);
-        SchoolMealViewPagerAdapter schoolMealViewPagerAdapter = new SchoolMealViewPagerAdapter(getChildFragmentManager(), mSelYear, mSelMonth, mSelDate);
-        mViewPager.setAdapter(schoolMealViewPagerAdapter);
-        schoolMealViewPagerAdapter.notifyDataSetChanged();
+        mSchoolMealViewPagerAdapter = new SchoolMealViewPagerAdapter(getChildFragmentManager(), mSelYear, mSelMonth, mSelDate);
+        mViewPager.setAdapter(mSchoolMealViewPagerAdapter);
+        mSchoolMealViewPagerAdapter.notifyDataSetChanged();
     }
 
     private void increaseImageButtonArea(final ImageButton button) {
@@ -66,27 +70,41 @@ public class MainFragment extends Fragment {
         parent.setTouchDelegate(mTouchDelegateComposite);
     }
 
+    Pair<String, Long> mPairDDay;
+    MyDate mMyDate;
+    boolean mIsGetMealAuto;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mFragmentManager = getParentFragmentManager();
+        Context context = getContext();
+
+        mMyDate = new MyDate();
+        mPairDDay = new SchoolExam(context).getDDay(mMyDate.getYear(), mMyDate.getMonth(), mMyDate.getDate());
+
+        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mIsGetMealAuto = preferenceSharedPreferences.getBoolean("schoolMealAutoDownload", false);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mFragmentManager = getParentFragmentManager();
-
-        MyDate myDate = new MyDate();
         TextView tvDDayTitle = view.findViewById(R.id.tvDDayTitle);
         TextView tvDDayLeft = view.findViewById(R.id.tvDDayLeft);
 
-        Pair<String, Long> pairDDay= new SchoolExam(mFragmentManager, view).getDDay(myDate.getYear(), myDate.getMonth(), myDate.getDate());
-        if(pairDDay != null && pairDDay.second != null) {
-            tvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
-            if(pairDDay.second == 0)
+        if(mPairDDay != null && mPairDDay.second != null) {
+            tvDDayTitle.setText(String.format(getString(R.string.d_day_title), mPairDDay.first));
+            if(mPairDDay.second == 0)
                 tvDDayLeft.setText(getString(R.string.d_day));
             else
-                tvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
+                tvDDayLeft.setText(String.format(getString(R.string.d_day_left), mPairDDay.second));
         }
 
-        ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
+        /*ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
         mBusInfo = new BusInfo(getParentFragmentManager(), getContext(), view);
         mBusInfo.get();
         btnBusInfoRefresh.setOnClickListener(new View.OnClickListener(){
@@ -94,7 +112,23 @@ public class MainFragment extends Fragment {
             public void onClick(View v){
                 mBusInfo.get();
             }
-        });
+        });*/
+
+
+        if(mIsGetMealAuto) {
+            SchoolMeal schoolMeal = new SchoolMeal(mFragmentManager, view);
+            boolean hasMealList = schoolMeal.hasList(mMyDate.getYear(), mMyDate.getMonth());
+
+            if(!hasMealList) {
+                schoolMeal.setOnDownloadCompleteListener(new SchoolMeal.OnDownloadCompleteListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        refreshViewPager();
+                    }
+                });
+                schoolMeal.download(mMyDate.getYear(), mMyDate.getMonth());
+            }
+        }
 
         mViewPager = view.findViewById(R.id.viewPagerMeal);
 

@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="18"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="30dp"
                     android:typeface="monospace" />
 
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="금요일"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="12sp" />
             </LinearLayout>
 

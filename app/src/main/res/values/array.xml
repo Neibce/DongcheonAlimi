@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="themeColors">
+        <item>@color/redPrimary</item>
+        <item>@color/pinkPrimary</item>
+        <item>@color/purplePrimary</item>
+        <item>@color/indigoPrimary</item>
+        <item>@color/bluePrimary</item>
+        <item>@color/tealPrimary</item>
+        <item>@color/greenPrimary</item>
+        <item>@color/orangePrimary</item>
+        <item>@color/brownPrimary</item>
+        <item>@color/blueGreyPrimary</item>
+    </string-array>
     <string-array name="dDayOption">
         <item>내신시험</item>
         <item>고1/고2 모의고사</item>
@@ -9,6 +21,11 @@
     <string-array name="dDayOptionValue">
         <item>1</item>
         <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="dDayOptionDefaultValue">
+        <item>1</item>
         <item>3</item>
         <item>4</item>
     </string-array>

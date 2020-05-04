@@ -10,7 +10,6 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
@@ -18,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,11 +27,16 @@ import java.util.Set;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolExam {
-    private final Context mContext;
-    private final View mView;
-    private final FragmentManager mFragmentManager;
+    private Context mContext;
+    private View mView;
+    private FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
     private static SharedPreferences mPreferenceSharedPreferences;
+
+    SchoolExam(Context context){
+        mSharedPreferences = context.getSharedPreferences("exams", MODE_PRIVATE);
+        mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
 
     SchoolExam(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;

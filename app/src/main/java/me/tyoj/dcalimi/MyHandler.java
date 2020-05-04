@@ -16,6 +16,7 @@ public class MyHandler extends Handler {
     static final int HIDE_DIALOG = 0;
     static final int SHOW_DIALOG = 1;
     static final int SHOW_SNACKBAR = 2;
+    static final int CALL_DOWNLOAD_COMPLETE = 3;
     static final int UPDATE_BUS_INFO = 5;
     static final int ERROR_TO_UPDATE_BUS_INFO = 6;
 
@@ -30,26 +31,28 @@ public class MyHandler extends Handler {
         mView = view;
     }
 
-    public void handleMessage(Message msg){
-        if(msg.what == HIDE_DIALOG){
+    public void handleMessage(Message msg) {
+        if (msg.what == HIDE_DIALOG) {
             hideDialogIfExist();
-        }else if(msg.what == SHOW_DIALOG){
+        } else if (msg.what == SHOW_DIALOG) {
             hideDialogIfExist();
             mDialogFragment = new MyDialogFragment(msg.getData().getString("title"), msg.getData().getString("msg"), msg.getData().getBoolean("hasPositive", false));
             mDialogFragment.setCancelable(msg.getData().getBoolean("cancelable", true));
             mDialogFragment.show(mFragmentManager, "HD_TAG");
-        }else if(msg.what == SHOW_SNACKBAR){
+        } else if (msg.what == SHOW_SNACKBAR) {
             Snackbar snackbar = Snackbar.make(mView, msg.obj.toString(), Snackbar.LENGTH_SHORT);
             snackbar.setAnchorView(mView.getRootView().findViewById(R.id.bottom_navigation));
             snackbar.show();
-        }else if(msg.what == UPDATE_BUS_INFO){
+        } else if (msg.what == CALL_DOWNLOAD_COMPLETE) {
+            ((SchoolMeal.OnDownloadCompleteListener)msg.obj).onDownloadComplete();
+        } else if (msg.what == UPDATE_BUS_INFO) {
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
             tvBusLeft.setText(msg.obj.toString());
             ImageButton btnBusInfoRefresh = mView.findViewById(R.id.btnBusInfoRefresh);
             btnBusInfoRefresh.clearAnimation();
-        }else if(msg.what == ERROR_TO_UPDATE_BUS_INFO){
+        } else if (msg.what == ERROR_TO_UPDATE_BUS_INFO) {
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
-            if(msg.obj != null)
+            if (msg.obj != null)
                 tvBusLeft.setText(msg.obj.toString());
             ImageButton btnBusInfoRefresh = mView.findViewById(R.id.btnBusInfoRefresh);
             btnBusInfoRefresh.clearAnimation();

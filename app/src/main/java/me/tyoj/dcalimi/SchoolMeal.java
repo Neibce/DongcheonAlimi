@@ -8,7 +8,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import org.json.JSONException;
@@ -18,21 +17,20 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.Locale;
 
 public class SchoolMeal {
-    private final Context mContext;
-    private final View mView;
-    private final FragmentManager mFragmentManager;
+    private Context mContext;
+    private View mView;
+    private FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
 
-   SchoolMeal(FragmentManager fragmentManager, View view){
-       mFragmentManager = fragmentManager;
-       mContext = view.getContext();
-       mView = view;
-       mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
-   }
+    SchoolMeal(FragmentManager fragmentManager, View view){
+        mFragmentManager = fragmentManager;
+        mContext = view.getContext();
+        mView = view;
+        mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
+    }
 
     public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
         String strJSONMeal = mSharedPreferences.getString(year + month, null);
@@ -66,9 +64,18 @@ public class SchoolMeal {
     }
 
     public void download(String year, String month){
-        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mView, year, month);
+        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mView, year, month, mOnDownloadCompleteListener);
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public interface OnDownloadCompleteListener {
+        void onDownloadComplete();
+    }
+
+    private OnDownloadCompleteListener mOnDownloadCompleteListener;
+    public void setOnDownloadCompleteListener(OnDownloadCompleteListener onDownloadCompleteListener){
+        mOnDownloadCompleteListener = onDownloadCompleteListener;
     }
 
 
@@ -77,12 +84,14 @@ public class SchoolMeal {
        private final Context mContext;
        private final String mYear;
        private final String mMonth;
+       private OnDownloadCompleteListener mOnDownloadCompleteListener;
 
-       SchoolMealDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month){
+       SchoolMealDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month, OnDownloadCompleteListener onDownloadCompleteListener){
             mHandler = new MyHandler(fragmentManager, view);
             mContext = view.getContext();
             mYear = year;
             mMonth = month;
+            mOnDownloadCompleteListener=onDownloadCompleteListener;
        }
 
        @Override
@@ -131,6 +140,9 @@ public class SchoolMeal {
 
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+
+                if(mOnDownloadCompleteListener != null)
+                    sendHandlerCallDownloadComplete(mOnDownloadCompleteListener);
             } catch (Exception e) {
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
@@ -154,6 +166,13 @@ public class SchoolMeal {
         private void sendHandlerHideDialog(){
             Message msg = new Message();
             msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerCallDownloadComplete(OnDownloadCompleteListener onDownloadCompleteListener){
+            Message msg = new Message();
+            msg.what = MyHandler.CALL_DOWNLOAD_COMPLETE;
+            msg.obj = onDownloadCompleteListener;
             mHandler.sendMessage(msg);
         }
 

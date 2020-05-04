@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.thebluealliance.spectrum.SpectrumPreferenceCompat
+        android:key="themeColor"
+        android:summary="테마색을 설정합니다."
+        android:title="테마색 설정"
+        android:defaultValue="@color/greenPrimary"
+        app:spectrum_closeOnSelected="false"
+        app:spectrum_colors="@array/themeColors"/>
 
     <PreferenceCategory
         app:key="dDayCategory"
@@ -8,8 +16,9 @@
 
         <SwitchPreferenceCompat
             app:key="dDayEnabled"
-            app:title="D-DAY 기능 켜기"
-            app:summary="D-DAY 기능을 켭니다."/>
+            app:title="기능 활성화 하기"
+            app:summary="D-DAY 기능을 활성화합니다."
+            android:defaultValue="true"/>
 
         <me.tyoj.dcalimi.MyMultiSelectListPreference
             app:key="dDayOption"
@@ -17,7 +26,8 @@
             app:title="보여줄 내용 선택"
             app:summary="%s"
             app:entries="@array/dDayOption"
-            app:entryValues="@array/dDayOptionValue" />
+            app:entryValues="@array/dDayOptionValue"
+            android:defaultValue="@array/dDayOptionDefaultValue"/>
 
         <Preference
             app:key="dDayDownload"

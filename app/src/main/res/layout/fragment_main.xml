@@ -35,9 +35,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorAccent"
+                    android:drawableTint="?android:colorAccent"
                     android:text="3월 모평까지"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="24dp"
                     app:drawableLeftCompat="@drawable/ic_check_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -82,9 +82,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorAccent"
+                    android:drawableTint="?android:colorAccent"
                     android:text="버스 도착까지"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="24dp"
                     app:drawableLeftCompat="@drawable/ic_directions_bus_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:background="?android:selectableItemBackgroundBorderless"
-                    android:tint="@color/colorAccent"
+                    android:tint="?android:colorAccent"
                     app:layout_constraintBottom_toBottomOf="@+id/tvBusLeft"
                     app:layout_constraintEnd_toStartOf="@+id/tvBusLeft"
                     app:layout_constraintTop_toTopOf="@+id/tvBusLeft"
@@ -141,9 +141,9 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorAccent"
+                    android:drawableTint="?android:colorAccent"
                     android:text="@string/meal"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="24dp"
                     app:drawableLeftCompat="@drawable/ic_restaurant_menu_24dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +155,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="4dp"
                     android:background="?android:selectableItemBackgroundBorderless"
-                    android:tint="@color/colorAccent"
+                    android:tint="?android:colorAccent"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMealDate"
                     app:layout_constraintEnd_toStartOf="@+id/tvMealDate"
                     app:layout_constraintTop_toTopOf="@+id/tvMealDate"
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:text="01. 01. (월)"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="17dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMealTitle"
@@ -179,7 +179,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:background="?android:selectableItemBackgroundBorderless"
-                    android:tint="@color/colorAccent"
+                    android:tint="?android:colorAccent"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMealDate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvMealDate"
@@ -210,8 +210,8 @@
                     app:p_defaultColor="@color/white"
                     app:p_gap="4dp"
                     app:p_radius="4dp"
-                    app:p_selectedColor="@color/colorAccent"
-                    app:p_strokeColor="@color/colorAccent"
+                    app:p_selectedColor="?android:colorAccent"
+                    app:p_strokeColor="?android:colorAccent"
                     app:p_strokeWidth="1dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -246,9 +246,9 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="@color/colorAccent"
+                    android:drawableTint="?android:colorAccent"
                     android:text="@string/schedule"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="?android:colorAccent"
                     android:textSize="24dp"
                     app:drawableLeftCompat="@drawable/ic_access_time_24dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -261,7 +261,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@color/colorAccent"
+                    android:background="?android:colorAccent"
                     android:stretchColumns="*"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -281,7 +281,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="1dp"
                             android:textColor="@color/white"
-                            android:background="@color/colorAccent"
+                            android:background="?android:colorAccent"
                             android:text="월"
                             android:textAlignment="center" />
 
@@ -293,7 +293,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="1dp"
                             android:textColor="@color/white"
-                            android:background="@color/colorAccent"
+                            android:background="?android:colorAccent"
                             android:text="화"
                             android:textAlignment="center" />
 
@@ -305,7 +305,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="1dp"
                             android:textColor="@color/white"
-                            android:background="@color/colorAccent"
+                            android:background="?android:colorAccent"
                             android:text="수"
                             android:textAlignment="center" />
 
@@ -317,7 +317,7 @@
                             android:layout_weight="1"
                             android:layout_marginEnd="1dp"
                             android:textColor="@color/white"
-                            android:background="@color/colorAccent"
+                            android:background="?android:colorAccent"
                             android:text="목"
                             android:textAlignment="center" />
 
@@ -328,7 +328,7 @@
                             android:paddingBottom="5dp"
                             android:layout_weight="1"
                             android:textColor="@color/white"
-                            android:background="@color/colorAccent"
+                            android:background="?android:colorAccent"
                             android:text="금"
                             android:textAlignment="center" />
 
@@ -340,7 +340,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon1"
@@ -399,7 +399,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon2"
@@ -458,7 +458,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon3"
@@ -517,7 +517,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon4"
@@ -576,7 +576,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon5"
@@ -635,7 +635,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon6"
@@ -694,7 +694,7 @@
                         android:layout_marginStart="1dp"
                         android:layout_marginEnd="1dp"
                         android:layout_marginBottom="1dp"
-                        android:background="@color/colorAccent">
+                        android:background="?android:colorAccent">
 
                         <TextView
                             android:id="@+id/tvScMon7"
