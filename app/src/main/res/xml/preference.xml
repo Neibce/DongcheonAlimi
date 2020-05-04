@@ -20,7 +20,7 @@
             app:summary="D-DAY 기능을 활성화합니다."
             android:defaultValue="true"/>
 
-        <me.tyoj.dcalimi.MyMultiSelectListPreference
+        <dev.jun0.dcalimi.MyMultiSelectListPreference
             app:key="dDayOption"
             app:dependency="dDayEnabled"
             app:title="보여줄 내용 선택"

@@ -187,7 +187,7 @@
 
                 <view
                     android:id="@+id/viewPagerMeal"
-                    class="me.tyoj.dcalimi.HeightWrappingViewPager"
+                    class="dev.jun0.dcalimi.HeightWrappingViewPager"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
