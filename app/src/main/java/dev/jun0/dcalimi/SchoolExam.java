@@ -114,20 +114,31 @@ public class SchoolExam {
     }
 
     public void download(String year){
-        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mView, year);
+        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mView, year, mOnDownloadCompleteListener);
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public interface OnDownloadCompleteListener {
+        void onDownloadComplete();
+    }
+
+    private OnDownloadCompleteListener mOnDownloadCompleteListener;
+    public void setOnDownloadCompleteListener(OnDownloadCompleteListener onDownloadCompleteListener){
+        mOnDownloadCompleteListener = onDownloadCompleteListener;
     }
 
     private static class SchoolExamDownloadRunnable implements Runnable {
         private final Handler mHandler;
         private final Context mContext;
         private final String mYear;
+        private final OnDownloadCompleteListener mOnDownloadCompleteListener;
 
-        SchoolExamDownloadRunnable(FragmentManager fragmentManager, View view, String year){
+        SchoolExamDownloadRunnable(FragmentManager fragmentManager, View view, String year, OnDownloadCompleteListener onDownloadCompleteListener){
             mHandler = new MyHandler(fragmentManager, view);
             mContext = view.getContext();
             mYear = year;
+            mOnDownloadCompleteListener = onDownloadCompleteListener;
         }
 
         @Override
@@ -152,6 +163,9 @@ public class SchoolExam {
 
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+
+                if(mOnDownloadCompleteListener != null)
+                    sendHandlerCallDownloadComplete(mOnDownloadCompleteListener);
             } catch (Exception e) {
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
@@ -175,6 +189,13 @@ public class SchoolExam {
         private void sendHandlerHideDialog(){
             Message msg = new Message();
             msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerCallDownloadComplete(OnDownloadCompleteListener onDownloadCompleteListener){
+            Message msg = new Message();
+            msg.what = MyHandler.CALL_SCHOOL_EXAM_DOWNLOAD_COMPLETE;
+            msg.obj = onDownloadCompleteListener;
             mHandler.sendMessage(msg);
         }
 

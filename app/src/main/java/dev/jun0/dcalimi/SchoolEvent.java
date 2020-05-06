@@ -21,10 +21,16 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SchoolEvent {
     private final Context mContext;
-    private final View mView;
+    private View mView;
     private final FragmentManager mFragmentManager;
-    private final ArrayList<SchoolEventListItem> mCalenderListItems = new ArrayList<>();
+    private ArrayList<SchoolEventListItem> mCalenderListItems;
     private static SharedPreferences pref;
+
+    SchoolEvent(FragmentManager fragmentManager, Context context){
+        mFragmentManager = fragmentManager;
+        mContext = context;
+        pref = mContext.getSharedPreferences("event", MODE_PRIVATE);
+    }
 
     SchoolEvent(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
@@ -34,6 +40,8 @@ public class SchoolEvent {
     }
 
     public ArrayList<SchoolEventListItem> getList(String year, String month) {
+        mCalenderListItems = new ArrayList<>();
+
         String strJSONEvent = pref.getString(year + month,null);
         if(strJSONEvent == null)
             return mCalenderListItems;
@@ -67,7 +75,7 @@ public class SchoolEvent {
     }
 
     public void download(String year, String month){
-        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, mView, year, month);
+        Runnable runnable = new SchoolEventDownloadRunnable(mFragmentManager, mView, year, month, mOnDownloadCompleteListener);
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -108,17 +116,28 @@ public class SchoolEvent {
         mCalenderListItems.add(item);
     }
 
+    public interface OnDownloadCompleteListener {
+        void onDownloadComplete();
+    }
+
+    private OnDownloadCompleteListener mOnDownloadCompleteListener;
+    public void setOnDownloadCompleteListener(OnDownloadCompleteListener onDownloadCompleteListener){
+        mOnDownloadCompleteListener = onDownloadCompleteListener;
+    }
+
     private static class SchoolEventDownloadRunnable implements Runnable {
         private final Handler mHandler;
         private final Context mContext;
         private final String mYear;
         private final String mMonth;
+        private final OnDownloadCompleteListener mOnDownloadCompleteListener;
 
-        SchoolEventDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month){
+        SchoolEventDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month , OnDownloadCompleteListener onDownloadCompleteListener){
             mHandler = new MyHandler(fragmentManager, view);
             mContext = view.getContext();
             mYear = year;
             mMonth = month;
+            mOnDownloadCompleteListener = onDownloadCompleteListener;
         }
 
         @Override
@@ -156,6 +175,9 @@ public class SchoolEvent {
 
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_successfully));
+
+                if(mOnDownloadCompleteListener != null)
+                    sendHandlerCallDownloadComplete(mOnDownloadCompleteListener);
             } catch (Exception e) {
                 sendHandlerHideDialog();
                 sendHandlerShowSnackbar(mContext.getString(R.string.download_failed));
@@ -179,6 +201,13 @@ public class SchoolEvent {
         private void sendHandlerHideDialog(){
             Message msg = new Message();
             msg.what = MyHandler.HIDE_DIALOG;
+            mHandler.sendMessage(msg);
+        }
+
+        private void sendHandlerCallDownloadComplete(OnDownloadCompleteListener onDownloadCompleteListener){
+            Message msg = new Message();
+            msg.what = MyHandler.CALL_SCHOOL_EVENT_DOWNLOAD_COMPLETE;
+            msg.obj = onDownloadCompleteListener;
             mHandler.sendMessage(msg);
         }
 

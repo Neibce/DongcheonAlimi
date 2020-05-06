@@ -19,8 +19,14 @@ import com.google.android.material.transition.Hold;
 import com.google.android.material.transition.MaterialContainerTransform;
 
 public class MainActivity extends AppCompatActivity {
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private Fragment mActiveFragment;
+
+    private Fragment mMainFragment = new MainFragment();
+    private Fragment mNoticeFragment = new NoticeFragment();
+    private Fragment mSchoolEventFragment = new SchoolEventFragment();
+    private Fragment mPreferenceFragment = new PreferenceFragment((MainFragment)mMainFragment, (SchoolEventFragment)mSchoolEventFragment);
 
     private void setThemeByColor(int color){
         final int redPrimary = getColor(R.color.redPrimary);
@@ -67,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        fragmentManager = getSupportFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
+        mActiveFragment = mMainFragment;
+        mFragmentManager.beginTransaction().add(R.id.frameLayout, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayout, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayout, mNoticeFragment, "notice").hide(mNoticeFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayout, mMainFragment, "main").hide(mMainFragment).commit();
 
         int selectedItemId = R.id.main_item;
         Bundle intentExtras = getIntent().getExtras();
@@ -118,20 +129,24 @@ public class MainActivity extends AppCompatActivity {
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            fragmentTransaction = fragmentManager.beginTransaction();
+            mFragmentTransaction = mFragmentManager.beginTransaction();
 
             switch (menuItem.getItemId()){
                 case R.id.main_item:
-                    fragmentTransaction.replace(R.id.frameLayout, new MainFragment()).commitAllowingStateLoss();
+                    mFragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
+                    mActiveFragment = mMainFragment;
                     break;
                 case R.id.notice_item:
-                    fragmentTransaction.replace(R.id.frameLayout, new NoticeFragment()).commitAllowingStateLoss();
+                    mFragmentTransaction.hide(mActiveFragment).show(mNoticeFragment).commit();
+                    mActiveFragment = mNoticeFragment;
                     break;
                 case R.id.calender_item:
-                    fragmentTransaction.replace(R.id.frameLayout, new SchoolEventFragment()).commitAllowingStateLoss();
+                    mFragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
+                    mActiveFragment = mSchoolEventFragment;
                     break;
                 case R.id.setting_item:
-                    fragmentTransaction.replace(R.id.frameLayout, new PreferenceFragment()).commitAllowingStateLoss();
+                    mFragmentTransaction.hide(mActiveFragment).show(mPreferenceFragment).commit();
+                    mActiveFragment = mPreferenceFragment;
                     break;
             }
             return true;

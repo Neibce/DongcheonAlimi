@@ -32,7 +32,7 @@ public class SchoolMeal {
         mSharedPreferences = mContext.getSharedPreferences("meal", Context.MODE_PRIVATE);
     }
 
-    public String get(String year, String month, String date, boolean dinner) throws NullPointerException{
+    public String get(String year, String month, String date, boolean dinner) throws NullPointerException {
         String strJSONMeal = mSharedPreferences.getString(year + month, null);
         if (strJSONMeal == null)
             return mContext.getString(R.string.meal_need_download);
@@ -84,7 +84,7 @@ public class SchoolMeal {
        private final Context mContext;
        private final String mYear;
        private final String mMonth;
-       private OnDownloadCompleteListener mOnDownloadCompleteListener;
+       private final OnDownloadCompleteListener mOnDownloadCompleteListener;
 
        SchoolMealDownloadRunnable(FragmentManager fragmentManager, View view, String year, String month, OnDownloadCompleteListener onDownloadCompleteListener){
             mHandler = new MyHandler(fragmentManager, view);
@@ -171,7 +171,7 @@ public class SchoolMeal {
 
         private void sendHandlerCallDownloadComplete(OnDownloadCompleteListener onDownloadCompleteListener){
             Message msg = new Message();
-            msg.what = MyHandler.CALL_DOWNLOAD_COMPLETE;
+            msg.what = MyHandler.CALL_SCHOOL_MEAL_DOWNLOAD_COMPLETE;
             msg.obj = onDownloadCompleteListener;
             mHandler.sendMessage(msg);
         }

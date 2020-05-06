@@ -16,18 +16,18 @@ public class MyHandler extends Handler {
     static final int HIDE_DIALOG = 0;
     static final int SHOW_DIALOG = 1;
     static final int SHOW_SNACKBAR = 2;
-    static final int CALL_DOWNLOAD_COMPLETE = 3;
-    static final int UPDATE_BUS_INFO = 5;
-    static final int ERROR_TO_UPDATE_BUS_INFO = 6;
+    static final int CALL_SCHOOL_MEAL_DOWNLOAD_COMPLETE = 3;
+    static final int CALL_SCHOOL_EVENT_DOWNLOAD_COMPLETE = 4;
+    static final int CALL_SCHOOL_EXAM_DOWNLOAD_COMPLETE = 5;
+    static final int UPDATE_BUS_INFO = 6;
+    static final int ERROR_TO_UPDATE_BUS_INFO = 7;
 
     private final FragmentManager mFragmentManager;
     private DialogFragment mDialogFragment;
     private View mView;
-    private Context mContext;
 
     MyHandler(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
-        mContext = view.getContext();
         mView = view;
     }
 
@@ -43,8 +43,12 @@ public class MyHandler extends Handler {
             Snackbar snackbar = Snackbar.make(mView, msg.obj.toString(), Snackbar.LENGTH_SHORT);
             snackbar.setAnchorView(mView.getRootView().findViewById(R.id.bottom_navigation));
             snackbar.show();
-        } else if (msg.what == CALL_DOWNLOAD_COMPLETE) {
+        } else if (msg.what == CALL_SCHOOL_MEAL_DOWNLOAD_COMPLETE) {
             ((SchoolMeal.OnDownloadCompleteListener)msg.obj).onDownloadComplete();
+        } else if (msg.what == CALL_SCHOOL_EVENT_DOWNLOAD_COMPLETE) {
+            ((SchoolEvent.OnDownloadCompleteListener)msg.obj).onDownloadComplete();
+        } else if (msg.what == CALL_SCHOOL_EXAM_DOWNLOAD_COMPLETE) {
+            ((SchoolExam.OnDownloadCompleteListener)msg.obj).onDownloadComplete();
         } else if (msg.what == UPDATE_BUS_INFO) {
             TextView tvBusLeft = mView.findViewById(R.id.tvBusLeft);
             tvBusLeft.setText(msg.obj.toString());

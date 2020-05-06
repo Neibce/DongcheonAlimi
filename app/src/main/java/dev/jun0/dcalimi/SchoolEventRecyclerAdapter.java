@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class SchoolEventRecyclerAdapter extends RecyclerView.Adapter<SchoolEventRecyclerAdapter.ViewHolder> {
     private ArrayList<SchoolEventListItem> mData = null ;
 
-    SchoolEventRecyclerAdapter(ArrayList<SchoolEventListItem> list) {
-        mData = list ;
+    public void setList(ArrayList<SchoolEventListItem> list){
+        mData = list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

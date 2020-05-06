@@ -1,7 +1,6 @@
 package dev.jun0.dcalimi;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -14,16 +13,22 @@ import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
 
 public class PreferenceFragment extends PreferenceFragmentCompat  {
     private FragmentManager mFragmentManager;
-    private Context mContext;
     private String mStrTodayYear;
     private String mStrTodayMonth;
+
+    private MainFragment mMainFragment;
+    private SchoolEventFragment mSchoolEventFragment;
+
+    PreferenceFragment(MainFragment mainFragment, SchoolEventFragment schoolEventFragment){
+        mMainFragment = mainFragment;
+        mSchoolEventFragment = schoolEventFragment;
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, final String rootKey) {
         setPreferencesFromResource(R.xml.preference, rootKey);
 
         mFragmentManager = getParentFragmentManager();
-        mContext = getContext();
 
         MyDate myDate = new MyDate();
         mStrTodayYear = myDate.getYear();
@@ -54,7 +59,14 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolMealDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolMeal(mFragmentManager, getView()).download(mStrTodayYear, mStrTodayMonth);
+                    SchoolMeal schoolMeal = new SchoolMeal(mFragmentManager, getView());
+                    schoolMeal.setOnDownloadCompleteListener(new SchoolMeal.OnDownloadCompleteListener() {
+                        @Override
+                        public void onDownloadComplete() {
+                            mMainFragment.refreshViewPager();
+                        }
+                    });
+                    schoolMeal.download(mStrTodayYear, mStrTodayMonth);
                     return false;
                 }
             });
@@ -65,7 +77,14 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolEventDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolEvent(mFragmentManager, getView()).download(mStrTodayYear, mStrTodayMonth);
+                    SchoolEvent schoolEvent = new SchoolEvent(mFragmentManager, getView());
+                    schoolEvent.setOnDownloadCompleteListener(new SchoolEvent.OnDownloadCompleteListener() {
+                        @Override
+                        public void onDownloadComplete() {
+                            mSchoolEventFragment.refreshRecyclerView();
+                        }
+                    });
+                    schoolEvent.download(mStrTodayYear, mStrTodayMonth);
                     return false;
                 }
             });
@@ -76,7 +95,14 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             dDayDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolExam(mFragmentManager, getView()).download(mStrTodayYear);
+                    SchoolExam schoolExam = new SchoolExam(mFragmentManager, getView());
+                    schoolExam.setOnDownloadCompleteListener(new SchoolExam.OnDownloadCompleteListener() {
+                        @Override
+                        public void onDownloadComplete() {
+                            mMainFragment.refreshDDay();
+                        }
+                    });
+                    schoolExam.download(mStrTodayYear);
                     return false;
                 }
             });

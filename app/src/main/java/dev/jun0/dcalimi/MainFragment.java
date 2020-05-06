@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,10 +32,14 @@ public class MainFragment extends Fragment {
     private String mSelDay;
 
     private TouchDelegateComposite mTouchDelegateComposite;
-    private ViewPager mViewPager;
-    private BusInfo mBusInfo;
+    private SchoolExam mSchoolExam;
+    private MyDate mMyDate;
 
-    private FragmentManager mFragmentManager;
+    private ViewPager mViewPager;
+    private TextView mTvDDayTitle;
+    private TextView mTvDDayLeft;
+
+    //private BusInfo mBusInfo;
 
     private void setDateValues(Calendar calendar){
         mSelYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.getTime());
@@ -45,13 +48,28 @@ public class MainFragment extends Fragment {
         mSelDay = new SimpleDateFormat("E", Locale.getDefault()).format(calendar.getTime());
     }
 
-    SchoolMealViewPagerAdapter mSchoolMealViewPagerAdapter;
-    private void refreshViewPager(){
+    private SchoolMealViewPagerAdapter mSchoolMealViewPagerAdapter;
+    public void refreshViewPager(){
         mViewPager.setCurrentItem(0);
-        mSchoolMealViewPagerAdapter = new SchoolMealViewPagerAdapter(getChildFragmentManager(), mSelYear, mSelMonth, mSelDate);
+        mSchoolMealViewPagerAdapter.setDate(mSelYear, mSelMonth, mSelDate);
         mViewPager.setAdapter(mSchoolMealViewPagerAdapter);
         mSchoolMealViewPagerAdapter.notifyDataSetChanged();
     }
+
+    public void refreshDDay(){
+        Pair<String, Long> pairDDay = mSchoolExam.getDDay(mMyDate.getYear(), mMyDate.getMonth(), mMyDate.getDate());
+        if(pairDDay != null && pairDDay.second != null) {
+            mTvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
+            if(pairDDay.second == 0)
+                mTvDDayLeft.setText(getString(R.string.d_day));
+            else
+                mTvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
+        }else{
+            mTvDDayTitle.setText("다운로드 필요");
+            mTvDDayLeft.setText("D-DAY");
+        }
+    }
+    
 
     private void increaseImageButtonArea(final ImageButton button) {
         View parent = (View) button.getParent();
@@ -70,39 +88,23 @@ public class MainFragment extends Fragment {
         parent.setTouchDelegate(mTouchDelegateComposite);
     }
 
-    Pair<String, Long> mPairDDay;
-    MyDate mMyDate;
-    boolean mIsGetMealAuto;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mFragmentManager = getParentFragmentManager();
-        Context context = getContext();
-
-        mMyDate = new MyDate();
-        mPairDDay = new SchoolExam(context).getDDay(mMyDate.getYear(), mMyDate.getMonth(), mMyDate.getDate());
-
-        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mIsGetMealAuto = preferenceSharedPreferences.getBoolean("schoolMealAutoDownload", false);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        TextView tvDDayTitle = view.findViewById(R.id.tvDDayTitle);
-        TextView tvDDayLeft = view.findViewById(R.id.tvDDayLeft);
+        FragmentManager fragmentManager = getParentFragmentManager();
+        Context context = view.getContext();
 
-        if(mPairDDay != null && mPairDDay.second != null) {
-            tvDDayTitle.setText(String.format(getString(R.string.d_day_title), mPairDDay.first));
-            if(mPairDDay.second == 0)
-                tvDDayLeft.setText(getString(R.string.d_day));
-            else
-                tvDDayLeft.setText(String.format(getString(R.string.d_day_left), mPairDDay.second));
-        }
+        mMyDate = new MyDate();
+
+        mSchoolMealViewPagerAdapter = new SchoolMealViewPagerAdapter(fragmentManager);
+
+        mTvDDayTitle = view.findViewById(R.id.tvDDayTitle);
+        mTvDDayLeft = view.findViewById(R.id.tvDDayLeft);
+
+        mSchoolExam = new SchoolExam(context);
+        refreshDDay();
 
         /*ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
         mBusInfo = new BusInfo(getParentFragmentManager(), getContext(), view);
@@ -115,8 +117,10 @@ public class MainFragment extends Fragment {
         });*/
 
 
-        if(mIsGetMealAuto) {
-            SchoolMeal schoolMeal = new SchoolMeal(mFragmentManager, view);
+        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean isGetMealAuto = preferenceSharedPreferences.getBoolean("schoolMealAutoDownload", false);
+        if(isGetMealAuto) {
+            SchoolMeal schoolMeal = new SchoolMeal(fragmentManager, view);
             boolean hasMealList = schoolMeal.hasList(mMyDate.getYear(), mMyDate.getMonth());
 
             if(!hasMealList) {
@@ -208,7 +212,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        mTouchDelegateComposite = new TouchDelegateComposite((View)btnMealDateAfter.getParent());
+        mTouchDelegateComposite = new TouchDelegateComposite((View)btnMealDateBefore.getParent());
         increaseImageButtonArea(btnMealDateBefore);
         increaseImageButtonArea(btnMealDateAfter);
 
