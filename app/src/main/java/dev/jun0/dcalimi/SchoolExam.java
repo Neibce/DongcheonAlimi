@@ -150,6 +150,8 @@ public class SchoolExam {
                 }
 
                 sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_info), false,false);
+                Thread.sleep(1000);
+
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("https://dc-api.jun0.dev/exams/" + mYear, 15000);
 

@@ -149,6 +149,8 @@ public class SchoolEvent {
                 }
 
                 sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_event_info), false,false);
+                Thread.sleep(1000);
+
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("http://school.busanedu.net/dongcheon-h/sv/schdulView/selectSvList.do?sysId=dongcheon-h&monthFirst="+mYear+"/"+mMonth+"/01&monthEnmt="+mYear+"/"+mMonth+"/31", 15000);
 

@@ -103,6 +103,8 @@ public class SchoolMeal {
                 }
 
                 sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_meal_info), false,false);
+                Thread.sleep(1000);
+
                 Document doc = Jsoup.connect("https://stu.pen.go.kr/sts_sci_md00_001.do?ay=" + mYear + "&mm=" + mMonth + "&insttNm=동천고등학교&schulCode=C100000412&schulKndScCode=04&schulCrseScCode=4").timeout(15000).post();
                 Elements tds = doc.getElementsByTag("td");
 
