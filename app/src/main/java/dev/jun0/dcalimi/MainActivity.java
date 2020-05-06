@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction mFragmentTransaction;
     private Fragment mActiveFragment;
 
-    private Fragment mMainFragment = new MainFragment();
-    private Fragment mNoticeFragment = new NoticeFragment();
-    private Fragment mSchoolEventFragment = new SchoolEventFragment();
-    private Fragment mPreferenceFragment = new PreferenceFragment((MainFragment)mMainFragment, (SchoolEventFragment)mSchoolEventFragment);
+    private MainFragment mMainFragment = new MainFragment();
+    private NoticeFragment mNoticeFragment = new NoticeFragment();
+    private SchoolEventFragment mSchoolEventFragment = new SchoolEventFragment();
+    private PreferenceFragment mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
 
     private void setThemeByColor(int color){
         final int redPrimary = getColor(R.color.redPrimary);
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()){
                 case R.id.main_item:
                     mFragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
+                    mMainFragment.checkSchoolMealAutoDownload();
                     mActiveFragment = mMainFragment;
                     break;
                 case R.id.notice_item:
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.calender_item:
                     mFragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
+                    mSchoolEventFragment.checkSchoolEventAutoDownload();
                     mActiveFragment = mSchoolEventFragment;
                     break;
                 case R.id.setting_item:

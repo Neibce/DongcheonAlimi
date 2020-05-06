@@ -32,6 +32,8 @@ public class MainFragment extends Fragment {
     private String mSelDay;
 
     private TouchDelegateComposite mTouchDelegateComposite;
+    private SharedPreferences mPreferenceSharedPreferences;
+    private SchoolMeal mSchoolMeal;
     private SchoolExam mSchoolExam;
     private MyDate mMyDate;
 
@@ -69,6 +71,25 @@ public class MainFragment extends Fragment {
             mTvDDayLeft.setText("D-DAY");
         }
     }
+
+    public void checkSchoolMealAutoDownload(){
+        if(mPreferenceSharedPreferences != null && mSchoolMeal != null) {
+            boolean isGetMealAuto = mPreferenceSharedPreferences.getBoolean("schoolMealAutoDownload", false);
+            if (isGetMealAuto) {
+                boolean hasMealList = mSchoolMeal.hasList(mMyDate.getYear(), mMyDate.getMonth());
+
+                if (!hasMealList) {
+                    mSchoolMeal.setOnDownloadCompleteListener(new SchoolMeal.OnDownloadCompleteListener() {
+                        @Override
+                        public void onDownloadComplete() {
+                            refreshViewPager();
+                        }
+                    });
+                    mSchoolMeal.download(mMyDate.getYear(), mMyDate.getMonth());
+                }
+            }
+        }
+    }
     
 
     private void increaseImageButtonArea(final ImageButton button) {
@@ -98,6 +119,9 @@ public class MainFragment extends Fragment {
 
         mMyDate = new MyDate();
 
+        mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        mSchoolMeal = new SchoolMeal(fragmentManager, view);
         mSchoolMealViewPagerAdapter = new SchoolMealViewPagerAdapter(fragmentManager);
 
         mTvDDayTitle = view.findViewById(R.id.tvDDayTitle);
@@ -116,23 +140,7 @@ public class MainFragment extends Fragment {
             }
         });*/
 
-
-        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean isGetMealAuto = preferenceSharedPreferences.getBoolean("schoolMealAutoDownload", false);
-        if(isGetMealAuto) {
-            SchoolMeal schoolMeal = new SchoolMeal(fragmentManager, view);
-            boolean hasMealList = schoolMeal.hasList(mMyDate.getYear(), mMyDate.getMonth());
-
-            if(!hasMealList) {
-                schoolMeal.setOnDownloadCompleteListener(new SchoolMeal.OnDownloadCompleteListener() {
-                    @Override
-                    public void onDownloadComplete() {
-                        refreshViewPager();
-                    }
-                });
-                schoolMeal.download(mMyDate.getYear(), mMyDate.getMonth());
-            }
-        }
+        checkSchoolMealAutoDownload();
 
         mViewPager = view.findViewById(R.id.viewPagerMeal);
 
