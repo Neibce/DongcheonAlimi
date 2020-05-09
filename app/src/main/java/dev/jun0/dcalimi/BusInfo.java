@@ -18,7 +18,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 public class BusInfo {
-    private final Context mContext;
+/*    private final Context mContext;
     private final FragmentManager mFragmentManager;
     private final View mView;
     private static Boolean isRunning = false;
@@ -28,6 +28,7 @@ public class BusInfo {
         mContext = context;
         mView = view;
     }
+
 
     public void get(){
         if(!isRunning) {
@@ -79,5 +80,5 @@ public class BusInfo {
                 isRunning = false;
             }
         }
-    }
+    }*/
 }

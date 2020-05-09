@@ -76,7 +76,7 @@ public class SchoolEventFragment extends Fragment {
 
         Context context = view.getContext();
 
-        mRecyclerView = view.findViewById(R.id.CalenderRecycler) ;
+        mRecyclerView = view.findViewById(R.id.CalenderRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         mMyDate = new MyDate();

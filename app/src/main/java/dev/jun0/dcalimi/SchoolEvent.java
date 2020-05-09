@@ -17,8 +17,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class SchoolEvent {
     private final Context mContext;
     private View mView;
@@ -29,14 +27,14 @@ public class SchoolEvent {
     SchoolEvent(FragmentManager fragmentManager, Context context){
         mFragmentManager = fragmentManager;
         mContext = context;
-        pref = mContext.getSharedPreferences("event", MODE_PRIVATE);
+        pref = mContext.getSharedPreferences("event", Context.MODE_PRIVATE);
     }
 
     SchoolEvent(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
         mContext = view.getContext();
         mView = view;
-        pref = mContext.getSharedPreferences("event", MODE_PRIVATE);
+        pref = mContext.getSharedPreferences("event", Context.MODE_PRIVATE);
     }
 
     public ArrayList<SchoolEventListItem> getList(String year, String month) {
@@ -148,7 +146,7 @@ public class SchoolEvent {
                     throw new Exception();
                 }
 
-                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_event_info), false,false);
+                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_school_event_list), false,false);
                 Thread.sleep(1000);
 
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
@@ -161,6 +159,9 @@ public class SchoolEvent {
                         String strDate = jsonArrayResponse.getJSONObject(i).getString("bgnde");
                         strDate = strDate.substring(strDate.length() - 2);
                         String strTitle = jsonArrayResponse.getJSONObject(i).getString("schdulTitle");
+
+                        if(strTitle.equals("토요휴업일"))
+                            continue;//TODO 최적화
 
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("date", strDate);

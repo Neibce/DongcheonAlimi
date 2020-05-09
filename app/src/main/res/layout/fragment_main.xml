@@ -57,6 +57,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!--
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardBusInfo"
             style="@style/Widget.MaterialComponents.CardView"
@@ -96,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
-                    android:text="--분"
+                    android:text="-분"
                     android:textSize="22dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +116,7 @@
                     app:srcCompat="@drawable/ic_refresh_20dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+        -->
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView"
@@ -126,9 +128,8 @@
             android:layout_marginEnd="16dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardBusInfo">
+            app:layout_constraintTop_toBottomOf="@+id/materialCardDDay">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -171,10 +172,10 @@
                     android:textSize="17dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvMealTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/btnMealDateAfter" />
+                    app:layout_constraintEnd_toStartOf="@+id/btnMealDateNext" />
 
                 <ImageButton
-                    android:id="@+id/btnMealDateAfter"
+                    android:id="@+id/btnMealDateNext"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
@@ -194,6 +195,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
+                    android:textSize="14dp"
                     app:layout_constraintBottom_toTopOf="@id/indicatorMeal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -353,7 +355,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue1"
+                            android:id="@+id/tvScTue1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -412,7 +414,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue2"
+                            android:id="@+id/tvScTue2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -471,7 +473,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue3"
+                            android:id="@+id/tvScTue3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -530,7 +532,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue4"
+                            android:id="@+id/tvScTue4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -589,7 +591,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue5"
+                            android:id="@+id/tvScTue5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -648,7 +650,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue6"
+                            android:id="@+id/tvScTue6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -707,7 +709,7 @@
                             android:textAlignment="center" />
 
                         <TextView
-                            android:id="@+id/tvScMTue7"
+                            android:id="@+id/tvScTue7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"

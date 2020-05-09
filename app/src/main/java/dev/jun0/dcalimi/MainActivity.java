@@ -1,7 +1,12 @@
 package dev.jun0.dcalimi;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -63,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("MA", "onReceive: !!");
+            mMainFragment.refreshDDay();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        Log.i("MA", "ftUrgsted");
+        super.onDestroy();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         setThemeByColor(color);
 
         setContentView(R.layout.activity_main);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_DATE_CHANGED);
+        registerReceiver(receiver, filter);
+        Log.i("MA", "ftrgsted");
 
         mFragmentManager = getSupportFragmentManager();
         mActiveFragment = mMainFragment;

@@ -42,9 +42,9 @@
         app:title="시간표">
 
         <Preference
-            app:key="timeScheduleSet"
-            app:title="시간표 설정"
-            app:summary="시간표를 설정합니다."/>
+            app:key="timeScheduleDownload"
+            app:title="정보 가져오기"
+            app:summary="시간표 정보를 가져옵니다."/>
 
     </PreferenceCategory>
 

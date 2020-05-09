@@ -39,7 +39,9 @@ public class SchoolMeal {
         try {
             JSONObject jsonObject = new JSONObject(strJSONMeal);
 
-            if(!jsonObject.has(date))
+            if(!jsonObject.has(date)
+                    || !dinner && !jsonObject.getJSONObject(date).has("lunch")
+                    || dinner && !jsonObject.getJSONObject(date).has("dinner"))
                 return mContext.getString(R.string.meal_non_exist);
 
             String strMeal;
@@ -63,19 +65,14 @@ public class SchoolMeal {
         return (mSharedPreferences.getString(year + month,null) != null);
     }
 
-    public void download(String year, String month){
-        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mView, year, month, mOnDownloadCompleteListener);
+    public void download(String year, String month, OnDownloadCompleteListener onDownloadCompleteListener){
+        Runnable runnable = new SchoolMealDownloadRunnable(mFragmentManager, mView, year, month, onDownloadCompleteListener);
         Thread thread = new Thread(runnable);
         thread.start();
     }
 
     public interface OnDownloadCompleteListener {
         void onDownloadComplete();
-    }
-
-    private OnDownloadCompleteListener mOnDownloadCompleteListener;
-    public void setOnDownloadCompleteListener(OnDownloadCompleteListener onDownloadCompleteListener){
-        mOnDownloadCompleteListener = onDownloadCompleteListener;
     }
 
 
@@ -102,8 +99,8 @@ public class SchoolMeal {
                     throw new Exception();
                 }
 
-                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_meal_info), false,false);
-                Thread.sleep(1000);
+                sendHandlerShowDialog(mContext.getString(R.string.info),mContext.getString(R.string.downloading_school_meal_list), false,false);
+                Thread.sleep(500);
 
                 Document doc = Jsoup.connect("https://stu.pen.go.kr/sts_sci_md00_001.do?ay=" + mYear + "&mm=" + mMonth + "&insttNm=동천고등학교&schulCode=C100000412&schulKndScCode=04&schulCrseScCode=4").timeout(15000).post();
                 Elements tds = doc.getElementsByTag("td");

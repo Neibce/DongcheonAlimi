@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -25,7 +24,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class MainFragment extends Fragment {
-    private int dateOffset;
     private String mSelYear;
     private String mSelMonth;
     private String mSelDate;
@@ -36,10 +34,17 @@ public class MainFragment extends Fragment {
     private SchoolMeal mSchoolMeal;
     private SchoolExam mSchoolExam;
     private MyDate mMyDate;
+    private Calendar mCalendarMealSelected;
 
     private ViewPager mViewPager;
     private TextView mTvDDayTitle;
     private TextView mTvDDayLeft;
+
+    private TextView mTvScMon[] = new TextView[7];
+    private TextView mTvScTue[] = new TextView[7];
+    private TextView mTvScWed[] = new TextView[7];
+    private TextView mTvScThu[] = new TextView[7];
+    private TextView mTvScFri[] = new TextView[7];
 
     //private BusInfo mBusInfo;
 
@@ -48,6 +53,13 @@ public class MainFragment extends Fragment {
         mSelMonth = new SimpleDateFormat("MM", Locale.getDefault()).format(calendar.getTime());
         mSelDate = new SimpleDateFormat("dd", Locale.getDefault()).format(calendar.getTime());
         mSelDay = new SimpleDateFormat("E", Locale.getDefault()).format(calendar.getTime());
+    }
+
+    public void onDateChanged() {
+        mMyDate = new MyDate();
+        refreshDDay();
+        //TODO: 급식 날짜 변경 관련 판단 추가
+        refreshViewPager();
     }
 
     private SchoolMealViewPagerAdapter mSchoolMealViewPagerAdapter;
@@ -59,16 +71,18 @@ public class MainFragment extends Fragment {
     }
 
     public void refreshDDay(){
-        Pair<String, Long> pairDDay = mSchoolExam.getDDay(mMyDate.getYear(), mMyDate.getMonth(), mMyDate.getDate());
-        if(pairDDay != null && pairDDay.second != null) {
-            mTvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
-            if(pairDDay.second == 0)
-                mTvDDayLeft.setText(getString(R.string.d_day));
-            else
-                mTvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
-        }else{
-            mTvDDayTitle.setText("다운로드 필요");
-            mTvDDayLeft.setText("D-DAY");
+        if(mSchoolExam != null && mTvDDayTitle != null && mTvDDayLeft != null) {
+            Pair<String, Long> pairDDay = mSchoolExam.getDDay(mMyDate.getYear(), mMyDate.getMonth(), mMyDate.getDate());
+            if (pairDDay != null && pairDDay.second != null) {
+                mTvDDayTitle.setText(String.format(getString(R.string.d_day_title), pairDDay.first));
+                if (pairDDay.second == 0)
+                    mTvDDayLeft.setText(getString(R.string.d_day));
+                else
+                    mTvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
+            } else {
+                mTvDDayTitle.setText("다운로드 필요");
+                mTvDDayLeft.setText("D-DAY");
+            }
         }
     }
 
@@ -79,18 +93,91 @@ public class MainFragment extends Fragment {
                 boolean hasMealList = mSchoolMeal.hasList(mMyDate.getYear(), mMyDate.getMonth());
 
                 if (!hasMealList) {
-                    mSchoolMeal.setOnDownloadCompleteListener(new SchoolMeal.OnDownloadCompleteListener() {
+                    mSchoolMeal.download(mMyDate.getYear(), mMyDate.getMonth(), new SchoolMeal.OnDownloadCompleteListener() {
                         @Override
                         public void onDownloadComplete() {
                             refreshViewPager();
                         }
                     });
-                    mSchoolMeal.download(mMyDate.getYear(), mMyDate.getMonth());
                 }
             }
         }
     }
-    
+
+    private void initScheduleTextView(View view){
+        mTvScMon[0] = view.findViewById(R.id.tvScMon1);
+        mTvScMon[1] = view.findViewById(R.id.tvScMon2);
+        mTvScMon[2] = view.findViewById(R.id.tvScMon3);
+        mTvScMon[3] = view.findViewById(R.id.tvScMon4);
+        mTvScMon[4] = view.findViewById(R.id.tvScMon5);
+        mTvScMon[5] = view.findViewById(R.id.tvScMon6);
+        mTvScMon[6] = view.findViewById(R.id.tvScMon7);
+
+        mTvScTue[0] = view.findViewById(R.id.tvScTue1);
+        mTvScTue[1] = view.findViewById(R.id.tvScTue2);
+        mTvScTue[2] = view.findViewById(R.id.tvScTue3);
+        mTvScTue[3] = view.findViewById(R.id.tvScTue4);
+        mTvScTue[4] = view.findViewById(R.id.tvScTue5);
+        mTvScTue[5] = view.findViewById(R.id.tvScTue6);
+        mTvScTue[6] = view.findViewById(R.id.tvScTue7);
+
+        mTvScWed[0] = view.findViewById(R.id.tvScWed1);
+        mTvScWed[1] = view.findViewById(R.id.tvScWed2);
+        mTvScWed[2] = view.findViewById(R.id.tvScWed3);
+        mTvScWed[3] = view.findViewById(R.id.tvScWed4);
+        mTvScWed[4] = view.findViewById(R.id.tvScWed5);
+        mTvScWed[5] = view.findViewById(R.id.tvScWed6);
+        mTvScWed[6] = view.findViewById(R.id.tvScWed7);
+
+        mTvScThu[0] = view.findViewById(R.id.tvScThu1);
+        mTvScThu[1] = view.findViewById(R.id.tvScThu2);
+        mTvScThu[2] = view.findViewById(R.id.tvScThu3);
+        mTvScThu[3] = view.findViewById(R.id.tvScThu4);
+        mTvScThu[4] = view.findViewById(R.id.tvScThu5);
+        mTvScThu[5] = view.findViewById(R.id.tvScThu6);
+        mTvScThu[6] = view.findViewById(R.id.tvScThu7);
+
+        mTvScFri[0] = view.findViewById(R.id.tvScFri1);
+        mTvScFri[1] = view.findViewById(R.id.tvScFri2);
+        mTvScFri[2] = view.findViewById(R.id.tvScFri3);
+        mTvScFri[3] = view.findViewById(R.id.tvScFri4);
+        mTvScFri[4] = view.findViewById(R.id.tvScFri5);
+        mTvScFri[5] = view.findViewById(R.id.tvScFri6);
+        mTvScFri[6] = view.findViewById(R.id.tvScFri7);
+    }
+
+    private void getMealNext(){
+        int amount = 1;
+        if (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
+            amount = 3;
+
+        mCalendarMealSelected.add(Calendar.DATE, amount);
+
+        setDateValues(mCalendarMealSelected);
+        refreshViewPager();
+
+    }
+
+    private void getMealBefore(){
+        int amount = -1;
+        if (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
+            amount = -3;
+
+        mCalendarMealSelected.add(Calendar.DATE, amount);
+
+        setDateValues(mCalendarMealSelected);
+        refreshViewPager();
+    }
+
+    private boolean canGetMealBefore(){
+        return !(mCalendarMealSelected.get(Calendar.DATE) == 1
+                || (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && mCalendarMealSelected.get(Calendar.DATE) - 3 < 1));
+    }
+
+    private boolean canGetMealNext(){
+        return !(mCalendarMealSelected.get(Calendar.DATE) == mCalendarMealSelected.getActualMaximum(Calendar.DAY_OF_MONTH)
+                || (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && mCalendarMealSelected.get(Calendar.DATE) + 3 > mCalendarMealSelected.getActualMaximum(Calendar.DAY_OF_MONTH)));
+    }
 
     private void increaseImageButtonArea(final ImageButton button) {
         View parent = (View) button.getParent();
@@ -130,6 +217,9 @@ public class MainFragment extends Fragment {
         mSchoolExam = new SchoolExam(context);
         refreshDDay();
 
+        initScheduleTextView(view);
+
+
         /*ImageButton btnBusInfoRefresh = view.findViewById(R.id.btnBusInfoRefresh);
         mBusInfo = new BusInfo(getParentFragmentManager(), getContext(), view);
         mBusInfo.get();
@@ -144,14 +234,14 @@ public class MainFragment extends Fragment {
 
         mViewPager = view.findViewById(R.id.viewPagerMeal);
 
-        final Calendar calendarMealSelected = Calendar.getInstance();
-        dateOffset = 0;
-        if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
-            dateOffset = 2;
-        else if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
-            dateOffset = 1;
-        calendarMealSelected.add(Calendar.DATE, dateOffset);
-        setDateValues(calendarMealSelected);
+        mCalendarMealSelected = Calendar.getInstance();
+        int amount = 0;
+        if (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+            amount = 2;
+        else if (mCalendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
+            amount = 1;
+        mCalendarMealSelected.add(Calendar.DATE, amount);
+        setDateValues(mCalendarMealSelected);
         refreshViewPager();
 
         CircleIndicator circleIndicator = view.findViewById(R.id.indicatorMeal);
@@ -160,61 +250,38 @@ public class MainFragment extends Fragment {
         final TextView tvMealDate = view.findViewById(R.id.tvMealDate);
         tvMealDate.setText(String.format(Locale.getDefault(),"%s월 %s일 (%s)", mSelMonth, mSelDate, mSelDay));
 
-        final ImageButton btnMealDateAfter = view.findViewById(R.id.btnMealDateAfter);
+        final ImageButton btnMealDateNext = view.findViewById(R.id.btnMealDateNext);
         final ImageButton btnMealDateBefore = view.findViewById(R.id.btnMealDateBefore);
-
-        btnMealDateBefore.setEnabled(false);
-        btnMealDateBefore.setVisibility(View.INVISIBLE);
 
         btnMealDateBefore.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                btnMealDateAfter.setEnabled(true);
-                btnMealDateAfter.setVisibility(View.VISIBLE);
+                btnMealDateNext.setEnabled(true);
+                btnMealDateNext.setVisibility(View.VISIBLE);
 
-                int amount = -1;
-                if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY)
-                    amount = -3;
+                getMealBefore();
 
-                calendarMealSelected.add(Calendar.DATE, amount);
-                dateOffset += amount;
-
-                Log.d("FM", "" + dateOffset);
-
-                if(calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY && dateOffset <= 2 || dateOffset <= 0){
+                if(!canGetMealBefore()){
                     btnMealDateBefore.setEnabled(false);
                     btnMealDateBefore.setVisibility(View.INVISIBLE);
                 }
-
-                setDateValues(calendarMealSelected);
-                refreshViewPager();
 
                 tvMealDate.setText(String.format(Locale.getDefault(),"%s월 %s일 (%s)", mSelMonth, mSelDate, mSelDay));
             }
         });
 
-        btnMealDateAfter.setOnClickListener(new View.OnClickListener(){
+        btnMealDateNext.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 btnMealDateBefore.setEnabled(true);
                 btnMealDateBefore.setVisibility(View.VISIBLE);
 
-                int amount = 1;
-                if (calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
-                    amount = 3;
+                getMealNext();
 
-                calendarMealSelected.add(Calendar.DATE, amount);
-                dateOffset += amount;
-
-                Log.d("FM", "" + dateOffset);
-
-                if((calendarMealSelected.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY && dateOffset >= 12) || dateOffset >= 14){
-                    btnMealDateAfter.setEnabled(false);
-                    btnMealDateAfter.setVisibility(View.INVISIBLE);
+                if(!canGetMealNext()){
+                    btnMealDateNext.setEnabled(false);
+                    btnMealDateNext.setVisibility(View.INVISIBLE);
                 }
-
-                setDateValues(calendarMealSelected);
-                refreshViewPager();
 
                 tvMealDate.setText(String.format(Locale.getDefault(),"%s월 %s일 (%s)", mSelMonth, mSelDate, mSelDay));
             }
@@ -222,7 +289,7 @@ public class MainFragment extends Fragment {
 
         mTouchDelegateComposite = new TouchDelegateComposite((View)btnMealDateBefore.getParent());
         increaseImageButtonArea(btnMealDateBefore);
-        increaseImageButtonArea(btnMealDateAfter);
+        increaseImageButtonArea(btnMealDateNext);
 
         return view;
     }

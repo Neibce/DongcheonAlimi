@@ -113,19 +113,14 @@ public class SchoolExam {
         return (mSharedPreferences.getString(year,null) != null);
     }
 
-    public void download(String year){
-        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mView, year, mOnDownloadCompleteListener);
+    public void download(String year, OnDownloadCompleteListener onDownloadCompleteListener){
+        Runnable runnable = new SchoolExamDownloadRunnable(mFragmentManager, mView, year, onDownloadCompleteListener);
         Thread thread = new Thread(runnable);
         thread.start();
     }
 
     public interface OnDownloadCompleteListener {
         void onDownloadComplete();
-    }
-
-    private OnDownloadCompleteListener mOnDownloadCompleteListener;
-    public void setOnDownloadCompleteListener(OnDownloadCompleteListener onDownloadCompleteListener){
-        mOnDownloadCompleteListener = onDownloadCompleteListener;
     }
 
     private static class SchoolExamDownloadRunnable implements Runnable {
@@ -149,8 +144,8 @@ public class SchoolExam {
                     throw new Exception();
                 }
 
-                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_info), false,false);
-                Thread.sleep(1000);
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.downloading_d_day_list), false,false);
+                Thread.sleep(500);
 
                 RequestHttpURLConnection requestHttpURLConnection = new RequestHttpURLConnection();
                 String strResponse = requestHttpURLConnection.get("https://dc-api.jun0.dev/exams/" + mYear, 15000);
