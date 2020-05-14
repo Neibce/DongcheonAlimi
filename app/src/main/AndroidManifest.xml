@@ -26,6 +26,12 @@
 
         <activity android:name="dev.jun0.dcalimi.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
+            android:theme="@style/AppThemeDefault" />
+
+        <activity android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
+            android:theme="@style/AppThemeDefault" />
     </application>
 
 </manifest>

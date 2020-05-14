@@ -11,9 +11,12 @@
     <string name="downloading_school_meal_list">급식 정보 가져오는 중…</string>
     <string name="downloading_school_event_list">학사일정 정보 가져오는 중…</string>
     <string name="downloading_class_total_number">학반 정보 가져오는 중…</string>
+    <string name="downloading_schedule">시간표 정보 가져오는 중…</string>
 
     <string name="download_successfully">다운로드가 성공적으로 완료되었습니다.</string>
     <string name="download_failed">다운로드 중 오류가 발생하였습니다.\n네트워크 상태 확인 후 다시 시도해주세요.</string>
+
+    <string name="custom_license_title">오픈소스 라이센스 정보</string>
 
     <string name="info">알림</string>
     <string name="warning">경고</string>
@@ -25,4 +28,6 @@
 
     <string name="d_day_title">%s까지</string>
     <string name="d_day_left">D-%d</string>
+
+    <string name="developer_email">dongcheon-alimi@jun0.dev</string>
 </resources>

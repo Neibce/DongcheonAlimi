@@ -161,7 +161,7 @@ public class SchoolEvent {
                         String strTitle = jsonArrayResponse.getJSONObject(i).getString("schdulTitle");
 
                         if(strTitle.equals("토요휴업일"))
-                            continue;//TODO 최적화
+                            continue;
 
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("date", strDate);

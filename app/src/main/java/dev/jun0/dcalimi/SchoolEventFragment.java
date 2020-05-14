@@ -25,6 +25,8 @@ public class SchoolEventFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TextView mTvEmptyElement;
 
+    SchoolEventFragment(){}
+
     public void refreshRecyclerView(){
        if(mSchoolEvent.hasList(mMyDate.getYear(), mMyDate.getMonth())) {
            ArrayList<SchoolEventListItem> schoolEventListItems = mSchoolEvent.getList(mMyDate.getYear(), mMyDate.getMonth());

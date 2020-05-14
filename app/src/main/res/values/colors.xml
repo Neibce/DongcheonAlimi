@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="whitePrimary">#fafafa</color>
+    <color name="whitePrimaryDark">#c7c7c7</color>
+    <color name="whiteAccent">#000000</color>
+
     <color name="greenPrimary">#2E7D32</color>
     <color name="greenPrimaryDark">#005005</color>
     <color name="greenAccent">#60AD5E</color>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat
-        android:key="themeColor"
-        android:summary="테마색을 설정합니다."
-        android:title="테마색 설정"
-        android:defaultValue="@color/greenPrimary"
+        app:key="themeColor"
+        app:summary="테마색을 설정합니다."
+        app:title="테마색 설정"
+        app:defaultValue="@color/greenPrimary"
         app:spectrum_closeOnSelected="false"
         app:spectrum_colors="@array/themeColors"/>
 
@@ -14,24 +14,16 @@
         app:key="dDayCategory"
         app:title="D-DAY">
 
-        <SwitchPreferenceCompat
-            app:key="dDayEnabled"
-            app:title="기능 활성화 하기"
-            app:summary="D-DAY 기능을 활성화합니다."
-            android:defaultValue="true"/>
-
         <dev.jun0.dcalimi.MyMultiSelectListPreference
             app:key="dDayOption"
-            app:dependency="dDayEnabled"
             app:title="보여줄 내용 선택"
             app:summary="%s"
             app:entries="@array/dDayOption"
             app:entryValues="@array/dDayOptionValue"
-            android:defaultValue="@array/dDayOptionDefaultValue"/>
+            app:defaultValue="@array/dDayOptionDefaultValue"/>
 
         <Preference
             app:key="dDayDownload"
-            app:dependency="dDayEnabled"
             app:title="정보 가져오기"
             app:summary="D-DAY 정보를 가져오거나 새로 고칩니다."/>
 
@@ -78,6 +70,18 @@
             app:title="정보 가져오기"
             app:summary="학사일정 정보를 가져오거나 새로 고칩니다."/>
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="etcCategory"
+        app:title="기타">
+        <Preference
+            app:key="ossLicenseInfo"
+            app:title="오픈소스 라이센스 정보"/>
+
+        <Preference
+            app:key="contactToDeveloper"
+            app:title="개발자에게 문의하기"/>
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

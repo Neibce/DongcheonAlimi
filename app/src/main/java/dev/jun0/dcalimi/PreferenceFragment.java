@@ -5,16 +5,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class PreferenceFragment extends PreferenceFragmentCompat  {
@@ -24,6 +26,8 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
 
     private MainFragment mMainFragment;
     private SchoolEventFragment mSchoolEventFragment;
+
+    PreferenceFragment(){}
 
     PreferenceFragment(MainFragment mainFragment, SchoolEventFragment schoolEventFragment){
         mMainFragment = mainFragment;
@@ -102,12 +106,23 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                 public boolean onPreferenceClick(Preference preference) {
                     new SchoolExam(mFragmentManager, getView())
                             .download(mStrTodayYear, new SchoolExam.OnDownloadCompleteListener() {
-                        @Override
-                        public void onDownloadComplete() {
-                            mMainFragment.refreshDDay();
-                        }
-                    });
+                                @Override
+                                public void onDownloadComplete() {
+                                    mMainFragment.refreshDDay();
+                                }
+                            });
                     return false;
+                }
+            });
+        }
+
+        Preference dDayOption = findPreference("dDayOption");
+        if(dDayOption != null) {
+            dDayOption.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    mMainFragment.refreshDDay((Set<String>)newValue);
+                    return true;
                 }
             });
         }
@@ -123,7 +138,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                                 @Override
                                 public void onClick(DialogInterface dialog, final int gradeSelected) {
                                     dialog.dismiss();
-
                                     new SchoolClass(mFragmentManager, getView()).downloadTotalNumber(gradeSelected + 1, new SchoolClass.OnDownloadTotalNumberCompleteListener() {
                                         @Override
                                         public void onDownloadComplete(int count) {
@@ -140,7 +154,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                                                                     .download(gradeSelected + 1, classSelected + 1, new SchoolTimeSchedule.OnDownloadCompleteListener(){
                                                                 @Override
                                                                 public void onDownloadComplete() {
-                                                                    //TODO 시간표 새로고침
+                                                                    mMainFragment.refreshSchedule();
                                                                 }
                                                             });
                                                             dialog.dismiss();
@@ -150,6 +164,32 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                                     });
                                 }
                             });
+
+                    return false;
+                }
+            });
+        }
+
+        Preference ossLicenseInfo = findPreference("ossLicenseInfo");
+        if(ossLicenseInfo != null) {
+            ossLicenseInfo.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    OssLicensesMenuActivity.setActivityTitle(getString(R.string.custom_license_title));
+                    startActivity(new Intent(getActivity(), OssLicensesMenuActivity.class));
+                    return false;
+                }
+            });
+        }
+
+        Preference contactToDeveloper = findPreference("contactToDeveloper");
+        if(contactToDeveloper != null) {
+            contactToDeveloper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.developer_email), null));
+
+                        startActivity(Intent.createChooser(emailIntent, "이메일 보내기"));
 
                     return false;
                 }

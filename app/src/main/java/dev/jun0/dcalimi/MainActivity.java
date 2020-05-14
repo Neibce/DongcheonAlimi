@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.transition.Hold;
 import com.google.android.material.transition.MaterialContainerTransform;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
@@ -29,50 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mActiveFragment;
 
     private MainFragment mMainFragment = new MainFragment();
-    private NoticeFragment mNoticeFragment = new NoticeFragment();
+    private BoardFragment mNoticeFragment = new BoardFragment();
     private SchoolEventFragment mSchoolEventFragment = new SchoolEventFragment();
     private PreferenceFragment mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
-
-    private void setThemeByColor(int color){
-        final int redPrimary = getColor(R.color.redPrimary);
-        final int pinkPrimary = getColor(R.color.pinkPrimary);
-        final int purplePrimary = getColor(R.color.purplePrimary);
-        final int indigoPrimary = getColor(R.color.indigoPrimary);
-        final int bluePrimary = getColor(R.color.bluePrimary);
-        final int tealPrimary = getColor(R.color.tealPrimary);
-        final int greenPrimary = getColor(R.color.greenPrimary);
-        final int orangePrimary = getColor(R.color.orangePrimary);
-        final int brownPrimary = getColor(R.color.brownPrimary);
-        final int blueGreyPrimary = getColor(R.color.blueGreyPrimary);
-
-        if (color == redPrimary) {
-            setTheme(R.style.AppThemeRed);
-        } else if (color == pinkPrimary) {
-            setTheme(R.style.AppThemePink);
-        } else if (color == purplePrimary) {
-            setTheme(R.style.AppThemePurple);
-        } else if (color == indigoPrimary) {
-            setTheme(R.style.AppThemeIndigo);
-        } else if (color == bluePrimary) {
-            setTheme(R.style.AppThemeBlue);
-        } else if (color == tealPrimary) {
-            setTheme(R.style.AppThemeTeal);
-        } else if (color == greenPrimary) {
-            setTheme(R.style.AppThemeGreen);
-        } else if (color == orangePrimary) {
-            setTheme(R.style.AppThemeOrange);
-        } else if (color == brownPrimary) {
-            setTheme(R.style.AppThemeBrown);
-        } else if (color == blueGreyPrimary) {
-            setTheme(R.style.AppThemeBlueGrey);
-        }
-    }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("MA", "onReceive: !!");
-            mMainFragment.refreshDDay();
+            mMainFragment.onDateChanged();
         }
     };
 
@@ -87,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int color = preferenceSharedPreferences.getInt("themeColor", getColor(R.color.greenPrimary));
-        setThemeByColor(color);
+        new CustomTheme(this).setThemeByPreference();
 
         setContentView(R.layout.activity_main);
 
@@ -97,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(Intent.ACTION_DATE_CHANGED);
         registerReceiver(receiver, filter);
         Log.i("MA", "ftrgsted");
+
+        FirebaseInstanceId.getInstance().getInstanceId();
 
         mFragmentManager = getSupportFragmentManager();
         mActiveFragment = mMainFragment;

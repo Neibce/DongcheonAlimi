@@ -256,7 +256,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <Spinner
+                    android:id="@+id/spinnerSchedule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvScheduleTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/tableLayout"
+                    app:layout_constraintTop_toTopOf="@+id/tvScheduleTitle" />
+
                 <TableLayout
+                    android:id="@+id/tableLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="24dp"
@@ -278,61 +289,61 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="1dp"
-                            android:textColor="@color/white"
-                            android:background="?android:colorAccent"
                             android:text="월"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="1dp"
-                            android:textColor="@color/white"
-                            android:background="?android:colorAccent"
                             android:text="화"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="1dp"
+                            android:layout_weight="1"
+                            android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:layout_weight="1"
-                            android:layout_marginEnd="1dp"
-                            android:textColor="@color/white"
-                            android:background="?android:colorAccent"
                             android:text="수"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:layout_weight="1"
                             android:layout_marginEnd="1dp"
-                            android:textColor="@color/white"
+                            android:layout_weight="1"
                             android:background="?android:colorAccent"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
                             android:text="목"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:layout_weight="1"
-                            android:textColor="@color/white"
-                            android:background="?android:colorAccent"
                             android:text="금"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:textColor="@color/white" />
 
                     </TableRow>
 
@@ -347,50 +358,50 @@
                         <TextView
                             android:id="@+id/tvScMon1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -406,50 +417,50 @@
                         <TextView
                             android:id="@+id/tvScMon2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri2"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -465,50 +476,50 @@
                         <TextView
                             android:id="@+id/tvScMon3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri3"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -524,50 +535,50 @@
                         <TextView
                             android:id="@+id/tvScMon4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri4"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -583,50 +594,50 @@
                         <TextView
                             android:id="@+id/tvScMon5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri5"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -642,50 +653,50 @@
                         <TextView
                             android:id="@+id/tvScMon6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri6"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>
@@ -701,50 +712,50 @@
                         <TextView
                             android:id="@+id/tvScMon7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScTue7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScWed7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScThu7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                         <TextView
                             android:id="@+id/tvScFri7"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/white"
-                            android:text="국5\n김영한"
+                            android:text="-\n"
                             android:textAlignment="center" />
 
                     </TableRow>

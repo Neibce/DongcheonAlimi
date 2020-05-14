@@ -30,12 +30,15 @@ public class SchoolExam {
     private Context mContext;
     private View mView;
     private FragmentManager mFragmentManager;
+    private Set<String> mOptionValues;
     private static SharedPreferences mSharedPreferences;
     private static SharedPreferences mPreferenceSharedPreferences;
 
     SchoolExam(Context context){
+        mContext = context;
         mSharedPreferences = context.getSharedPreferences("exams", MODE_PRIVATE);
         mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mOptionValues = mPreferenceSharedPreferences.getStringSet("dDayOption", null);
     }
 
     SchoolExam(FragmentManager fragmentManager, View view){
@@ -44,6 +47,10 @@ public class SchoolExam {
         mView = view;
         mSharedPreferences = mContext.getSharedPreferences("exams", MODE_PRIVATE);
         mPreferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
+
+    public void setOptionValues(Set<String> values){
+        mOptionValues = values;
     }
 
     @Nullable
@@ -65,15 +72,14 @@ public class SchoolExam {
                 String strExamEnd = jsonObject.getString("endDate");
                 int examType = jsonObject.getInt("type");
 
-                Set<String> optionValues = mPreferenceSharedPreferences.getStringSet("dDayOption", null);
-                if (optionValues != null) {
-                    if (!optionValues.contains("1") && examType == 0)
+                if (mOptionValues != null) {
+                    if (!mOptionValues.contains("1") && examType == 0)
                         continue;
-                    else if (!optionValues.contains("2") && examType == 1)
+                    else if (!mOptionValues.contains("2") && examType == 1)
                         continue;
-                    else if (!optionValues.contains("3") && examType == 2)
+                    else if (!mOptionValues.contains("3") && examType == 2)
                         continue;
-                    else if (!optionValues.contains("4") && examType == 3)
+                    else if (!mOptionValues.contains("4") && examType == 3)
                         continue;
                 }
 
