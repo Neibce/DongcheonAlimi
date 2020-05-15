@@ -14,7 +14,7 @@
         app:key="dDayCategory"
         app:title="D-DAY">
 
-        <dev.jun0.dcalimi.MyMultiSelectListPreference
+        <dev.jun0.dcalimi.view.MyMultiSelectListPreference
             app:key="dDayOption"
             app:title="보여줄 내용 선택"
             app:summary="%s"
