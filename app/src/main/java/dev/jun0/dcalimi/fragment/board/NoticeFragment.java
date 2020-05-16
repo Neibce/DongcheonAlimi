@@ -12,21 +12,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import dev.jun0.dcalimi.fragment.main.BoardFragment;
 import dev.jun0.dcalimi.item.NoticeListItem;
 import dev.jun0.dcalimi.adapter.NoticeRecyclerAdapter;
 import dev.jun0.dcalimi.R;
-import dev.jun0.dcalimi.activity.MainActivity;
 
 public class NoticeFragment extends Fragment {
     private RecyclerView mRecyclerView = null ;
     private NoticeRecyclerAdapter mAdapter = null ;
     private ArrayList<NoticeListItem> mList = new ArrayList<>();
+    private BoardFragment mBoardFragment;
+
+    public static NoticeFragment newInstance(BoardFragment boardFragment) {
+        return new NoticeFragment(boardFragment);
+    }
+
+    private NoticeFragment(BoardFragment boardFragment){
+        mBoardFragment = boardFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notice, container, false);
-        mRecyclerView = view.findViewById(R.id.NoticeRecycler) ;
+        mRecyclerView = view.findViewById(R.id.NoticeRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext())) ;
 
         mList = new ArrayList<>();
@@ -45,7 +54,7 @@ public class NoticeFragment extends Fragment {
             public void onItemClick(View v, int position) {
                 Log.i("NF", "onItemClick: " + position);
 
-                ((MainActivity)getContext()).showFragmentWithTransition(NoticeFragment.this, PostViewerFragment.newInstance(), "postViewer", v, position);
+                mBoardFragment.showFragmentWithTransition(NoticeFragment.this, PostViewerFragment.newInstance(), "postViewer", v, position);
             }
         });
 

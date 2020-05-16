@@ -196,9 +196,8 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             contactToDeveloper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.developer_email), null));
-
-                        startActivity(Intent.createChooser(emailIntent, "이메일 보내기"));
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.developer_email), null));
+                    startActivity(Intent.createChooser(emailIntent, "이메일 보내기"));
 
                     return false;
                 }

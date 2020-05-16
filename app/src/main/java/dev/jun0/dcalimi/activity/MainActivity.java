@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -35,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mActiveFragment;
 
     private MainFragment mMainFragment = new MainFragment();
-    private BoardFragment mNoticeFragment = new BoardFragment();
+    private BoardFragment mBoardFragment = new BoardFragment();
     private SchoolEventFragment mSchoolEventFragment = new SchoolEventFragment();
     private PreferenceFragment mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
+
+    private ActionBar mActionBar;
+    private float density;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -69,12 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseInstanceId.getInstance().getInstanceId();
 
+        mActionBar = getSupportActionBar();
+        density = getResources().getDisplayMetrics().density;
+
         mFragmentManager = getSupportFragmentManager();
         mActiveFragment = mMainFragment;
-        mFragmentManager.beginTransaction().add(R.id.frameLayout, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayout, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayout, mNoticeFragment, "notice").hide(mNoticeFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayout, mMainFragment, "main").hide(mMainFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mBoardFragment, "notice").hide(mBoardFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mMainFragment, "main").hide(mMainFragment).commit();
 
         int selectedItemId = R.id.main_item;
         Bundle intentExtras = getIntent().getExtras();
@@ -84,42 +91,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new ItemSelectedListener());
         bottomNavigation.setSelectedItemId(selectedItemId);
-    }
-
-    public void showFragmentWithTransition(Fragment current, Fragment newFragment, String tag, View sharedView, int position) {
-        Bundle bundle = new Bundle();
-
-        bundle.putString("TRANS_CARD_NAME", "transCard" + position);
-
-        bundle.putString("TITLE", String.valueOf(((TextView) sharedView.findViewById(R.id.title)).getText()));
-        bundle.putString("UPLOADER", String.valueOf(((TextView) sharedView.findViewById(R.id.uploader)).getText()));
-        bundle.putString("UPLOAD_DATE", String.valueOf(((TextView) sharedView.findViewById(R.id.uploadDate)).getText()));
-
-        newFragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        current.setExitTransition(new Hold());
-
-        MaterialContainerTransform transform = new MaterialContainerTransform();
-        transform.setContainerColor(MaterialColors.getColor(sharedView, R.attr.colorSurface));
-        transform.setFadeMode(MaterialContainerTransform.FADE_MODE_THROUGH);
-        transform.setScrimColor(0);
-        newFragment.setSharedElementEnterTransition(transform);
-
-        transaction.addSharedElement(sharedView.findViewById(R.id.materialCardView), "transCard" + position);
-
-        transaction.setCustomAnimations(
-                R.anim.abc_grow_fade_in_from_bottom,
-                R.anim.abc_fade_out,
-                R.anim.abc_fade_in,
-                R.anim.abc_shrink_fade_out_from_bottom);
-
-        transaction
-                .replace(R.id.frameLayout, newFragment, tag)
-                .addToBackStack(null /* name */)
-                .commit();
     }
 
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -132,19 +103,23 @@ public class MainActivity extends AppCompatActivity {
                     mFragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
                     mMainFragment.checkSchoolMealAutoDownload();
                     mActiveFragment = mMainFragment;
+                    mActionBar.setElevation(4 * density);
                     break;
                 case R.id.notice_item:
-                    mFragmentTransaction.hide(mActiveFragment).show(mNoticeFragment).commit();
-                    mActiveFragment = mNoticeFragment;
+                    mFragmentTransaction.hide(mActiveFragment).show(mBoardFragment).commit();
+                    mActiveFragment = mBoardFragment;
+                    mActionBar.setElevation(0);
                     break;
                 case R.id.calender_item:
                     mFragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
                     mSchoolEventFragment.checkSchoolEventAutoDownload();
                     mActiveFragment = mSchoolEventFragment;
+                    mActionBar.setElevation(4 * density);
                     break;
                 case R.id.setting_item:
                     mFragmentTransaction.hide(mActiveFragment).show(mPreferenceFragment).commit();
                     mActiveFragment = mPreferenceFragment;
+                    mActionBar.setElevation(4 * density);
                     break;
             }
             return true;
