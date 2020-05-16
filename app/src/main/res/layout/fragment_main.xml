@@ -361,7 +361,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -371,7 +371,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -381,7 +381,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -391,7 +391,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -400,7 +400,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -420,7 +420,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -430,7 +430,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -440,7 +440,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -450,7 +450,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -459,7 +459,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -479,7 +479,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -489,7 +489,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -499,7 +499,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -509,7 +509,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -518,7 +518,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -538,7 +538,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -548,7 +548,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -558,7 +558,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -568,7 +568,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -577,7 +577,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -597,7 +597,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -607,7 +607,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -617,7 +617,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -627,7 +627,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -636,7 +636,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -656,7 +656,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -666,7 +666,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -676,7 +676,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -686,7 +686,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -695,7 +695,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="?attr/timeScheduleSecondary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -725,7 +725,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -735,7 +735,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -745,7 +745,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
@@ -754,7 +754,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@color/white"
+                            android:background="@color/timeSchedulePrimary"
                             android:text="-\n"
                             android:textAlignment="center" />
 
