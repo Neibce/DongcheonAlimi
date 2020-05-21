@@ -83,18 +83,18 @@ public class MainActivity extends AppCompatActivity {
         mDensity = getResources().getDisplayMetrics().density;
 
         mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         if (savedInstanceState == null) {
             mMainFragment = new MainFragment();
             mBoardFragment = new BoardFragment();
             mSchoolEventFragment = new SchoolEventFragment();
             mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
 
-            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
-            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
-            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mBoardFragment, "board").hide(mBoardFragment).commit();
-            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mMainFragment, "main").hide(mMainFragment).commit();
+            fragmentTransaction.add(R.id.frameLayoutMainActivity, mPreferenceFragment, "preference");
+            fragmentTransaction.add(R.id.frameLayoutMainActivity, mSchoolEventFragment, "schoolEvent");
+            fragmentTransaction.add(R.id.frameLayoutMainActivity, mBoardFragment, "board");
+            fragmentTransaction.add(R.id.frameLayoutMainActivity, mMainFragment, "main");
 
             mSelectedItemId = R.id.main_item;
         }else {
@@ -103,13 +103,14 @@ public class MainActivity extends AppCompatActivity {
             mSchoolEventFragment = (SchoolEventFragment) mFragmentManager.getFragment(savedInstanceState, "schoolEventFragment");
             mPreferenceFragment = (PreferenceFragment) mFragmentManager.getFragment(savedInstanceState, "preferenceFragment");
 
-            mFragmentManager.beginTransaction().hide(mPreferenceFragment).commit();
-            mFragmentManager.beginTransaction().hide(mSchoolEventFragment).commit();
-            mFragmentManager.beginTransaction().hide(mBoardFragment).commit();
-            mFragmentManager.beginTransaction().hide(mMainFragment).commit();
-
             mSelectedItemId = savedInstanceState.getInt("selectedItemId");
         }
+
+        fragmentTransaction.hide(mPreferenceFragment);
+        fragmentTransaction.hide(mSchoolEventFragment);
+        fragmentTransaction.hide(mBoardFragment);
+        fragmentTransaction.hide(mMainFragment);
+        fragmentTransaction.commit();
 
         switch (mSelectedItemId) {
             case R.id.main_item:
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 mActiveFragment = mPreferenceFragment;
         }
 
+        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(new ItemSelectedListener());
         bottomNavigation.setSelectedItemId(mSelectedItemId);
     }
