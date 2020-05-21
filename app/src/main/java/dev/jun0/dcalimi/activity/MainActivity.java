@@ -96,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.frameLayoutMainActivity, mBoardFragment, "board");
             fragmentTransaction.add(R.id.frameLayoutMainActivity, mMainFragment, "main");
 
-            mSelectedItemId = R.id.main_item;
+            Bundle intentExtras = getIntent().getExtras();
+            if(intentExtras != null)
+                mSelectedItemId = intentExtras.getInt("selectedItemId", R.id.main_item);
+            else
+                mSelectedItemId = R.id.main_item;
         }else {
             mMainFragment = (MainFragment) mFragmentManager.getFragment(savedInstanceState, "mainFragment");
             mBoardFragment = (BoardFragment) mFragmentManager.getFragment(savedInstanceState, "boardFragment");
