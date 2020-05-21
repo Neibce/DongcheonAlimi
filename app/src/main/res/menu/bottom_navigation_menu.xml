@@ -9,10 +9,10 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/notice_item"
+        android:id="@+id/board_item"
         android:enabled="true"
         android:icon="@drawable/ic_format_list_bulleted_24dp"
-        android:title="공지사항"
+        android:title="게시판"
         app:showAsAction="ifRoom" />
 
     <item

@@ -24,8 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="dev.jun0.dcalimi.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name="dev.jun0.dcalimi.activity.MainActivity" />
 
         <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:theme="@style/AppThemeDefault" />

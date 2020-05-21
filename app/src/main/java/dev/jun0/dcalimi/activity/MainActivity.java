@@ -7,8 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -18,9 +16,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.color.MaterialColors;
-import com.google.android.material.transition.Hold;
-import com.google.android.material.transition.MaterialContainerTransform;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import dev.jun0.dcalimi.fragment.main.BoardFragment;
@@ -32,16 +27,16 @@ import dev.jun0.dcalimi.fragment.main.SchoolEventFragment;
 
 public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
     private Fragment mActiveFragment;
 
-    private MainFragment mMainFragment = new MainFragment();
-    private BoardFragment mBoardFragment = new BoardFragment();
-    private SchoolEventFragment mSchoolEventFragment = new SchoolEventFragment();
-    private PreferenceFragment mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
+    private MainFragment mMainFragment;
+    private BoardFragment mBoardFragment;
+    private SchoolEventFragment mSchoolEventFragment;
+    private PreferenceFragment mPreferenceFragment;
 
     private ActionBar mActionBar;
-    private float density;
+    private float mDensity;
+    private int mSelectedItemId;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -54,8 +49,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+
         Log.i("MA", "ftUrgsted");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("selectedItemId", mSelectedItemId);
+        mFragmentManager.putFragment(outState, "mainFragment", mMainFragment);
+        mFragmentManager.putFragment(outState, "boardFragment", mBoardFragment);
+        mFragmentManager.putFragment(outState, "schoolEventFragment", mSchoolEventFragment);
+        mFragmentManager.putFragment(outState, "preferenceFragment", mPreferenceFragment);
     }
 
     @Override
@@ -74,52 +80,82 @@ public class MainActivity extends AppCompatActivity {
         FirebaseInstanceId.getInstance().getInstanceId();
 
         mActionBar = getSupportActionBar();
-        density = getResources().getDisplayMetrics().density;
+        mDensity = getResources().getDisplayMetrics().density;
 
         mFragmentManager = getSupportFragmentManager();
-        mActiveFragment = mMainFragment;
-        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mBoardFragment, "notice").hide(mBoardFragment).commit();
-        mFragmentManager.beginTransaction().add(R.id.frameLayoutMain, mMainFragment, "main").hide(mMainFragment).commit();
-
-        int selectedItemId = R.id.main_item;
-        Bundle intentExtras = getIntent().getExtras();
-        if(intentExtras != null)
-            selectedItemId = intentExtras.getInt("selectedItemId", R.id.main_item);
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_navigation);
+        if (savedInstanceState == null) {
+            mMainFragment = new MainFragment();
+            mBoardFragment = new BoardFragment();
+            mSchoolEventFragment = new SchoolEventFragment();
+            mPreferenceFragment = new PreferenceFragment(mMainFragment, mSchoolEventFragment);
+
+            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mPreferenceFragment, "preference").hide(mPreferenceFragment).commit();
+            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mSchoolEventFragment, "schoolEvent").hide(mSchoolEventFragment).commit();
+            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mBoardFragment, "board").hide(mBoardFragment).commit();
+            mFragmentManager.beginTransaction().add(R.id.frameLayoutMainActivity, mMainFragment, "main").hide(mMainFragment).commit();
+
+            mSelectedItemId = R.id.main_item;
+        }else {
+            mMainFragment = (MainFragment) mFragmentManager.getFragment(savedInstanceState, "mainFragment");
+            mBoardFragment = (BoardFragment) mFragmentManager.getFragment(savedInstanceState, "boardFragment");
+            mSchoolEventFragment = (SchoolEventFragment) mFragmentManager.getFragment(savedInstanceState, "schoolEventFragment");
+            mPreferenceFragment = (PreferenceFragment) mFragmentManager.getFragment(savedInstanceState, "preferenceFragment");
+
+            mFragmentManager.beginTransaction().hide(mPreferenceFragment).commit();
+            mFragmentManager.beginTransaction().hide(mSchoolEventFragment).commit();
+            mFragmentManager.beginTransaction().hide(mBoardFragment).commit();
+            mFragmentManager.beginTransaction().hide(mMainFragment).commit();
+
+            mSelectedItemId = savedInstanceState.getInt("selectedItemId");
+        }
+
+        switch (mSelectedItemId) {
+            case R.id.main_item:
+                mActiveFragment = mMainFragment;
+            case R.id.board_item:
+                mActiveFragment = mBoardFragment;
+            case R.id.calender_item:
+                mActiveFragment = mSchoolEventFragment;
+            case R.id.setting_item:
+                mActiveFragment = mPreferenceFragment;
+        }
+
         bottomNavigation.setOnNavigationItemSelectedListener(new ItemSelectedListener());
-        bottomNavigation.setSelectedItemId(selectedItemId);
+        bottomNavigation.setSelectedItemId(mSelectedItemId);
     }
 
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            mFragmentTransaction = mFragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 
-            switch (menuItem.getItemId()){
+            int menuItemId = menuItem.getItemId();
+            mSelectedItemId = menuItem.getItemId();
+
+            switch (menuItemId){
                 case R.id.main_item:
-                    mFragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
+                    fragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
                     mMainFragment.checkSchoolMealAutoDownload();
                     mActiveFragment = mMainFragment;
-                    mActionBar.setElevation(4 * density);
+                    mActionBar.setElevation(4 * mDensity);
                     break;
-                case R.id.notice_item:
-                    mFragmentTransaction.hide(mActiveFragment).show(mBoardFragment).commit();
+                case R.id.board_item:
+                    fragmentTransaction.hide(mActiveFragment).show(mBoardFragment).commit();
                     mActiveFragment = mBoardFragment;
                     mActionBar.setElevation(0);
                     break;
                 case R.id.calender_item:
-                    mFragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
+                    fragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
                     mSchoolEventFragment.checkSchoolEventAutoDownload();
                     mActiveFragment = mSchoolEventFragment;
-                    mActionBar.setElevation(4 * density);
+                    mActionBar.setElevation(4 * mDensity);
                     break;
                 case R.id.setting_item:
-                    mFragmentTransaction.hide(mActiveFragment).show(mPreferenceFragment).commit();
+                    fragmentTransaction.hide(mActiveFragment).show(mPreferenceFragment).commit();
                     mActiveFragment = mPreferenceFragment;
-                    mActionBar.setElevation(4 * density);
+                    mActionBar.setElevation(4 * mDensity);
                     break;
             }
             return true;
