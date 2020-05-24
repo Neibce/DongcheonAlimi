@@ -1,5 +1,5 @@
 package dev.jun0.dcalimi.util;
-
+/*
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.IOException;*/
 
 public class BusInfo {
 /*    private final Context mContext;

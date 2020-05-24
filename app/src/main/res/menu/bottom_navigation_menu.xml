@@ -5,26 +5,26 @@
         android:id="@+id/main_item"
         android:enabled="true"
         android:icon="@drawable/ic_home_24dp"
-        android:title="메인메뉴"
+        android:title="@string/main_menu"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/board_item"
         android:enabled="true"
         android:icon="@drawable/ic_format_list_bulleted_24dp"
-        android:title="게시판"
+        android:title="@string/board"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/calender_item"
         android:icon="@drawable/ic_event_note_24dp"
-        android:title="학사일정"
+        android:title="@string/school_event"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/setting_item"
         android:enabled="true"
         android:icon="@drawable/ic_settings_24dp"
-        android:title="설정"
+        android:title="@string/preference"
         app:showAsAction="ifRoom" />
 </menu>

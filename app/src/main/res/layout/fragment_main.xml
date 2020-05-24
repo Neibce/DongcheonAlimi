@@ -294,7 +294,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="월"
+                            android:text="@string/monday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -306,7 +306,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="화"
+                            android:text="@string/tuesday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -318,7 +318,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="수"
+                            android:text="@string/wednesday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -330,7 +330,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="목"
+                            android:text="@string/thursday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -341,7 +341,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="금"
+                            android:text="@string/friday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 

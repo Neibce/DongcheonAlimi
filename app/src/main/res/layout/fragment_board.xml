@@ -32,12 +32,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="공지사항" />
+                    android:text="@string/notice" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="건의사항" />
+                    android:text="@string/suggestion" />
 
             </com.google.android.material.tabs.TabLayout>
 
