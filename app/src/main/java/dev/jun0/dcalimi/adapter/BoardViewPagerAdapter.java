@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import dev.jun0.dcalimi.fragment.board.NoticeFragment;
+import dev.jun0.dcalimi.fragment.board.SuggestionFragment;
 import dev.jun0.dcalimi.fragment.main.BoardFragment;
 
 public class BoardViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -17,15 +18,15 @@ public class BoardViewPagerAdapter extends FragmentStatePagerAdapter {
         mBoardFragment = boardFragment;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0:
-                return NoticeFragment.newInstance(mBoardFragment);
             case 1:
-                return NoticeFragment.newInstance(mBoardFragment);
+                return SuggestionFragment.newInstance(mBoardFragment);
+            case 0:
             default:
-                return null;
+                return NoticeFragment.newInstance(mBoardFragment);
         }
     }
 
@@ -33,6 +34,4 @@ public class BoardViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 2;
     }
-
-
 }

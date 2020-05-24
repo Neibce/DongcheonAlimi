@@ -16,6 +16,10 @@
     <string name="download_successfully">다운로드가 성공적으로 완료되었습니다.</string>
     <string name="download_failed">다운로드 중 오류가 발생하였습니다.\n네트워크 상태 확인 후 다시 시도해주세요.</string>
 
+    <string name="network_error">네트워크 오류가 발생하였습니다.\n네트워크 상태 확인 후 다시 시도해주세요.</string>
+    <string name="network_error_short">네트워크 오류가 발생하였습니다.</string>
+    <string name="retry">재시도</string>
+
     <string name="custom_license_title">오픈소스 라이센스 정보</string>
 
     <string name="info">알림</string>
@@ -30,4 +34,17 @@
     <string name="d_day_left">D-%d</string>
 
     <string name="developer_email">dongcheon-alimi@jun0.dev</string>
+
+    <string name="main_menu">메인메뉴</string>
+    <string name="board">게시판</string>
+    <string name="school_event">학사일정</string>
+    <string name="preference">설정</string>
+    <string name="notice">공지사항</string>
+    <string name="suggestion">건의사항</string>
+
+    <string name="monday">월</string>
+    <string name="tuesday">화</string>
+    <string name="wednesday">수</string>
+    <string name="thursday">목</string>
+    <string name="friday">금</string>
 </resources>

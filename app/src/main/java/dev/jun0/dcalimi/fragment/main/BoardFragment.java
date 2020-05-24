@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
@@ -16,14 +15,19 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.color.MaterialColors;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.transition.Hold;
 import com.google.android.material.transition.MaterialContainerTransform;
 
 import dev.jun0.dcalimi.R;
 import dev.jun0.dcalimi.activity.MainActivity;
 import dev.jun0.dcalimi.adapter.BoardViewPagerAdapter;
+import dev.jun0.dcalimi.fragment.board.NoticeFragment;
+import dev.jun0.dcalimi.fragment.board.SuggestionFragment;
+import dev.jun0.dcalimi.item.PostItem;
 
 public class BoardFragment extends Fragment {
     private ActionBar mActionBar;
+    private float mDestiny;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +38,7 @@ public class BoardFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
 
         mActionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        mDestiny = getResources().getDisplayMetrics().density;
 
         BoardViewPagerAdapter boardViewPagerAdapter = new BoardViewPagerAdapter(getParentFragmentManager(), this);
         viewpager.setAdapter(boardViewPagerAdapter);
@@ -56,21 +61,22 @@ public class BoardFragment extends Fragment {
         return view;
     }
 
-    public void showFragmentWithTransition(Fragment current, Fragment newFragment, String tag, View sharedView, int position) {
+    public void showFragmentWithTransition(Fragment current, Fragment newFragment, String tag, View sharedView, PostItem postItem, int position) {
         Bundle bundle = new Bundle();
 
         bundle.putString("TRANS_CARD_NAME", "transCard" + position);
 
-        bundle.putString("TITLE", String.valueOf(((TextView) sharedView.findViewById(R.id.title)).getText()));
-        bundle.putString("UPLOADER", String.valueOf(((TextView) sharedView.findViewById(R.id.uploader)).getText()));
-        bundle.putString("UPLOAD_DATE", String.valueOf(((TextView) sharedView.findViewById(R.id.uploadDate)).getText()));
+        bundle.putInt("POST_ID", postItem.getId());
+        bundle.putString("TITLE", postItem.getTitle());
+        bundle.putString("UPLOADER", postItem.getUploader());
+        bundle.putString("UPLOAD_DATE", postItem.getDate());
 
         newFragment.setArguments(bundle);
 
         final FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        // current.setExitTransition(new Hold());
+        current.setExitTransition(new Hold());
 
         MaterialContainerTransform transform = new MaterialContainerTransform();
         transform.setContainerColor(MaterialColors.getColor(sharedView, R.attr.colorSurface));
@@ -87,14 +93,22 @@ public class BoardFragment extends Fragment {
                 R.anim.abc_shrink_fade_out_from_bottom);
 
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setElevation(4 * mDestiny);
+        if(current instanceof NoticeFragment)
+            mActionBar.setTitle("공지사항");
+        else
+            mActionBar.setTitle("건의사항");
         setHasOptionsMenu(true);
 
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 int count = fragmentManager.getBackStackEntryCount();
-                if(count == 0)
+                if(count == 0) {
                     mActionBar.setDisplayHomeAsUpEnabled(false);
+                    mActionBar.setElevation(0);
+                    mActionBar.setTitle(R.string.app_name);
+                }
                 Log.d("BF", "onBackStackChanged: Count:"+ fragmentManager.getBackStackEntryCount());
             }
         });

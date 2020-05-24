@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -39,7 +39,7 @@
                 android:transitionName="card"/>
 
             <TextView
-                android:id="@+id/uploader"
+                android:id="@+id/tvUploader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -48,12 +48,15 @@
                 android:text="학생부"
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
+                android:drawablePadding="3dp"
+                android:drawableTint="?android:colorAccent"
+                app:drawableStartCompat="@drawable/ic_person_18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <TextView
-                android:id="@+id/uploadDate"
+                android:id="@+id/tvUploadDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -63,14 +66,13 @@
                 android:drawableTint="?android:colorAccent"
                 android:gravity="center"
                 android:includeFontPadding="false"
-                android:lineSpacingExtra="8sp"
                 android:text="2020. 02. 08."
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
                 app:drawableStartCompat="@drawable/ic_access_time_18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

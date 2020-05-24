@@ -1,6 +1,5 @@
 package dev.jun0.dcalimi.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,40 +10,39 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import dev.jun0.dcalimi.item.NoticeListItem;
 import dev.jun0.dcalimi.R;
+import dev.jun0.dcalimi.item.PostItem;
 
-public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAdapter.ViewHolder> {
+public class NoticeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private OnItemClickListener mListener = null ;
-    private final ArrayList<NoticeListItem> mData;
+    private final List<PostItem> mPostList;
 
-    public NoticeRecyclerAdapter(ArrayList<NoticeListItem> list) {
-        mData = list ;
+    private static final int VIEW_TYPE_ITEM = 0;
+    private static final int VIEW_TYPE_LOADING = 1;
+
+    public NoticeRecyclerAdapter(List<PostItem> list) {
+        mPostList = list;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener ;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        final float scale;
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
         final TextView title;
         final TextView uploader;
         final TextView uploadDate;
         final CardView cardview;
-        final LinearLayout.LayoutParams layoutParams;
 
-        ViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView) ;
 
-            scale = itemView.getResources().getDisplayMetrics().density;
-            title = itemView.findViewById(R.id.title) ;
-            uploader = itemView.findViewById(R.id.uploader) ;
-            uploadDate = itemView.findViewById(R.id.uploadDate) ;
+            title = itemView.findViewById(R.id.tvTitle) ;
+            uploader = itemView.findViewById(R.id.tvUploader) ;
+            uploadDate = itemView.findViewById(R.id.tvUploadDate) ;
             cardview = itemView.findViewById(R.id.materialCardView);
-            layoutParams = (LinearLayout.LayoutParams) cardview.getLayoutParams();
 
             cardview.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,41 +57,53 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
         }
     }
 
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
     @NonNull
     @Override
-    public NoticeRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext() ;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
-
-        View view = inflater.inflate(R.layout.item_post_card, parent, false) ;
-        NoticeRecyclerAdapter.ViewHolder vh = new NoticeRecyclerAdapter.ViewHolder(view) ;
-
-        return vh ;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_card, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NoticeRecyclerAdapter.ViewHolder holder, final int position) {
-        NoticeListItem item = mData.get(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof ItemViewHolder) {
+            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            PostItem item = mPostList.get(position);
 
-        holder.title.setText(item.getTitle());
-        holder.uploader.setText(item.getUploader());
-        holder.uploadDate.setText(item.getDateStr());
+            itemViewHolder.title.setText(item.getTitle());
+            itemViewHolder.uploader.setText(item.getUploader());
+            itemViewHolder.uploadDate.setText(item.getDate());
 
-        holder.cardview.setTransitionName("transCard" + position);
-        holder.title.setTransitionName("transTitle" + position);
-        holder.uploader.setTransitionName("transUploader" + position);
-        holder.uploadDate.setTransitionName("transUploadDate" + position);
+            itemViewHolder.cardview.setTransitionName("transCard" + position);
+            itemViewHolder.title.setTransitionName("transTitle" + position);
+            itemViewHolder.uploader.setTransitionName("transUploader" + position);
+            itemViewHolder.uploadDate.setTransitionName("transUploadDate" + position);
+        } else if (holder instanceof LoadingViewHolder) {
+            //showLoadingView((LoadingViewHolder) viewHolder, position);
+        }
 
-        int dpAsPixels = (int) (16 * holder.scale + 0.5f);
-        if (position == 0)
-            holder.layoutParams.topMargin = dpAsPixels;
-        else
-            holder.layoutParams.topMargin = 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mPostList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return mData.size() ;
+        return mPostList.size() ;
     }
 
     public interface OnItemClickListener {

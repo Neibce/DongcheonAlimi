@@ -20,50 +20,49 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.jun0.dcalimi.fragment.main.BoardFragment;
-import dev.jun0.dcalimi.adapter.NoticeRecyclerAdapter;
 import dev.jun0.dcalimi.R;
-import dev.jun0.dcalimi.util.Post;
+import dev.jun0.dcalimi.adapter.NoticeRecyclerAdapter;
+import dev.jun0.dcalimi.fragment.main.BoardFragment;
 import dev.jun0.dcalimi.item.PostItem;
+import dev.jun0.dcalimi.util.Post;
 
-public class NoticeFragment extends Fragment {
+public class SuggestionFragment extends Fragment {
     private RecyclerView mRecyclerView = null ;
     private NoticeRecyclerAdapter mAdapter = null ;
     private List<PostItem> mPostList = new ArrayList<>();
     private BoardFragment mBoardFragment;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ProgressBar mNoticeProgressBar;
+    private ProgressBar mSuggestionProgressBar;
     private LinearLayout mNetworkErrorLinearLayout;
 
     private boolean mIsLoadedAllPosts = false;
     private boolean mIsOnDownloading = false;
 
-    public static NoticeFragment newInstance(BoardFragment boardFragment) {
-        return new NoticeFragment(boardFragment);
+    public static SuggestionFragment newInstance(BoardFragment boardFragment) {
+        return new SuggestionFragment(boardFragment);
     }
 
-    public NoticeFragment() {}
+    public SuggestionFragment(){}
 
-    private NoticeFragment(BoardFragment boardFragment){
+    private SuggestionFragment(BoardFragment boardFragment){
         mBoardFragment = boardFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_notice, container, false);
-
-        mRecyclerView = view.findViewById(R.id.noticeRecycler);
+        final View view = inflater.inflate(R.layout.fragment_suggestion, container, false);
+        mRecyclerView = view.findViewById(R.id.suggestionRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         Button retryButton = view.findViewById(R.id.retryButton);
-        mSwipeRefreshLayout = view.findViewById(R.id.noticeSwipeRefreshLayout);
+        mSwipeRefreshLayout = view.findViewById(R.id.suggestionSwipeRefreshLayout);
         mNetworkErrorLinearLayout = view.findViewById(R.id.networkErrorLinearLayout);
-        mNoticeProgressBar = view.findViewById(R.id.noticeProgressBar);
+        mSuggestionProgressBar = view.findViewById(R.id.suggestionProgressBar);
 
         mSwipeRefreshLayout.setVisibility(View.GONE);
         mNetworkErrorLinearLayout.setVisibility(View.GONE);
-        mNoticeProgressBar.setVisibility(View.GONE);
+        mSuggestionProgressBar.setVisibility(View.GONE);
 
         TypedValue typedValue = new TypedValue();
         TypedArray typedArray = view.getContext().obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
@@ -82,7 +81,7 @@ public class NoticeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hideNetworkErrorCenter();
-                mNoticeProgressBar.setVisibility(View.VISIBLE);
+                mSuggestionProgressBar.setVisibility(View.VISIBLE);
 
                 getPostList(true);
             }
@@ -92,7 +91,7 @@ public class NoticeFragment extends Fragment {
             @Override
             public void onItemClick(View v, int position) {
                 Log.i("NF", "onItemClick: " + position);
-                mBoardFragment.showFragmentWithTransition(NoticeFragment.this, PostViewerFragment.newInstance(), "postViewer", v, mPostList.get(position), position);
+                mBoardFragment.showFragmentWithTransition(SuggestionFragment.this, PostViewerFragment.newInstance(), "postViewer", v, mPostList.get(position), position);
             }
         });
 
@@ -129,24 +128,24 @@ public class NoticeFragment extends Fragment {
             lastPostId = -1;
             mIsLoadedAllPosts = false;
         }
-        Post.getList(Post.NOTICE, lastPostId, new PostDownloadCompleteListener(resetList));
+        Post.getList(Post.SUGGESTION, lastPostId, new PostDownloadCompleteListener(resetList));
     }
 
     private void showPostList(){
         mRecyclerView.setVisibility(View.VISIBLE);
-        mNoticeProgressBar.setVisibility(View.GONE);
+        mSuggestionProgressBar.setVisibility(View.GONE);
         mNetworkErrorLinearLayout.setVisibility(View.GONE);
     }
 
     private void showProgressBarCenter(){
         mRecyclerView.setVisibility(View.GONE);
-        mNoticeProgressBar.setVisibility(View.VISIBLE);
+        mSuggestionProgressBar.setVisibility(View.VISIBLE);
         mNetworkErrorLinearLayout.setVisibility(View.GONE);
     }
 
     private void showNetworkErrorCenter(){
         mRecyclerView.setVisibility(View.GONE);
-        mNoticeProgressBar.setVisibility(View.GONE);
+        mSuggestionProgressBar.setVisibility(View.GONE);
         mNetworkErrorLinearLayout.setVisibility(View.VISIBLE);
     }
 
