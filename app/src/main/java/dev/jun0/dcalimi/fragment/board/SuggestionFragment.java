@@ -38,20 +38,19 @@ public class SuggestionFragment extends Fragment {
     private boolean mIsLoadedAllPosts = false;
     private boolean mIsOnDownloading = false;
 
-    public static SuggestionFragment newInstance(BoardFragment boardFragment) {
-        return new SuggestionFragment(boardFragment);
+    public static SuggestionFragment newInstance() {
+        return new SuggestionFragment();
     }
 
     public SuggestionFragment(){}
-
-    private SuggestionFragment(BoardFragment boardFragment){
-        mBoardFragment = boardFragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_suggestion, container, false);
+
+        mBoardFragment = (BoardFragment)getParentFragment();
+
         mRecyclerView = view.findViewById(R.id.suggestionRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 

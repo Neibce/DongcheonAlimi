@@ -38,20 +38,18 @@ public class NoticeFragment extends Fragment {
     private boolean mIsLoadedAllPosts = false;
     private boolean mIsOnDownloading = false;
 
-    public static NoticeFragment newInstance(BoardFragment boardFragment) {
-        return new NoticeFragment(boardFragment);
+    public static NoticeFragment newInstance() {
+        return new NoticeFragment();
     }
 
     public NoticeFragment() {}
-
-    private NoticeFragment(BoardFragment boardFragment){
-        mBoardFragment = boardFragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_notice, container, false);
+
+        mBoardFragment = (BoardFragment)getParentFragment();
 
         mRecyclerView = view.findViewById(R.id.noticeRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));

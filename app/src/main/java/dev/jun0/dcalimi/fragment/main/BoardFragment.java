@@ -22,7 +22,6 @@ import dev.jun0.dcalimi.R;
 import dev.jun0.dcalimi.activity.MainActivity;
 import dev.jun0.dcalimi.adapter.BoardViewPagerAdapter;
 import dev.jun0.dcalimi.fragment.board.NoticeFragment;
-import dev.jun0.dcalimi.fragment.board.SuggestionFragment;
 import dev.jun0.dcalimi.item.PostItem;
 
 public class BoardFragment extends Fragment {
@@ -40,7 +39,7 @@ public class BoardFragment extends Fragment {
         mActionBar = ((MainActivity)getActivity()).getSupportActionBar();
         mDestiny = getResources().getDisplayMetrics().density;
 
-        BoardViewPagerAdapter boardViewPagerAdapter = new BoardViewPagerAdapter(getParentFragmentManager(), this);
+        BoardViewPagerAdapter boardViewPagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
         viewpager.setAdapter(boardViewPagerAdapter);
 
         viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
