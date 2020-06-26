@@ -3,7 +3,6 @@ package dev.jun0.dcalimi.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +36,7 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         final CardView cardview;
 
         ItemViewHolder(View itemView) {
-            super(itemView) ;
+            super(itemView);
 
             title = itemView.findViewById(R.id.tvTitle) ;
             uploader = itemView.findViewById(R.id.tvUploader) ;
