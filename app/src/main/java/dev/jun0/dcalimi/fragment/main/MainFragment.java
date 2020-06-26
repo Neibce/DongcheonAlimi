@@ -69,10 +69,10 @@ public class MainFragment extends Fragment {
     public MainFragment(){}
 
     private void setDateValues(Calendar calendar){
-        mSelYear = new SimpleDateFormat("yyyy", Locale.getDefault()).format(calendar.getTime());
-        mSelMonth = new SimpleDateFormat("MM", Locale.getDefault()).format(calendar.getTime());
-        mSelDate = new SimpleDateFormat("dd", Locale.getDefault()).format(calendar.getTime());
-        mSelDay = new SimpleDateFormat("E", Locale.getDefault()).format(calendar.getTime());
+        mSelYear = new SimpleDateFormat("yyyy", Locale.KOREAN).format(calendar.getTime());
+        mSelMonth = new SimpleDateFormat("MM", Locale.KOREAN).format(calendar.getTime());
+        mSelDate = new SimpleDateFormat("dd", Locale.KOREAN).format(calendar.getTime());
+        mSelDay = new SimpleDateFormat("E", Locale.KOREAN).format(calendar.getTime());
     }
 
     public void onDateChanged() {
