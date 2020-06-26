@@ -22,16 +22,14 @@ import java.util.List;
 import dev.jun0.dcalimi.R;
 
 public class SchoolTimeSchedule {
-    private Context mContext;
     private View mView;
     private FragmentManager mFragmentManager;
     private static SharedPreferences mSharedPreferences;
 
     public SchoolTimeSchedule(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
-        mContext = view.getContext();
         mView = view;
-        mSharedPreferences = mContext.getSharedPreferences("schedule", Context.MODE_PRIVATE);
+        mSharedPreferences = view.getContext().getSharedPreferences("schedule", Context.MODE_PRIVATE);
     }
 
     public void download(int _grade, int _class, OnDownloadCompleteListener onDownloadCompleteListener){

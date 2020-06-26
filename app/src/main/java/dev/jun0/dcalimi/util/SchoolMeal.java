@@ -153,12 +153,12 @@ public class SchoolMeal {
 
         private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
             Bundle data = new Bundle();
-            Message msg = new Message();
             data.putString("title", dialogTitle);
             data.putString("msg", dialogMessage);
             data.putBoolean("hasPositive", hasPositiveButton);
             data.putBoolean("cancelable", cancelable);
 
+            Message msg = new Message();
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
             mHandler.sendMessage(msg);

@@ -15,13 +15,11 @@ import java.io.IOException;
 import dev.jun0.dcalimi.R;
 
 public class SchoolClass {
-    private final Context mContext;
     private View mView;
     private final FragmentManager mFragmentManager;
 
     public SchoolClass(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
-        mContext = view.getContext();
         mView = view;
     }
 
@@ -82,12 +80,12 @@ public class SchoolClass {
 
         private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
             Bundle data = new Bundle();
-            Message msg = new Message();
             data.putString("title", dialogTitle);
             data.putString("msg", dialogMessage);
             data.putBoolean("hasPositive", hasPositiveButton);
             data.putBoolean("cancelable", cancelable);
 
+            Message msg = new Message();
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
             mHandler.sendMessage(msg);
