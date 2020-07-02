@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.snackbar.Snackbar;
 
 import dev.jun0.dcalimi.R;
+import dev.jun0.dcalimi.item.QuizItem;
 import dev.jun0.dcalimi.view.MyDialogFragment;
 
 public class MyHandler extends Handler {
@@ -21,12 +22,19 @@ public class MyHandler extends Handler {
     static final int CALL_SCHOOL_EXAM_DOWNLOAD_COMPLETE = 5;
     static final int CALL_SCHOOL_CLASS_TOTAL_NUM_DOWNLOAD_COMPLETE = 6;
     static final int CALL_SCHOOL_SCHEDULE_DOWNLOAD_COMPLETE = 7;
+    static final int CALL_QUIZ_DOWNLOAD_COMPLETE = 8;
+    static final int CALL_QUIZ_ANSWER_CHECK_COMPLETE = 9;
+    static final int CALL_POST_UPLOAD_COMPLETE = 10;
     //static final int UPDATE_BUS_INFO = 6;
     //static final int ERROR_TO_UPDATE_BUS_INFO = 7;
 
     private final FragmentManager mFragmentManager;
     private DialogFragment mDialogFragment;
     private View mView;
+
+    MyHandler(FragmentManager fragmentManager){
+        mFragmentManager = fragmentManager;
+    }
 
     MyHandler(FragmentManager fragmentManager, View view){
         mFragmentManager = fragmentManager;
@@ -63,6 +71,21 @@ public class MyHandler extends Handler {
                 break;
             case CALL_SCHOOL_SCHEDULE_DOWNLOAD_COMPLETE:
                 ((SchoolTimeSchedule.OnDownloadCompleteListener) msg.obj).onDownloadComplete();
+                break;
+            case CALL_QUIZ_DOWNLOAD_COMPLETE:
+                if(msg.getData().getBoolean("isAttemptExceeded"))
+                    ((Quiz.OnDownloadCompleteListener) msg.obj).onAttemptExceeded();
+                else
+                    ((Quiz.OnDownloadCompleteListener) msg.obj).onDownloadComplete((QuizItem)msg.getData().getSerializable("quizItem"));
+                break;
+            case CALL_QUIZ_ANSWER_CHECK_COMPLETE:
+                if(msg.getData().getBoolean("isAnswerCorrect"))
+                    ((Quiz.OnAnswerCheckCompleteListener) msg.obj).onAnswerCorrect();
+                else
+                    ((Quiz.OnAnswerCheckCompleteListener) msg.obj).onAnswerIncorrect(msg.getData().getInt("remainingAttempts"));
+                break;
+            case CALL_POST_UPLOAD_COMPLETE:
+                ((Post.OnPostUploadCompleteListener) msg.obj).onUploadComplete();
                 break;
         }
         /* else if (msg.what == UPDATE_BUS_INFO) {
