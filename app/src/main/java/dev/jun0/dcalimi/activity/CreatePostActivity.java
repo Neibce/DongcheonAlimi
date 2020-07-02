@@ -255,9 +255,9 @@ public class CreatePostActivity extends AppCompatActivity {
                 takePicture();
             } else {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    Toast.makeText(this, R.string.camera_permisson_denied, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.camera_permission_denied, Toast.LENGTH_LONG).show();
                 }else {
-                    Toast.makeText(this, R.string.camera_permisson_denied_permanently, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.camera_permission_denied_permanently, Toast.LENGTH_LONG).show();
 
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     intent.setData(Uri.fromParts("package", getPackageName(), null));
