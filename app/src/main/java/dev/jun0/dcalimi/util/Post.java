@@ -226,7 +226,7 @@ public class Post {
                 if(connectivityStatus == NetworkStatus.TYPE_NOT_CONNECTED)
                     throw new Exception();
 
-                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.checking_quiz_answer), false,false);
+                sendHandlerShowDialog(mContext.getString(R.string.info), mContext.getString(R.string.uploading_post), false,false);
 
                 final String boundary = "9651385161650";
                 final String crlf = "\r\n";

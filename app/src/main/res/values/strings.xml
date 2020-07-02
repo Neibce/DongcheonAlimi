@@ -58,4 +58,5 @@
     <string name="checking_quiz_answer">정답 체크 중...</string>
     <string name="error_in_get_quiz">업로드 중에 오류가 발생하였습니다.\n나중에 다시 시도하여 주십시오.</string>
     <string name="getting_quiz">퀴즈 가져오는 중...</string>
+    <string name="uploading_post">게시글 업르드 중...</string>
 </resources>
