@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -41,6 +43,23 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
     public PreferenceFragment(MainFragment mainFragment, SchoolEventFragment schoolEventFragment){
         mMainFragment = mainFragment;
         mSchoolEventFragment = schoolEventFragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentManager.putFragment(outState, "mainFragment", mMainFragment);
+        mFragmentManager.putFragment(outState, "schoolEventFragment", mSchoolEventFragment);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mMainFragment = (MainFragment) mFragmentManager.getFragment(savedInstanceState, "mainFragment");
+            mSchoolEventFragment = (SchoolEventFragment) mFragmentManager.getFragment(savedInstanceState, "schoolEventFragment");
+        }
     }
 
     @Override
