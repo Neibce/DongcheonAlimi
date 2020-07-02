@@ -1,5 +1,6 @@
 package dev.jun0.dcalimi.fragment.board;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,21 +13,29 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.jun0.dcalimi.R;
+import dev.jun0.dcalimi.activity.CreatePostActivity;
 import dev.jun0.dcalimi.adapter.NoticeRecyclerAdapter;
 import dev.jun0.dcalimi.fragment.main.BoardFragment;
 import dev.jun0.dcalimi.item.PostItem;
 import dev.jun0.dcalimi.util.Post;
 
+import static android.app.Activity.RESULT_OK;
+
 public class SuggestionFragment extends Fragment {
+    private static final int CREATE_POST = 0;
+
     private RecyclerView mRecyclerView = null ;
     private NoticeRecyclerAdapter mAdapter = null ;
     private List<PostItem> mPostList = new ArrayList<>();
@@ -53,6 +62,15 @@ public class SuggestionFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.suggestionRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        FloatingActionButton buttonCreatePost = view.findViewById(R.id.buttonCreatePost);
+        buttonCreatePost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                startActivityForResult(intent, CREATE_POST);
+            }
+        });
 
         Button retryButton = view.findViewById(R.id.retryButton);
         mSwipeRefreshLayout = view.findViewById(R.id.suggestionSwipeRefreshLayout);
@@ -114,8 +132,16 @@ public class SuggestionFragment extends Fragment {
         });
 
         getPostList(true);
-
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == CREATE_POST && resultCode == RESULT_OK) {
+            getPostList(true);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void getPostList(boolean resetList){
