@@ -49,8 +49,8 @@
     <string name="friday">금</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-    <string name="camera_permisson_denied">카메라를 통해 이미지를 업로드 하려면 권한 허용이 필요합니다.</string>
-    <string name="camera_permisson_denied_permanently">카메라를 통해 이미지를 업로드 하려면 권한 허용이 필요합니다. 권한 항목에서 카메라 권한을 허용하여 주십시요.</string>
+    <string name="camera_permission_denied">카메라를 통해 이미지를 업로드 하려면 권한 허용이 필요합니다.</string>
+    <string name="camera_permission_denied_permanently">카메라를 통해 이미지를 업로드 하려면 권한 허용이 필요합니다. 권한 항목에서 카메라 권한을 허용하여 주십시요.</string>
     <string name="title">제목</string>
     <string name="noticeBeforeCreatePost">사용자를 식별할 수 있는 정보들이 함께 업로드 되오니 신중하게 작성하시기 바랍니다.</string>
     <string name="contents">내용</string>
