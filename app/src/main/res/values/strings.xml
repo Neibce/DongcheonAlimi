@@ -54,9 +54,9 @@
     <string name="title">제목</string>
     <string name="noticeBeforeCreatePost">사용자를 식별할 수 있는 정보들이 함께 업로드 되오니 신중하게 작성하시기 바랍니다.</string>
     <string name="contents">내용</string>
-    <string name="uploading">업로드 중...</string>
-    <string name="checking_quiz_answer">정답 체크 중...</string>
+    <string name="uploading">업로드 중…</string>
+    <string name="checking_quiz_answer">정답 체크 중…</string>
     <string name="error_in_get_quiz">업로드 중에 오류가 발생하였습니다.\n나중에 다시 시도하여 주십시오.</string>
-    <string name="getting_quiz">퀴즈 가져오는 중...</string>
-    <string name="uploading_post">게시글 업르드 중...</string>
+    <string name="getting_quiz">퀴즈 가져오는 중…</string>
+    <string name="uploading_post">게시글 업르드 중…</string>
 </resources>
