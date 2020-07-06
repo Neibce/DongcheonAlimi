@@ -35,10 +35,10 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="?android:colorAccent"
                     android:text="3월 모평까지"
                     android:textColor="?android:colorAccent"
                     android:textSize="24dp"
+                    app:drawableTint="?android:colorAccent"
                     app:drawableLeftCompat="@drawable/ic_check_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -142,10 +142,10 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="?android:colorAccent"
                     android:text="@string/meal"
                     android:textColor="?android:colorAccent"
                     android:textSize="24dp"
+                    app:drawableTint="?android:colorAccent"
                     app:drawableLeftCompat="@drawable/ic_restaurant_menu_24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -248,10 +248,10 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="5dp"
-                    android:drawableTint="?android:colorAccent"
                     android:text="@string/schedule"
                     android:textColor="?android:colorAccent"
                     android:textSize="24dp"
+                    app:drawableTint="?android:colorAccent"
                     app:drawableLeftCompat="@drawable/ic_access_time_24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -318,7 +318,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="@string/wednesday"
+                            android:text="@string/thursday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -330,7 +330,7 @@
                             android:background="?android:colorAccent"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
-                            android:text="@string/thursday"
+                            android:text="@string/wednesday"
                             android:textAlignment="center"
                             android:textColor="@color/white" />
 
@@ -357,7 +357,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -367,7 +367,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -377,7 +377,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -387,7 +387,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -397,7 +397,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/timeSchedulePrimary"
@@ -416,7 +416,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -426,7 +426,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -436,7 +436,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -446,7 +446,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -456,7 +456,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?attr/timeScheduleSecondary"
@@ -475,7 +475,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -485,7 +485,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -495,7 +495,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -505,7 +505,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -515,7 +515,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/timeSchedulePrimary"
@@ -534,7 +534,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -544,7 +544,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -554,7 +554,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -564,7 +564,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -574,7 +574,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?attr/timeScheduleSecondary"
@@ -593,7 +593,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -603,7 +603,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -613,7 +613,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -623,7 +623,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -633,7 +633,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/timeSchedulePrimary"
@@ -652,7 +652,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -662,7 +662,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -672,7 +672,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -682,7 +682,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -692,7 +692,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?attr/timeScheduleSecondary"
@@ -711,7 +711,7 @@
 
                         <TextView
                             android:id="@+id/tvScMon7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -721,7 +721,7 @@
 
                         <TextView
                             android:id="@+id/tvScTue7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -731,7 +731,7 @@
 
                         <TextView
                             android:id="@+id/tvScWed7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -741,7 +741,7 @@
 
                         <TextView
                             android:id="@+id/tvScThu7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="1dp"
                             android:layout_weight="1"
@@ -751,7 +751,7 @@
 
                         <TextView
                             android:id="@+id/tvScFri7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/timeSchedulePrimary"
