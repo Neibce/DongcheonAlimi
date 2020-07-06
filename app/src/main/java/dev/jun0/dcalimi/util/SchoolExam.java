@@ -111,7 +111,7 @@ public class SchoolExam {
             long diffBtw = (nextYearCalender.getTimeInMillis() - nowDateCalender.getTimeInMillis()) / (24 * 60 * 60 * 1000);
 
             return Pair.create(nextYearCalender.get(Calendar.YEAR)+"년", diffBtw);
-        } catch (JSONException | ParseException e) {
+        } catch (NullPointerException | JSONException | ParseException e) {
             e.printStackTrace();
             return null;
         }
@@ -180,12 +180,12 @@ public class SchoolExam {
 
         private void sendHandlerShowDialog(String dialogTitle, String dialogMessage, boolean hasPositiveButton, boolean cancelable){
             Bundle data = new Bundle();
-            Message msg = new Message();
             data.putString("title", dialogTitle);
             data.putString("msg", dialogMessage);
             data.putBoolean("hasPositive", hasPositiveButton);
             data.putBoolean("cancelable", cancelable);
 
+            Message msg = new Message();
             msg.setData(data);
             msg.what = MyHandler.SHOW_DIALOG;
             mHandler.sendMessage(msg);
