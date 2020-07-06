@@ -3,7 +3,7 @@
 
     <item android:drawable="?android:colorPrimary" />
 
-    <item android:drawable="@drawable/ic_directions_bus_24dp"
+    <item android:drawable="@drawable/ic_splash_logo"
             android:gravity="center"/>
 
 </layer-list>
