@@ -16,6 +16,10 @@
         android:theme="@style/AppThemeGreen"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_stat_ic_notification" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="dev.jun0.dcalimi.fileprovider"
@@ -23,18 +27,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
-        <receiver android:name=".SchoolScheduleWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/school_schedule_widget_info" />
-        </receiver>
 
         <activity android:name=".activity.CreatePostActivity" />
         <activity
