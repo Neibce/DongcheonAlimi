@@ -7,10 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -210,6 +212,20 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             });
         }
 
+        EditTextPreference enterCode = findPreference("enterCode");
+        if(enterCode != null) {
+            enterCode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if(((String)newValue).matches("^kU59dQ.{18}$")) {
+                        Toast.makeText(getView().getContext(), "관리자 모드가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }else
+                        return false;
+                }
+            });
+        }
+
         Preference contactToDeveloper = findPreference("contactToDeveloper");
         if(contactToDeveloper != null) {
             contactToDeveloper.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -217,7 +233,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.developer_email), null));
                     startActivity(Intent.createChooser(emailIntent, "이메일 보내기"));
-
                     return false;
                 }
             });

@@ -79,6 +79,10 @@
             app:key="ossLicenseInfo"
             app:title="오픈소스 라이센스 정보"/>
 
+        <EditTextPreference
+            app:key="enterCode"
+            app:title="코드 입력하기"/>
+
         <Preference
             app:key="contactToDeveloper"
             app:title="개발자에게 문의하기"/>
