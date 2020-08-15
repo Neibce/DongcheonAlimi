@@ -6,20 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".activity.CreatePostActivity">
 
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayoutTopTitleAuthor"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:hint="@string/title"
-        android:inputType="textPersonName"
-        android:singleLine="true"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:ems="10"
+            android:hint="@string/title"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/editTextUploader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:hint="닉네임"/>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/editTextBody"
@@ -38,7 +53,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textViewCurrentNumberOfCharcter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutTopTitleAuthor" />
 
     <TextView
         android:id="@+id/textViewCurrentNumberOfCharcter"
