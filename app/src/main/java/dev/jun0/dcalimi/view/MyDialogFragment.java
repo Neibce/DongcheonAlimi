@@ -22,12 +22,12 @@ public class MyDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(getActivity());
+        MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireActivity());
         materialAlertDialogBuilder.setTitle(mStrTitle);
         materialAlertDialogBuilder.setMessage(mStrMessage);
 
         if(mHasPositiveButton)
-            materialAlertDialogBuilder.setPositiveButton("확인", null);
+            materialAlertDialogBuilder.setPositiveButton(android.R.string.ok, null);
 
         return materialAlertDialogBuilder.create();
     }
