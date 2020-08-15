@@ -33,10 +33,10 @@
                 android:text="제목제목제목제목제목제목제목제목제목제목제목제목"
                 android:textColor="@color/textDarkPrimary"
                 android:textSize="20dp"
+                android:transitionName="card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:transitionName="card"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvUploader"
@@ -49,7 +49,7 @@
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
                 android:drawablePadding="3dp"
-                android:drawableTint="?android:colorAccent"
+                app:drawableTint="?android:colorAccent"
                 app:drawableStartCompat="@drawable/ic_person_18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,12 +63,12 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="16dp"
                 android:drawablePadding="5dp"
-                android:drawableTint="?android:colorAccent"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="2020. 02. 08."
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
+                app:drawableTint="?android:colorAccent"
                 app:drawableStartCompat="@drawable/ic_access_time_18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
