@@ -106,7 +106,7 @@ public class MainFragment extends Fragment {
                     mTvDDayLeft.setText(String.format(getString(R.string.d_day_left), pairDDay.second));
             } else {
                 mTvDDayTitle.setText("다운로드 필요");
-                mTvDDayLeft.setText("D-DAY");
+                mTvDDayLeft.setText(R.string.dDay);
             }
         }
     }
@@ -226,7 +226,7 @@ public class MainFragment extends Fragment {
                     Log.d("MF", "setScheduleTextView: " + strSubject + strTeacher);
 
                     if(mTvSc[day][period] != null)
-                        mTvSc[day][period].setText(strSubject + "\n" + strTeacher);
+                        mTvSc[day][period].setText(String.format(Locale.getDefault(), "%s\n%s", strSubject, strTeacher));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -237,7 +237,8 @@ public class MainFragment extends Fragment {
     private int getScheduleIndex(int _grade, int _class){
         for (int i = 0; i < mScheduleSpinnerRawList.size(); i++) {
             Pair<Integer, Integer> schedule = mScheduleSpinnerRawList.get(i);
-            if (schedule.first == _grade && schedule.second == _class)
+            if (schedule.first != null &&  schedule.second != null
+                && schedule.first == _grade && schedule.second == _class)
                 return i;
         }
         return -1;
