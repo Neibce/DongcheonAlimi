@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import dev.jun0.dcalimi.R;
 import dev.jun0.dcalimi.item.QuizItem;
