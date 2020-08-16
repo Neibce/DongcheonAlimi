@@ -12,11 +12,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.CheckBoxPreference;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.thebluealliance.spectrum.SpectrumPreferenceCompat;
 
 import java.util.ArrayList;
@@ -99,7 +103,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolMealDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolMeal(mFragmentManager, getView())
+                    new SchoolMeal(mFragmentManager, requireView())
                             .download(mStrTodayYear, mStrTodayMonth, new SchoolMeal.OnDownloadCompleteListener() {
                         @Override
                         public void onDownloadComplete() {
@@ -116,7 +120,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             schoolEventDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    SchoolEvent schoolEvent = new SchoolEvent(mFragmentManager, getView());
+                    SchoolEvent schoolEvent = new SchoolEvent(mFragmentManager, requireView());
                     schoolEvent.setOnDownloadCompleteListener(new SchoolEvent.OnDownloadCompleteListener() {
                         @Override
                         public void onDownloadComplete() {
@@ -134,7 +138,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
             dDayDownload.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    new SchoolExam(mFragmentManager, getView())
+                    new SchoolExam(mFragmentManager, requireView())
                             .download(mStrTodayYear, new SchoolExam.OnDownloadCompleteListener() {
                                 @Override
                                 public void onDownloadComplete() {
@@ -163,7 +167,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                 @Override
                 public boolean onPreferenceClick(Preference preference){
                     String[] items = {"1학년", "2학년", "3학년"};
-                    showDialogWithItems(getView().getContext(),"학년 선택", items,
+                    showDialogWithItems(requireView().getContext(),"학년 선택", items,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, final int gradeSelected) {
@@ -176,11 +180,11 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                                             for(int i = 1; i <= count; i++)
                                                 strClassArrayList.add(gradeSelected + 1 + "학년 " + i + "반");
 
-                                            showDialogWithItems(getView().getContext(),"학반 선택", strClassArrayList.toArray(new String[0]),
+                                            showDialogWithItems(requireView().getContext(),"학반 선택", strClassArrayList.toArray(new String[0]),
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int classSelected) {
-                                                            new SchoolTimeSchedule(mFragmentManager, getView())
+                                                            new SchoolTimeSchedule(mFragmentManager, requireView())
                                                                     .download(gradeSelected + 1, classSelected + 1, new SchoolTimeSchedule.OnDownloadCompleteListener(){
                                                                 @Override
                                                                 public void onDownloadComplete() {
@@ -218,10 +222,11 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if(((String)newValue).matches("^kU59dQ.{18}$")) {
-                        Toast.makeText(getView().getContext(), "관리자 모드가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireView().getContext(), "관리자 모드가 활성화 되었습니다.", Toast.LENGTH_SHORT).show();
                         return true;
-                    }else
+                    }else {
                         return false;
+                    }
                 }
             });
         }
@@ -236,6 +241,70 @@ public class PreferenceFragment extends PreferenceFragmentCompat  {
                     return false;
                 }
             });
+        }
+
+        final CheckBoxPreference noticePostNotification = findPreference("noticePostNotification");
+        if(noticePostNotification != null){
+            noticePostNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if((Boolean) newValue){
+                        FirebaseMessaging.getInstance().subscribeToTopic("noticePostNotification")
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            noticePostNotification.setChecked(false);
+                                        }
+                                    }
+                                });
+                    }else {
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("noticePostNotification")
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()) {
+                                            noticePostNotification.setChecked(true);
+                                        }
+                                    }
+                                });
+                    }
+                    return true;
+                }
+            });
+
+            final CheckBoxPreference suggestionPostNotification = findPreference("suggestionPostNotification");
+            if(suggestionPostNotification != null) {
+                suggestionPostNotification.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+                    @Override
+                    public boolean onPreferenceChange(Preference preference, Object newValue) {
+                        if ((Boolean) newValue) {
+                            FirebaseMessaging.getInstance().subscribeToTopic("suggestionPostNotification")
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (!task.isSuccessful()) {
+                                                noticePostNotification.setChecked(false);
+                                            }
+                                        }
+                                    });
+                        } else {
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("suggestionPostNotification")
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (!task.isSuccessful()) {
+                                                noticePostNotification.setChecked(true);
+                                            }
+                                        }
+                                    });
+                        }
+                        return true;
+                    }
+                });
+            }
         }
     }
 

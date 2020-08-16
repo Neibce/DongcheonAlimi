@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
+<PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.thebluealliance.spectrum.SpectrumPreferenceCompat
@@ -73,6 +73,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:key="boardCategory"
+        app:title="게시판">
+
+        <CheckBoxPreference
+            app:key="noticePostNotification"
+            app:title="공지사항 새 글 알림"
+            app:summary="공지사항에 새로운 글이 올라올 경우 알립니다."/>
+
+        <CheckBoxPreference
+            app:key="suggestionPostNotification"
+            app:title="건의사항 새 글 알림"
+            app:summary="건의사항에 새로운 글이 올라올 경우 알립니다."/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:key="etcCategory"
         app:title="기타">
         <Preference
@@ -88,4 +104,4 @@
             app:title="개발자에게 문의하기"/>
     </PreferenceCategory>
 
-</androidx.preference.PreferenceScreen>
+</PreferenceScreen>
