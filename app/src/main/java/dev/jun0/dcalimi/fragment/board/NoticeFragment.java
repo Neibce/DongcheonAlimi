@@ -1,5 +1,7 @@
 package dev.jun0.dcalimi.fragment.board;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,19 +14,26 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.jun0.dcalimi.activity.CreatePostActivity;
 import dev.jun0.dcalimi.fragment.main.BoardFragment;
 import dev.jun0.dcalimi.adapter.NoticeRecyclerAdapter;
 import dev.jun0.dcalimi.R;
 import dev.jun0.dcalimi.util.Post;
 import dev.jun0.dcalimi.item.PostItem;
+
+import static android.app.Activity.RESULT_OK;
 
 public class NoticeFragment extends Fragment {
     private RecyclerView mRecyclerView = null ;
@@ -62,6 +71,24 @@ public class NoticeFragment extends Fragment {
         mSwipeRefreshLayout.setVisibility(View.GONE);
         mNetworkErrorLinearLayout.setVisibility(View.GONE);
         mNoticeProgressBar.setVisibility(View.GONE);
+
+        FloatingActionButton buttonCreatePost = view.findViewById(R.id.buttonCreatePost);
+
+        SharedPreferences preferenceSharedPreferences = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+        String strCode = preferenceSharedPreferences.getString("enterCode" , null);
+        if(strCode != null) {
+            buttonCreatePost.setVisibility(View.VISIBLE);
+            buttonCreatePost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+                    intent.putExtra("type", Post.NOTICE);
+                    startActivityForResult(intent, CreatePostActivity.CREATE_POST);
+                }
+            });
+        }else {
+            buttonCreatePost.setVisibility(View.GONE);
+        }
 
         TypedValue typedValue = new TypedValue();
         TypedArray typedArray = view.getContext().obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorAccent });
@@ -116,6 +143,19 @@ public class NoticeFragment extends Fragment {
         getPostList(true);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == CreatePostActivity.CREATE_POST && resultCode == RESULT_OK) {
+            getPostList(true);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void refreshPostList(){
+        getPostList(true);
     }
 
     private void getPostList(boolean resetList){

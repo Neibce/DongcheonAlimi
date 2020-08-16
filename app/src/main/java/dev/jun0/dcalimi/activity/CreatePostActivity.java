@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -21,8 +22,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,19 +47,24 @@ import dev.jun0.dcalimi.util.Post;
 import dev.jun0.dcalimi.util.Quiz;
 
 public class CreatePostActivity extends AppCompatActivity {
+    public final static int CREATE_POST = 100;
+
     private final static int REQUEST_TAKE_PICTURE = 0;
     private final static int REQUEST_PICK_PICTURE = 1;
     private final static int PERMISSIONS_REQUEST_CAMERA = 10;
 
     private ImageView[] mImageViewsAttachedImage = new ImageView[2];
-    private ImageButton[] mImageButtonsDetachImage = new ImageButton[2];;
+    private ImageButton[] mImageButtonsDetachImage = new ImageButton[2];
     private RelativeLayout[] mRelativeLayoutsAttachedImage = new RelativeLayout[2];
     private LinearLayout mLinerLayoutAttachedImages;
 
     private int mNumberOfAttachedImage = 0;
     private Bitmap[] mBitmapsAttachedImage = new Bitmap[2];
 
+    private int mPostType = 1;
+
     private EditText mEditTextTitle;
+    private EditText mEditTextUploader;
     private EditText mEditTextBody;
 
     @Override
@@ -71,9 +75,17 @@ public class CreatePostActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_create_post);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null)
+            mPostType = bundle.getInt("type", Post.SUGGESTION);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("건의사항 작성");
+            if(mPostType == Post.NOTICE)
+                actionBar.setTitle("공지사항 작성");
+            else if(mPostType == Post.SUGGESTION)
+                actionBar.setTitle("건의사항 작성");
+
             actionBar.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -114,24 +126,13 @@ public class CreatePostActivity extends AppCompatActivity {
 
         mEditTextBody = findViewById(R.id.editTextBody);
         mEditTextTitle = findViewById(R.id.editTextTitle);
+        mEditTextUploader = findViewById(R.id.editTextUploader);
+        if(mPostType == Post.SUGGESTION)
+            mEditTextUploader.setVisibility(View.GONE);
+        
         final TextView textViewCurrentNumberOfCharacter = findViewById(R.id.textViewCurrentNumberOfCharcter);
         ImageButton imageButtonAttachImageFromGallery = findViewById(R.id.imageButtonAttachImageFromGallery);
         ImageButton imageButtonAttachImageFromCamera = findViewById(R.id.imageButtonAttachImageFromCamera);
-
-        mEditTextBody.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            String mStrCurrentLength = "0/2000";
-            @Override
-            public void afterTextChanged(Editable s) {
-                mStrCurrentLength = s.length() + "/2000";
-                textViewCurrentNumberOfCharacter.setText(mStrCurrentLength);
-            }
-        });
 
         imageButtonAttachImageFromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +140,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 if(mNumberOfAttachedImage == 2){
                     new AlertDialog.Builder(CreatePostActivity.this)
                             .setMessage("이미지는 2개까지만 첨부할 수 있습니다.")
-                            .setPositiveButton("확인", null)
+                            .setPositiveButton(android.R.string.ok, null)
                             .create().show();
                     return;
                 }
@@ -155,7 +156,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 if(mNumberOfAttachedImage == 2){
                     new AlertDialog.Builder(CreatePostActivity.this)
                             .setMessage("이미지는 2개까지만 첨부할 수 있습니다.")
-                            .setPositiveButton("확인", null)
+                            .setPositiveButton(android.R.string.ok, null)
                             .create().show();
                     return;
                 }
@@ -170,10 +171,11 @@ public class CreatePostActivity extends AppCompatActivity {
             }
         });
 
-        new AlertDialog.Builder(this)
-                .setMessage("사용자를 식별할 수 있는 정보들이 함께 업로드 되오니 신중하게 작성하시기 바랍니다.")
-                .setPositiveButton("확인", null)
-                .create().show();
+        if(mPostType == Post.SUGGESTION)
+            new AlertDialog.Builder(this)
+                    .setMessage("사용자를 식별할 수 있는 정보들이 함께 업로드 되오니 신중하게 작성하시기 바랍니다.")
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create().show();
     }
 
     private void updateAttachedImagesVisibility(){
@@ -199,10 +201,6 @@ public class CreatePostActivity extends AppCompatActivity {
         mImageViewsAttachedImage[1].setVisibility(secondImageVisibility);
     }
 
-    private void updateAttachedImagesPreview(){
-
-    }
-
     private Bitmap getBitmapFromUri(Uri uri) throws IOException {
         if(Build.VERSION.SDK_INT < 28) {
            return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
@@ -216,10 +214,9 @@ public class CreatePostActivity extends AppCompatActivity {
     private void takePicture(){
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
+            File photoFile;
             try {
                 photoFile = createImageFile();
-
                 photoURI = FileProvider.getUriForFile(CreatePostActivity.this,
                         "dev.jun0.dcalimi.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -232,7 +229,6 @@ public class CreatePostActivity extends AppCompatActivity {
 
     String currentPhotoPath;
     private File createImageFile() throws IOException {
-        // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -276,14 +272,16 @@ public class CreatePostActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(CreatePostActivity.this);
                 builder.setTitle(quizItem.getQuestion());
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         quiz.checkAnswer(((AlertDialog)dialog).getListView().getCheckedItemPosition() + 1, new Quiz.OnAnswerCheckCompleteListener(){
                             @Override
                             public void onAnswerCorrect() {
                                 Post.upload(getSupportFragmentManager(), CreatePostActivity.this,
-                                        mEditTextTitle.getText().toString(), mEditTextBody.getText().toString(), mBitmapsAttachedImage[0], mBitmapsAttachedImage[1],
+                                        PreferenceManager.getDefaultSharedPreferences(CreatePostActivity.this).getString("enterCode" , null),
+                                        mPostType, mEditTextTitle.getText().toString(), mEditTextUploader.getText().toString(), mEditTextBody.getText().toString(),
+                                        mBitmapsAttachedImage[0], mBitmapsAttachedImage[1],
                                         new Post.OnPostUploadCompleteListener() {
                                     @Override
                                     public void onUploadComplete() {
@@ -306,13 +304,13 @@ public class CreatePostActivity extends AppCompatActivity {
                                             getQuiz();
                                         }
                                     });
-                                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) { }
                                     });
                                 }else {
                                     builder.setMessage("시도 횟수를 모두 사용하여 4일 간 게시글 작성이 제한됩니다.");
-                                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) { }
                                     });
@@ -327,7 +325,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         });
                     }
                 });
-                builder.setNegativeButton("취소", null);
+                builder.setNegativeButton(android.R.string.cancel, null);
                 builder.setSingleChoiceItems(quizItem.getOptions(), -1, null);
                 builder.show();
             }
@@ -337,7 +335,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CreatePostActivity.this);
                 builder.setTitle("알림");
                 builder.setMessage("시도 횟수를 모두 사용하여 4일 간 게시글 작성이 제한된 상태입니다.");
-                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) { }
                 });
@@ -356,12 +354,14 @@ public class CreatePostActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             if (requestCode == REQUEST_PICK_PICTURE) {
                 try {
+                    if(data == null)
+                        throw new NullPointerException();
                     Bitmap bitmapSelectedImage = getBitmapFromUri(data.getData());
                     mBitmapsAttachedImage[mNumberOfAttachedImage] = bitmapSelectedImage;
                     mImageViewsAttachedImage[mNumberOfAttachedImage].setImageBitmap(bitmapSelectedImage);
                     mNumberOfAttachedImage++;
                     updateAttachedImagesVisibility();
-                } catch (IOException e) {
+                } catch (NullPointerException | IOException e) {
                     e.printStackTrace();
                 }
             } else if (requestCode == REQUEST_TAKE_PICTURE) {
