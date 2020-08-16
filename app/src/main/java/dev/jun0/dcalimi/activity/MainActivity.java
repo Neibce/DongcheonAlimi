@@ -132,6 +132,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setSelectedItemId(mSelectedItemId);
     }
 
+    private void setActionBarDefault(){
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+        mActionBar.setElevation(4 * mDensity);
+        mActionBar.setTitle(R.string.app_name);
+    }
+
     private class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -145,26 +151,35 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.hide(mActiveFragment).show(mMainFragment).commit();
                     mMainFragment.checkSchoolMealAutoDownload();
                     mActiveFragment = mMainFragment;
-                    mActionBar.setElevation(4 * mDensity);
+                    setActionBarDefault();
                     break;
                 case R.id.board_item:
                     fragmentTransaction.hide(mActiveFragment).show(mBoardFragment).commit();
                     mActiveFragment = mBoardFragment;
-                    mActionBar.setElevation(0);
+                    mBoardFragment.setActionBar();
                     break;
                 case R.id.calender_item:
                     fragmentTransaction.hide(mActiveFragment).show(mSchoolEventFragment).commit();
                     mSchoolEventFragment.checkSchoolEventAutoDownload();
                     mActiveFragment = mSchoolEventFragment;
-                    mActionBar.setElevation(4 * mDensity);
+                    setActionBarDefault();
                     break;
                 case R.id.setting_item:
                     fragmentTransaction.hide(mActiveFragment).show(mPreferenceFragment).commit();
                     mActiveFragment = mPreferenceFragment;
-                    mActionBar.setElevation(4 * mDensity);
+                    setActionBarDefault();
                     break;
             }
             return true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBoardFragment != null && mBoardFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
+            mBoardFragment.getChildFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
 }

@@ -1,12 +1,12 @@
 package dev.jun0.dcalimi.fragment.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,18 +25,35 @@ import dev.jun0.dcalimi.fragment.board.NoticeFragment;
 import dev.jun0.dcalimi.item.PostItem;
 
 public class BoardFragment extends Fragment {
+    private static final int REQUEST_CODE = 0;
+
     private ActionBar mActionBar;
+    private FragmentManager mFragmentManager;
     private float mDestiny;
+
+    private String mLastActionBarTitle;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("LastActionBarTitle", mLastActionBarTitle);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mFragmentManager = getChildFragmentManager();
+        if (savedInstanceState != null) {
+            mLastActionBarTitle = savedInstanceState.getString("LastActionBarTitle");
+        }
+
         View view = inflater.inflate(R.layout.fragment_board, container, false);
 
         final ViewPager viewpager = view.findViewById(R.id.viewPager);
+
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
 
-        mActionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        mActionBar = ((MainActivity)requireActivity()).getSupportActionBar();
         mDestiny = getResources().getDisplayMetrics().density;
 
         BoardViewPagerAdapter boardViewPagerAdapter = new BoardViewPagerAdapter(getChildFragmentManager());
@@ -57,6 +74,20 @@ public class BoardFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {}
         });
 
+        mFragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                int count = mFragmentManager.getBackStackEntryCount();
+                if(count == 0) {
+                    mActionBar.setDisplayHomeAsUpEnabled(false);
+                    mActionBar.setElevation(0);
+                    mActionBar.setTitle(R.string.app_name);
+                }
+            }
+        });
+
+        setActionBar();
+
         return view;
     }
 
@@ -72,8 +103,7 @@ public class BoardFragment extends Fragment {
 
         newFragment.setArguments(bundle);
 
-        final FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
         current.setExitTransition(new Hold());
 
@@ -93,35 +123,50 @@ public class BoardFragment extends Fragment {
 
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setElevation(4 * mDestiny);
+
         if(current instanceof NoticeFragment)
-            mActionBar.setTitle("공지사항");
+            mLastActionBarTitle = "공지사항";
         else
-            mActionBar.setTitle("건의사항");
+            mLastActionBarTitle = "건의사항";
+        mActionBar.setTitle(mLastActionBarTitle);
+
         setHasOptionsMenu(true);
 
-        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                int count = fragmentManager.getBackStackEntryCount();
-                if(count == 0) {
-                    mActionBar.setDisplayHomeAsUpEnabled(false);
-                    mActionBar.setElevation(0);
-                    mActionBar.setTitle(R.string.app_name);
-                }
-                Log.d("BF", "onBackStackChanged: Count:"+ fragmentManager.getBackStackEntryCount());
-            }
-        });
-
+        newFragment.setTargetFragment(current, REQUEST_CODE);
         transaction
                 .replace(R.id.frameLayoutBoard, newFragment, tag)
-                .addToBackStack(null /* name */)
+                .addToBackStack(null)
                 .commit();
+    }
+
+    public void setActionBar(){
+        if(mFragmentManager == null){
+            mFragmentManager = getChildFragmentManager();
+        }
+        if(mActionBar == null){
+            mActionBar = ((MainActivity)requireActivity()).getSupportActionBar();
+        }
+
+        if(mFragmentManager.getBackStackEntryCount() > 0){
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setElevation(4 * mDestiny);
+
+            mActionBar.setTitle(mLastActionBarTitle);
+            setHasOptionsMenu(true);
+        }else {
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            mActionBar.setElevation(0);
+            mActionBar.setTitle(R.string.app_name);
+        }
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getParentFragmentManager().popBackStack();
+            if(mFragmentManager != null) {
+                mFragmentManager.popBackStack();
+            }
             return true;
         } else {
             return super.onOptionsItemSelected(item);
