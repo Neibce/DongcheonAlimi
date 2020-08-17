@@ -34,8 +34,6 @@ import dev.jun0.dcalimi.util.Post;
 import static android.app.Activity.RESULT_OK;
 
 public class SuggestionFragment extends Fragment {
-    private static final int CREATE_POST = 0;
-
     private RecyclerView mRecyclerView = null ;
     private NoticeRecyclerAdapter mAdapter = null ;
     private List<PostItem> mPostList = new ArrayList<>();
@@ -68,7 +66,8 @@ public class SuggestionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreatePostActivity.class);
-                startActivityForResult(intent, CREATE_POST);
+                intent.putExtra("type", Post.SUGGESTION);
+                startActivityForResult(intent, CreatePostActivity.CREATE_POST);
             }
         });
 
@@ -137,11 +136,15 @@ public class SuggestionFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == CREATE_POST && resultCode == RESULT_OK) {
+        if(requestCode == CreatePostActivity.CREATE_POST && resultCode == RESULT_OK) {
             getPostList(true);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void refreshPostList(){
+        getPostList(true);
     }
 
     private void getPostList(boolean resetList){
