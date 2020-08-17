@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -133,6 +135,21 @@ public class CreatePostActivity extends AppCompatActivity {
         final TextView textViewCurrentNumberOfCharacter = findViewById(R.id.textViewCurrentNumberOfCharcter);
         ImageButton imageButtonAttachImageFromGallery = findViewById(R.id.imageButtonAttachImageFromGallery);
         ImageButton imageButtonAttachImageFromCamera = findViewById(R.id.imageButtonAttachImageFromCamera);
+
+        mEditTextBody.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            String mStrCurrentLength = "0/2000";
+            @Override
+            public void afterTextChanged(Editable s) {
+                mStrCurrentLength = s.length() + "/2000";
+                textViewCurrentNumberOfCharacter.setText(mStrCurrentLength);
+            }
+        });
 
         imageButtonAttachImageFromGallery.setOnClickListener(new View.OnClickListener() {
             @Override
