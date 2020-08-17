@@ -20,9 +20,10 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,19 +32,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvTitle"
+            <LinearLayout
+                android:id="@+id/linearLayoutTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="2019학년도 학예제 및 아나바다 장터 안내"
-                android:textColor="@color/textDarkPrimary"
-                android:textSize="20dp"
+                android:gravity="start|center_vertical"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="2019학년도 학예제 및 아나바다 장터 안내"
+                    android:textColor="@color/textDarkPrimary"
+                    android:textSize="20dp" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonDeletePost"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:tint="?android:colorAccent"
+                    app:srcCompat="@drawable/ic_baseline_delete_20dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvUploader"
@@ -52,13 +72,28 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:drawablePadding="3dp"
-                android:drawableTint="?android:colorAccent"
                 android:text="학생부"
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
                 app:drawableStartCompat="@drawable/ic_person_18dp"
+                app:drawableTint="?android:colorAccent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitle" />
+
+            <TextView
+                android:id="@+id/tvViewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="3dp"
+                android:text="27"
+                android:textColor="?android:colorAccent"
+                android:textSize="15dp"
+                app:drawableStartCompat="@drawable/ic_baseline_remove_red_eye_20"
+                app:drawableTint="?android:colorAccent"
+                app:layout_constraintStart_toEndOf="@+id/tvUploader"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitle" />
 
             <TextView
                 android:id="@+id/tvUploadDate"
@@ -67,37 +102,113 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:drawablePadding="5dp"
-                android:drawableTint="?android:colorAccent"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="2020. 02. 08."
                 android:textColor="?android:colorAccent"
                 android:textSize="15dp"
                 app:drawableStartCompat="@drawable/ic_access_time_18dp"
+                app:drawableTint="?android:colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutTitle" />
 
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUploader" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/linearLayoutContents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUploader">
+                app:layout_constraintTop_toBottomOf="@+id/divider">
 
                 <TextView
                     android:id="@+id/tvBody"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="17dp" />
+
+                <dev.jun0.dcalimi.view.PostImageViewer
+                    android:id="@+id/postImageViewer1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp" />
+
+                <dev.jun0.dcalimi.view.PostImageViewer
+                    android:id="@+id/postImageViewer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
+
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutContents" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutWriteComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2">
+
+                <EditText
+                    android:id="@+id/editTextCommentBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Name" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonUploadComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_baseline_send_white_24" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutWriteComment" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
