@@ -25,6 +25,7 @@ public class MyHandler extends Handler {
     static final int CALL_QUIZ_DOWNLOAD_COMPLETE = 8;
     static final int CALL_QUIZ_ANSWER_CHECK_COMPLETE = 9;
     static final int CALL_POST_UPLOAD_COMPLETE = 10;
+    static final int CALL_POST_DELETE_COMPLETE = 11;
     //static final int UPDATE_BUS_INFO = 6;
     //static final int ERROR_TO_UPDATE_BUS_INFO = 7;
 
@@ -86,6 +87,9 @@ public class MyHandler extends Handler {
                 break;
             case CALL_POST_UPLOAD_COMPLETE:
                 ((Post.OnPostUploadCompleteListener) msg.obj).onUploadComplete();
+                break;
+            case CALL_POST_DELETE_COMPLETE:
+                ((Post.OnPostDeleteCompleteListener) msg.obj).onDeleteComplete();
                 break;
         }
         /* else if (msg.what == UPDATE_BUS_INFO) {
