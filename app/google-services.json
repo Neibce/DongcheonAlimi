@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "81823342347",
+    "firebase_url": "https://dongcheonalimi.firebaseio.com",
+    "project_id": "dongcheonalimi",
+    "storage_bucket": "dongcheonalimi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81823342347:android:9ff78fed033bf74439cc0e",
+        "android_client_info": {
+          "package_name": "dev.jun0.dcalimi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81823342347-snnt88fpdf6mkdmd58evo9iq8lavquck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs0kE0NiWDgGDj7G2gnnu2_h0SMurZr0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81823342347-snnt88fpdf6mkdmd58evo9iq8lavquck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
