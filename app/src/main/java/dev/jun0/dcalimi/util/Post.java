@@ -266,7 +266,7 @@ public class Post {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
                     commentCreatedAt = formatTimeString(sdf.parse(commentCreatedAt).getTime());
 
-                    postCommentItems.add(new PostCommentItem(commentCreatedAt, jsonObjectComment.getString("uploader"), jsonObjectComment.getString("body")));
+                    postCommentItems.add(new PostCommentItem(jsonObjectComment.getString("body"), jsonObjectComment.getString("uploader"), commentCreatedAt));
                 }
                 return postCommentItems;
             } catch (Exception e) {
