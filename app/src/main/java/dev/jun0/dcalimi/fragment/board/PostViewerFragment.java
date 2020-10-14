@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -182,12 +183,22 @@ public class PostViewerFragment extends Fragment {
         mPostCommentRecyclerAdapter = new PostCommentRecyclerAdapter(mPostCommentList);
         RecyclerView recyclerViewComments = view.findViewById(R.id.recyclerViewComments);
         recyclerViewComments.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerViewComments.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerViewComments.setAdapter(mPostCommentRecyclerAdapter);
 
-        mPostCommentList.add(new PostCommentItem(0, "적극 수렴 후 검토하겠습니다.", "관리자", "2일 전"));
-        mPostCommentList.add(new PostCommentItem(0, "거절되었습니다.", "관리자", "2일 전"));
-        mPostCommentRecyclerAdapter.notifyDataSetChanged();
+        Post.getComments(postId, new Post.OnRequestCommentsCompleteListener() {
+            @Override
+            public void onComplete(List<PostCommentItem> result) {
+                mPostCommentList.clear();
+                mPostCommentList.addAll(result);
+                mPostCommentRecyclerAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onFailed() {
+
+            }
+        });
 
         return view;
     }
