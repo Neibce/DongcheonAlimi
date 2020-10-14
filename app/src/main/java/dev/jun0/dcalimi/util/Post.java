@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 import dev.jun0.dcalimi.R;
+import dev.jun0.dcalimi.item.PostCommentItem;
 import dev.jun0.dcalimi.item.PostItem;
 
 public class Post {
@@ -61,6 +62,10 @@ public class Post {
                         new DownloadPostBodyAsyncTask(fcmToken, onBodyDownloadCompleteListener).execute(postId);
                     }
                 });
+    }
+
+    public static void getComments(final int postId, final OnRequestCommentsCompleteListener onRequestCommentsCompleteListener){
+        new RequestCommentsAsyncTask(onRequestCommentsCompleteListener).execute(postId);
     }
 
     public static void upload(final FragmentManager fragmentManager, final Context context, final String manageToken,
@@ -104,6 +109,34 @@ public class Post {
                 });
     }
 
+    private static class TIME_MAXIMUM {
+        private static final int SEC = 60;
+        private static final int MIN = 60;
+        private static final int HOUR = 24;
+        private static final int DAY = 30;
+        private static final int MONTH = 12;
+    }
+
+    private static String formatTimeString(long regTime) {
+        long curTime = System.currentTimeMillis() - 32400000;
+        long diffTime = (curTime - regTime) / 1000;
+        String msg;
+        if (diffTime < TIME_MAXIMUM.SEC) {
+            msg = "방금 전";
+        } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
+            msg = diffTime + "분 전";
+        } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
+            msg = (diffTime) + "시간 전";
+        } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
+            msg = (diffTime) + "일 전";
+        } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
+            msg = (diffTime) + "달 전";
+        } else {
+            msg = (diffTime) + "년 전";
+        }
+        return msg;
+    }
+
     public interface OnListDownloadCompleteListener {
         void onDownloadComplete(List<PostItem> result, boolean isLast);
         void onDownloadFailed();
@@ -112,6 +145,11 @@ public class Post {
     public interface OnBodyDownloadCompleteListener {
         void onDownloadComplete(String body, int views, boolean isOwner, String imageUrl1, String imageUrl2);
         void onDownloadFailed();
+    }
+
+    public interface OnRequestCommentsCompleteListener {
+        void onComplete(List<PostCommentItem> result);
+        void onFailed();
     }
 
     public interface OnPostUploadCompleteListener {
@@ -160,34 +198,6 @@ public class Post {
             return null;
         }
 
-        private static class TIME_MAXIMUM {
-            private static final int SEC = 60;
-            private static final int MIN = 60;
-            private static final int HOUR = 24;
-            private static final int DAY = 30;
-            private static final int MONTH = 12;
-        }
-
-        private static String formatTimeString(long regTime) {
-            long curTime = System.currentTimeMillis() - 32400000;
-            long diffTime = (curTime - regTime) / 1000;
-            String msg;
-            if (diffTime < TIME_MAXIMUM.SEC) {
-                msg = "방금 전";
-            } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
-                msg = diffTime + "분 전";
-            } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
-                msg = (diffTime) + "시간 전";
-            } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
-                msg = (diffTime) + "일 전";
-            } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
-                msg = (diffTime) + "달 전";
-            } else {
-                msg = (diffTime) + "년 전";
-            }
-            return msg;
-        }
-
         @Override
         protected void onPostExecute(Pair<List<PostItem>, Boolean> resultPair) {
             if(resultPair != null && resultPair.first != null && resultPair.second != null)
@@ -233,6 +243,44 @@ public class Post {
                 }
             }else
                 mOnBodyDownloadCompleteListener.onDownloadFailed();
+        }
+    }
+
+    private static class RequestCommentsAsyncTask extends AsyncTask<Integer, Void, List<PostCommentItem>> {
+        OnRequestCommentsCompleteListener mOnRequestCommentsCompleteListener;
+        RequestCommentsAsyncTask(OnRequestCommentsCompleteListener onRequestCommentsCompleteListener) {
+            mOnRequestCommentsCompleteListener = onRequestCommentsCompleteListener;
+        }
+        @Override
+        protected List<PostCommentItem> doInBackground(Integer... integers) {
+            try {
+                String strResponse = new RequestHttpURLConnection().get("https://dc-api.jun0.dev/board/" + integers[0] + "/comments", 10000);
+                JSONObject jsonObject = new JSONObject(strResponse);
+                JSONArray jsonArray = jsonObject.getJSONArray("comments");
+
+                List<PostCommentItem> postCommentItems = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObjectComment = jsonArray.getJSONObject(i);
+
+                    String commentCreatedAt = jsonObjectComment.getString("createdAt");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                    commentCreatedAt = formatTimeString(sdf.parse(commentCreatedAt).getTime());
+
+                    postCommentItems.add(new PostCommentItem(commentCreatedAt, jsonObjectComment.getString("uploader"), jsonObjectComment.getString("body")));
+                }
+                return postCommentItems;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<PostCommentItem> postCommentItems) {
+            if(postCommentItems == null)
+                mOnRequestCommentsCompleteListener.onFailed();
+            else
+                mOnRequestCommentsCompleteListener.onComplete(postCommentItems);
         }
     }
 
