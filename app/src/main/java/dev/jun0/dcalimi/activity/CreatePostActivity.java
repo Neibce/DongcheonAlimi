@@ -55,13 +55,13 @@ public class CreatePostActivity extends AppCompatActivity {
     private final static int REQUEST_PICK_PICTURE = 1;
     private final static int PERMISSIONS_REQUEST_CAMERA = 10;
 
-    private ImageView[] mImageViewsAttachedImage = new ImageView[2];
-    private ImageButton[] mImageButtonsDetachImage = new ImageButton[2];
-    private RelativeLayout[] mRelativeLayoutsAttachedImage = new RelativeLayout[2];
+    private final ImageView[] mImageViewsAttachedImage = new ImageView[2];
+    private final ImageButton[] mImageButtonsDetachImage = new ImageButton[2];
+    private final RelativeLayout[] mRelativeLayoutsAttachedImage = new RelativeLayout[2];
     private LinearLayout mLinerLayoutAttachedImages;
 
     private int mNumberOfAttachedImage = 0;
-    private Bitmap[] mBitmapsAttachedImage = new Bitmap[2];
+    private final Bitmap[] mBitmapsAttachedImage = new Bitmap[2];
 
     private int mPostType = 1;
 
