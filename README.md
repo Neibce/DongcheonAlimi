@@ -1,6 +1,6 @@
 # 동천 알리미 ![CI](https://github.com/Neibce/Dongcheon-Alimi/actions/workflows/android.yml/badge.svg)
 - 2020년 2분기
-- [벡엔드 API Repository](https://github.com/Neibce/Dongcheon-Alimi-API)
+- [API Server Repository](https://github.com/Neibce/Dongcheon-Alimi-API)
 ## 제작 동기
 집에서 학교의 시간표, 급식, 학사일정 등을 알고 싶을 때에는 나이스 로그인 등 항상 복잡한 과정을 거쳐야만 원하는 정보를 얻을 수 있었습니다. 친구들 또한 이러한 불편함을 느끼고 있다는 것을 알게 되었고, 이러한 불편함을 해결해보고자 직접 안드로이드 어플리케이션 제작에 나서게 되었습니다.
 ## 어플리케이션 구현
