@@ -1,4 +1,4 @@
-# 동천 알리미 ![CI](https://github.com/Neibce/Dongcheon-Alimi/actions/workflows/android.yml/badge.svg)
+# 동천 알리미 ![CI](https://github.com/Neibce/Dongcheon-Alimi/actions/workflows/android.yml/badge.svg) [![CodeFactor](https://www.codefactor.io/repository/github/neibce/dongcheonalimi/badge)](https://www.codefactor.io/repository/github/neibce/dongcheonalimi)
 - 2020년 2분기
 - [API Server Repository](https://github.com/Neibce/Dongcheon-Alimi-API)
 ## 제작 동기
